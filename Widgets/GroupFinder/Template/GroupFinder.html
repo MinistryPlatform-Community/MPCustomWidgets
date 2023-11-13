@@ -1,0 +1,29 @@
+{% for element in DataSet2 %}
+
+<h1>{{element.Group_Count}} Groups Found</h1>
+
+{% endfor %}
+
+<div class="row">
+{% for element in DataSet1 %}
+
+  <div class="col-sm-6 groupCard mb-3">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{element.Group_Name}}</h5>
+        <p class="card-text">
+          {% if element.ImageGUID %}
+            <img src="https://my.calvaryccm.com/ministryplatformapi/files/{{element.ImageGUID}}" style="max-width:100px; float:left; margin-right: 5px; margin-bottom: 5px;" />
+          {% endif %}
+            <p>{{element.Description | truncate: 200}}</p>
+            <p>{{element.Start_Date | date: '%A - %B %d, %Y @ %l:%M %P', 0}}</p>
+        </p>
+        <p style="">
+          <a href="#" class="btn btn-primary">Sign Up</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+{% endfor %}
+</div>

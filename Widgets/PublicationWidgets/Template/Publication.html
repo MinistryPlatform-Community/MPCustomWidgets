@@ -1,0 +1,30 @@
+
+    {% for element in DataSet1 %}
+
+        <h2>{{element.Title}}</h2>
+        <p>{{element.Description}}</p>
+    
+    {% endfor %}
+
+    <div class="row">
+
+        <div class="col-6">
+            <strong>Subject</strong>
+        </div>
+
+        <div class="col-6">
+            <strong>Date Sent</strong>
+        </div>
+
+    {% for element in DataSet2 %}
+
+        <div class="col-6">
+            <a href="PublicationMessageDemo.html?communicationId={{element.Communication_ID}}">{{element.Subject}}</a>
+        </div>
+
+        <div class="col-6">
+            {{element.Start_Date | date: '%B %d, %Y @ %l:%M %P', 0}}
+        </div>
+
+    {% endfor %}
+    </div>
