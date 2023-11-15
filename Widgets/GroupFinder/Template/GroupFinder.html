@@ -1,29 +1,70 @@
-{% for element in DataSet2 %}
-
-<h1>{{element.Group_Count}} Groups Found</h1>
-
-{% endfor %}
 
 <div class="row">
+  <div class="col-md-4">
+    <select id="ddlGroupFocus" class="form-select group-select">
+      <option value="">-- All Group Focuses --</option>
+      {% for element in DataSet2 %}
+        <option value="{{element.Group_Focus_ID}}">{{element.Group_Focus}}</option>
+      {% endfor %}
+    </select>
+  </div>
+</div>
+
+
+
+
+
+
+<div class="mt-3">
+  <h3>{{DataSet1.length}} Groups Found</h3>
+</div>
+
+
+<div class="row mt-3">
 {% for element in DataSet1 %}
 
-  <div class="col-sm-6 groupCard mb-3">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">{{element.Group_Name}}</h5>
-        <p class="card-text">
-          {% if element.ImageGUID %}
-            <img src="https://my.calvaryccm.com/ministryplatformapi/files/{{element.ImageGUID}}" style="max-width:100px; float:left; margin-right: 5px; margin-bottom: 5px;" />
-          {% endif %}
-            <p>{{element.Description | truncate: 200}}</p>
-            <p>{{element.Start_Date | date: '%A - %B %d, %Y @ %l:%M %P', 0}}</p>
-        </p>
-        <p style="">
-          <a href="#" class="btn btn-primary">Sign Up</a>
-        </p>
-      </div>
+
+<div class="col-xs-12 col-sm-6 col-md-4">
+  <!-- Card -->
+  <div class="card shadow">
+
+    <!--Card image-->
+    <div class="view overlay">
+      <img class="card-img-top" src="https://mpi.ministryplatform.com/ministryplatformapi/files/{{element.ImageGUID}}" alt="Group Image">
+      <a href="#!">
+        <div class="mask rgba-white-slight"></div>
+      </a>
     </div>
+
+    <div class="card-body">
+
+      <h4 class="card-title">{{element.Group_Name}}</h4>
+      <p class="card-text">{{element.Description | truncate: 200}}</p>
+
+      {% if element.Meeting_Day %}
+        <div>Meeting Day: <strong>{{element.Meeting_Day}}</strong></div>
+      {% endif %}
+
+      <div>Starts: <strong>{{element.Start_Date | date: '%B %d, %Y', 0}}</strong></div>
+
+      <div class="text-center mt-2 mb-2">
+        <a href="#?groupId={{element.Group_ID}}" class="btn btn-success">Learn more</a>
+      </div>
+      
+      <div>
+        {% if element.Group_Focus %}
+          <span class="badge bg-secondary" data-id="{{element.Group_Focus_ID}}">
+            {{element.Group_Focus}}
+          </span>
+        {% endif %}
+      </div>
+
+    </div>
+
   </div>
+
+</div>
+
 
 {% endfor %}
 </div>
