@@ -24,7 +24,7 @@
 {% for element in DataSet1 %}
 
 
-<div class="col-xs-12 col-sm-6 col-md-4">
+<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 mb-3">
   <!-- Card -->
   <div class="card shadow">
 
@@ -55,6 +55,18 @@
         {% if element.Group_Focus %}
           <span class="badge bg-secondary" data-id="{{element.Group_Focus_ID}}">
             {{element.Group_Focus}}
+          </span>
+        {% endif %}
+
+        {% if element.Meeting_Day %}
+          <span class="badge bg-secondary" data-id="{{element.Meeting_Day_ID}}">
+            {{element.Meeting_Day}}
+          </span>
+        {% endif %}
+
+        {% if element.Life_Stage %}
+          <span class="badge bg-secondary" data-id="{{element.Life_Stage_ID}}">
+            {{element.Life_Stage}}
           </span>
         {% endif %}
       </div>
