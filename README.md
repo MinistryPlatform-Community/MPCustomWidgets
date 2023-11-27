@@ -2,11 +2,17 @@
 
 This is a collection of custom widgets built against the Custom Widget Toolkit. You will find samples from Group Finders to calendars to KPI widgets.
 
+# Customer Examples
+
+Here you can see what other churches have created for inspiration or to get an idea of just how flexible a Custom Widget can be:
+
+- [Lutheran Church of Hope Classes Widget](https://wdm.lutheranchurchofhope.org/get-involved/classes/)
+
 ## Contribute
 
 If you have a widget to submit to the sample collection, please fork this collection, add your widget and all supporting resources / assets and submit a pull request. New widgets will be reviewed every 2 weeks and if deemed reusable and unique, will be added to the samples collection.
 
-# Widget Examples
+# Custom Widget Examples
 
 - [Group Finder](./Widgets/GroupFinder/GroupFinder.md)
 - [Milestone Gamification](./Widgets/MilestoneGamification/MilestoneGamification.md)
@@ -69,12 +75,14 @@ The Widget Tag is used to embed the widget into a webpage. Each custom widget wi
 - **_required_** attribute
 - This defines the path to the widget template. Custom Widgets use the [LiquidJS](https://liquidjs.com/) templating engine to render standard HTML / CSS with data retrieved from MinistryPlatform. There is ample documentation available on the Liquid website and on other help systems easily found by searching the web.
 - For more information on common Liquid Usage, [Jump to Liquid Intro]()./liquid.md)
+- **Note** - data-template does **NOT** support relative paths. If you just use the template name (mytemplatename.html) or even (./mytemplatename.html) you will see a 404 error when custom widgets tries to load the template. You **need** to either use the full _URL_ (https://www.whatever.com/templates/mytemplate.html) or a full relative path (/templates/mytemplate.html)
 
 ### data-requireUser="false"
 
 - _Defaults to: false_
 - When set to true, the widget will require a user to be logged in. Login is accomplished by using the standard MP Login Widget. Note: Anytime a user is loggded in to widgets on the website hosting the custom widget, the user will be sent with the request.
 - If you set the requireUser="true", you should also include the @UserName parameter to be non-nullable in your stored procedure to enforce the username requirement across all parts of the custom widget system.
+- **Note** - You must include a @Username nvarchar(75) nonnullable parameter in your Stored Procedure. To compare against User_ID, don't forget to query for User_ID.
 
 ### data-cache="true"
 
