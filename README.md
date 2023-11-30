@@ -7,6 +7,7 @@ This is a collection of custom widgets built against the Custom Widget Toolkit. 
 Here you can see what other churches have created for inspiration or to get an idea of just how flexible a Custom Widget can be:
 
 - [Lutheran Church of Hope Classes Widget](https://wdm.lutheranchurchofhope.org/get-involved/classes/)
+- [Granger Church Core Classes Dates and Times](https://grangerchurch.com/core/)
 
 ## Contribute
 

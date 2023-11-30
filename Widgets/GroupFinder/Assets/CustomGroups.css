@@ -1,0 +1,15 @@
+.custom--groupCard--img {
+    height: 160px;
+    object-fit: cover;
+    width: 100%;
+}
+
+.custom--groupCard--description {
+    max-height: 197px;
+    overflow: hidden;
+}
+
+.custom--groupCard--img--container {
+    background-color: gray;
+    text-align: center;
+}

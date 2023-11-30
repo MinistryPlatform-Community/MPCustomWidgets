@@ -1,16 +1,33 @@
-
 <div class="row">
-  <div class="col-md-4">
-    <select id="ddlGroupFocus" class="form-select group-select">
-      <option value="">-- All Group Focuses --</option>
-      {% for element in DataSet2 %}
-        <option value="{{element.Group_Focus_ID}}">{{element.Group_Focus}}</option>
-      {% endfor %}
-    </select>
+  <div class="offset-md-3 col-md-6">
+    <div>
+      <div>
+        <label>Campus</label>
+      </div>
+      <select id="ddlCongregation" class="form-select group-select">
+        <option value="">-- All Campuses --</option>
+        {% for element in DataSet4 %}
+          <option value="{{element.Congregation_ID}}">{{element.Congregation_Name}}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div>
+      <div>
+        <label>Keyword Search</label>
+      </div>
+      <div class="row">
+        <div class="col-10">
+          <input type="search" id="txtKeyword" class="form-control" placeholder="Keyword Search">      
+        </div>
+        <div class="col-2">
+          <button type="button" id="btnKeyword" class="btn btn-outline-success">Search</button>
+        </div>
+      </div>
+      
+    </div>
   </div>
 </div>
-
-
 
 
 
@@ -29,8 +46,14 @@
   <div class="card shadow">
 
     <!--Card image-->
-    <div class="view overlay">
-      <img class="card-img-top" src="https://mpi.ministryplatform.com/ministryplatformapi/files/{{element.ImageGUID}}" alt="Group Image">
+    <div class="view overlay custom--groupCard--img--container">
+
+      {% if element.ImageGUID %}
+        <img class="custom--groupCard--img" src="https://mpi.ministryplatform.com/ministryplatformapi/files/{{element.ImageGUID}}" alt="Group Image">
+      {% else %}
+        <img class="mpp-card--image" src="https://mpi.ministryplatform.com/widgets/Content/icons/icon-group.svg" style="margin:40px;height:80px;width:80px;">
+      {% endif %}
+
       <a href="#!">
         <div class="mask rgba-white-slight"></div>
       </a>
@@ -38,38 +61,78 @@
 
     <div class="card-body">
 
-      <h4 class="card-title">{{element.Group_Name}}</h4>
-      <p class="card-text">{{element.Description | truncate: 200}}</p>
+      {% if element.Future_Start %}
+        <div class="ribbon ribbon-top-right"><span>New</span></div>
+      {% endif %}      
 
-      {% if element.Meeting_Day %}
-        <div>Meeting Day: <strong>{{element.Meeting_Day}}</strong></div>
+      <h4 class="card-title">{{element.Group_Name}}</h4>
+
+      {% if element.Location %}
+        <h6>{{element.Location}}</h6>
       {% endif %}
 
-      <div>Starts: <strong>{{element.Start_Date | date: '%B %d, %Y', 0}}</strong></div>
+      {% if element.Meeting_Day %}
+        <div><strong>{{element.Meeting_Day}}s 
+          
+          {% if element.Meeting_Time %}
+            {{element.Meeting_Time | date: '@ %l:%M %P',0}}
+          {% endif %}
+          
+          </strong></div>
+      {% endif %}
 
-      <div class="text-center mt-2 mb-2">
-        <a href="#?groupId={{element.Group_ID}}" class="btn btn-success">Learn more</a>
-      </div>
+      {% if element.Target_Size %}
+        <div><strong>Capacity: {{element.CurrentParticipantsCount}} of {{element.Target_Size}}</strong></div>
+      {% endif %}
+
+
+      <div class="card-text custom--groupCard--description mb-2">{{element.Description}}</div>
       
-      <div>
+     
+      {% if element.Future_Start %}
+        <div class="mt-1 mb-2 text-center"><strong>Starts: {{element.Start_Date | date: '%B %d, %Y', 0}}</strong></div>
+      {% endif %}
+
+      <div class="text-center mt-4 mb-2">
+        <a href="#?groupId={{element.Group_ID}}" class="btn btn-outline-primary">See Details</a>
+      </div>
+
+      <div class="text-center mt-3">
         {% if element.Group_Focus %}
-          <span class="badge bg-secondary" data-id="{{element.Group_Focus_ID}}">
+          <span class="badge bg-secondary" data-id="{{element.Group_Focus_ID}}" data-tag="true" data-queryParam="GroupFocusID">
             {{element.Group_Focus}}
           </span>
         {% endif %}
 
         {% if element.Meeting_Day %}
-          <span class="badge bg-secondary" data-id="{{element.Meeting_Day_ID}}">
+          <span class="badge bg-secondary" data-id="{{element.Meeting_Day_ID}}" data-tag="true" data-queryParam="MeetingDayID">
             {{element.Meeting_Day}}
           </span>
         {% endif %}
 
         {% if element.Life_Stage %}
-          <span class="badge bg-secondary" data-id="{{element.Life_Stage_ID}}">
+          <span class="badge bg-secondary" data-id="{{element.Life_Stage_ID}}" data-tag="true" data-queryParam="LifeStageID">
             {{element.Life_Stage}}
           </span>
         {% endif %}
+
+        {% if element.Ministry_Name %}
+        <span class="badge bg-secondary" data-id="{{element.Ministry_ID}}" data-tag="true" data-queryParam="MinistryID">
+          {{element.Ministry_Name}}
+        </span>
+        {% endif %}
+
+        {% if element.Meeting_Duration_ID %}
+        <span class="badge bg-secondary" data-id="{{element.Meeting_Duration_ID}}" data-tag="true" data-queryParam="MeetingDurationID">
+          {{element.Meeting_Duration}}
+        </span>
+        {% endif %}
+
       </div>
+
+
+      
+
 
     </div>
 
