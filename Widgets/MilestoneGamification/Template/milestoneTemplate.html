@@ -1,12 +1,43 @@
+<div class="mt-3">
+    {% for element in DataSet1 %}
+
+        {% if element.Milestone_Title == 'Salvation' %}
+
+        <span style="font-size: 48px; color: {% if element.MilestoneAchieved %} Dodgerblue; {% else %} silver; {% endif %}" data-toggle="tooltip" data-placement="top" title="{{element.Milestone_Title}}">
+            <i class="fas fa-praying-hands"></i>    
+        </span>
+
+        {% elsif element.Milestone_Title == 'Baptism' %}
+        <a href="https://www.tlcflorida.org/baptism" style="text-decoration: none;">
+        <span style="font-size: 48px; color: {% if element.MilestoneAchieved %} Dodgerblue; {% else %} silver; {% endif %}" data-toggle="tooltip" data-placement="top" title="{{element.Milestone_Title}}">
+            <i class="fas fa-tint"></i>
+        </span>
+        </a>
+
+        {% elsif element.Milestone_Title == 'Attended a Small Group' %}
+
+        <span style="font-size: 48px; color: {% if element.MilestoneAchieved %} darkblue; {% else %} silver; {% endif %}" data-toggle="tooltip" data-placement="top" title="{{element.Milestone_Title}}">
+            <i class="fas fa-users"></i>
+        </span>
+        
+        {% elsif element.Milestone_Title == 'Became a Volunteer' %}
+
+        <a href="http://google.com" style="text-decoration: none;">
+        <span style="font-size: 48px; color: {% if element.MilestoneAchieved %} Dodgerblue; {% else %} silver; {% endif %}" data-toggle="tooltip" data-placement="top" title="{{element.Milestone_Title}}">
+            <i class="fas fa-hands-helping"></i>
+        </span>
+        </a>
+        
+        {% elsif element.Milestone_Title == 'Mission Trip' %}
+
+        <span style="font-size: 48px; color: {% if element.MilestoneAchieved %} Dodgerblue; {% else %} silver; {% endif %}" data-toggle="tooltip" data-placement="top" title="{{element.Milestone_Title}}">
+            <i class="fas fa-globe-americas"></i>
+        </span>        
+
+        {% endif %}
 
 
 
 
-
-<span style="font-size: 48px; color: Dodgerblue;">
-    <i class="fas fa-praying-hands"></i>    
-</span>
-
-<span style="font-size: 48px; color: silver;">
-    <i class="fas fa-tint"></i>
-</span>
+    {% endfor %}
+</div>

@@ -17,27 +17,33 @@ GO
 -- Last Modified:	11/16/2023
 -- Chris Kehayias
 -- Updates:
+-- 12/1/2023		- Added Journey Support 
 -- =============================================
 ALTER PROCEDURE [dbo].[api_custom_MilestoneGamification] 
 	@DomainID int,
-	@Username nvarchar(75)
+	@Username nvarchar(75),
+	@JourneyID INT = 2
 AS
 BEGIN
 
---DataSet1
-SELECT 
-	M.Milestone_Title
-	,PM.Date_Accomplished
-FROM Participant_Milestones PM
-INNER JOIN Milestones M ON M.Milestone_ID = PM.Milestone_ID
-INNER JOIN Contacts C ON C.Participant_Record = PM.Participant_ID
-INNER JOIN dp_Users U ON U.User_ID = C.User_Account
-WHERE U.User_Name = @Username
 
+	DECLARE @participantID INT = (SELECT C.Participant_Record FROM Contacts C INNER JOIN dp_Users U ON U.User_ID = C.User_Account WHERE U.User_Name=@Username)
 
+	--DataSet1
+	SELECT 
+		M.Milestone_ID
+		,M.Milestone_Title
+		,M.Description
+		,CASE 
+			WHEN EXISTS (SELECT 1 FROM Participant_Milestones WHERE Milestone_ID = M.Milestone_ID AND Participant_ID = @participantID) THEN 1
+			ELSE NULL
+		END AS MilestoneAchieved
+	FROM Milestones M
+	WHERE M.Journey_ID = @JourneyID
+	ORDER BY M.Sort_Order
 
 END
-GO
+
 
 
 -- ========================================================================================

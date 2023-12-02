@@ -99,35 +99,41 @@
 
       <div class="text-center mt-3">
         {% if element.Group_Focus %}
-          <span class="badge bg-secondary" data-id="{{element.Group_Focus_ID}}" data-tag="true" data-queryParam="GroupFocusID">
+          <span class="badge bg-secondary" data-id="{{element.Group_Focus}}" data-tag="true">
             {{element.Group_Focus}}
           </span>
         {% endif %}
 
         {% if element.Meeting_Day %}
-          <span class="badge bg-secondary" data-id="{{element.Meeting_Day_ID}}" data-tag="true" data-queryParam="MeetingDayID">
+          <span class="badge bg-secondary" data-id="{{element.Meeting_Day}}" data-tag="true">
             {{element.Meeting_Day}}
           </span>
         {% endif %}
 
         {% if element.Life_Stage %}
-          <span class="badge bg-secondary" data-id="{{element.Life_Stage_ID}}" data-tag="true" data-queryParam="LifeStageID">
+          <span class="badge bg-secondary" data-id="{{element.Life_Stage}}" data-tag="true">
             {{element.Life_Stage}}
           </span>
         {% endif %}
 
         {% if element.Ministry_Name %}
-        <span class="badge bg-secondary" data-id="{{element.Ministry_ID}}" data-tag="true" data-queryParam="MinistryID">
+        <span class="badge bg-secondary" data-id="{{element.Ministry_Name}}" data-tag="true">
           {{element.Ministry_Name}}
         </span>
         {% endif %}
 
         {% if element.Meeting_Duration_ID %}
-        <span class="badge bg-secondary" data-id="{{element.Meeting_Duration_ID}}" data-tag="true" data-queryParam="MeetingDurationID">
+        <span class="badge bg-secondary" data-id="{{element.Meeting_Duration}}" data-tag="true">
           {{element.Meeting_Duration}}
         </span>
         {% endif %}
 
+
+        {% assign tagElements = element.Tags | split: ", " %}
+
+        {% for t in tagElements %}
+          <span class="badge bg-secondary" data-id="{{t}}" data-tag="true">{{t}}</span>
+        {% endfor %}
       </div>
 
 

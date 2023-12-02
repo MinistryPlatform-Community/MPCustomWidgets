@@ -43,6 +43,7 @@ BEGIN
 --Create Temp Table
 SELECT G.Group_Name
 ,G.Description
+,G.Congregation_ID
 ,G.Start_Date
 		,CASE 
 			WHEN G.Start_Date > GETDATE() THEN 1
@@ -51,19 +52,24 @@ SELECT G.Group_Name
 ,G.End_Date
 ,F.Unique_Name AS ImageGUID
 ,MD.Meeting_Duration
+,MD.Meeting_Duration_ID
 ,MF.Meeting_Frequency
 		,CASE 
 			WHEN G.Meeting_Time IS NOT NULL THEN dbo.dp_Convert_DateTime(CAST(G.Meeting_Time AS datetime), @DomainTimeZone, CN.Time_Zone)
 			ELSE NULL
 		END AS Meeting_Time
 ,MTD.Meeting_Day
+,G.Meeting_Day_ID
 ,GF.Group_Focus
+,G.Group_Focus_ID
 ,LS.Life_Stage
+,G.Life_Stage_ID
 ,G.Meets_Online
 ,OA_CurrentParticipants.CurrentParticipantsCount
 ,G.Target_Size
 ,OA_GroupInquiries.GroupInquiriesCount
-
+,G.Ministry_ID
+,Ministry_ID_Table.Ministry_Name
 -- Address Info
 -- Taken from MP Widgets Group SP
 		,CASE WHEN Offsite_Meeting_Address IS NULL THEN NULL ELSE 1 END AS Offsite
@@ -87,7 +93,16 @@ SELECT G.Group_Name
 			END AS [Address],
 		CASE WHEN Offsite_Meeting_Address IS NOT NULL THEN Offsite_Meeting_Address_Table.City + ', ' + Offsite_Meeting_Address_Table.[State/Region] ELSE CN.Congregation_Name END AS [Location]
 		
-
+-- Attributes
+,Tags = (
+	SELECT STUFF(
+		(SELECT ', ' + A.Attribute_Name
+			FROM Group_Attributes GA
+			INNER JOIN Attributes A ON A.Attribute_ID = GA.Attribute_ID
+			WHERE GA.Group_ID = G.Group_ID
+            ORDER BY A.Attribute_Name 
+        FOR XML PATH('')), 1, 1, '')
+		)
 
 INTO #custom_search_group
 FROM Groups G
@@ -119,19 +134,24 @@ AND (G.End_Date IS NULL OR G.End_Date > @DomainTime)
 AND G.Available_Online = 1
 AND (G.[Start_Date] < @DomainTime OR @ShowFutureGroups = 1)
 AND G.Group_Is_Full = 0
-AND (@GroupFocusID IS NULL OR @GroupFocusID = G.Group_Focus_ID)
-AND (@MeetingDayID IS NULL OR @MeetingDayID = G.Meeting_Day_ID)
-AND (@CongregationID IS NULL OR @CongregationID = G.Congregation_ID)
-AND (@Keyword IS NULL OR 
-	(G.Group_Name LIKE '%' + @Keyword + '%' 
-	OR G.[Description] LIKE '%' + @Keyword + '%' 
-	OR Ministry_ID_Table.Ministry_Name LIKE '%' + @Keyword + '%'
-	)
-)
-ORDER BY G.Group_Name
+
 
 --DataSet1
 SELECT * FROM #custom_search_group
+WHERE (@GroupFocusID IS NULL OR @GroupFocusID = Group_Focus_ID)
+AND (@MeetingDayID IS NULL OR @MeetingDayID = Meeting_Day_ID)
+AND (@CongregationID IS NULL OR @CongregationID = Congregation_ID)
+AND (@Keyword IS NULL OR 
+	(Group_Name LIKE '%' + @Keyword + '%' 
+	OR [Description] LIKE '%' + @Keyword + '%' 
+	OR Ministry_Name LIKE '%' + @Keyword + '%'
+	OR Meeting_Day LIKE '%' + @Keyword + '%'
+	OR Life_Stage LIKE '%' + @Keyword + '%'
+	OR Group_Focus LIKE '%' + @Keyword + '%'
+	OR Tags LIKE '%' + @Keyword + '%'
+	OR Meeting_Duration LIKE '%' + @Keyword + '%'
+	)
+)
 ORDER BY Group_Name
 
 --DataSet2 - Focuses
@@ -159,12 +179,8 @@ WHERE Meeting_Day_ID IN
 SELECT Congregation_ID
 	,Congregation_Name
 FROM Congregations
-WHERE Congregation_ID IN
-(
-	SELECT Congregation_ID
-	FROM #custom_search_group
-)
-ORDER BY Congregation_Name
+WHERE Available_Online = 1
+	AND (End_Date IS NULL OR End_Date > @DomainTime)
 
 -- DataSet5 - Ministries
 SELECT Ministry_ID

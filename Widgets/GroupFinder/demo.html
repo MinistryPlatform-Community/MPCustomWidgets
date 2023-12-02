@@ -70,29 +70,36 @@
 
             function unbindListeners() {
 
-                    // Add Change Handler
+                    // Get TriggerElements
                     var triggerElements = document.getElementsByClassName('group-select');
 
-                    // Add Change Events to all Group-Select Class Elements
+                    // Remove Change Events to all Group-Select Class Elements
                     for (var i = 0; i < triggerElements.length; i++) {
                         triggerElements[i].removeEventListener('change', function() {
                             executeSearch();
                         });
                     };
 
-                    // Add Search Handlers
+                    // Remove Keyword Search Handlers
                     var btnElement = document.getElementById("btnKeyword");
                     btnElement.removeEventListener('click', function() {
                         executeSearch();                        
                     });
 
-                    // Add Enter / Return Listener
-                    // This might conflict with other widgets on the page
+                    // Remove Enter / Return Listener
                     document.removeEventListener('keyup', function (e) {
                         if (e.key === 'Enter' || e.keyCode === 13) {
                             executeSearch();   
                         }
                     });                
+
+                    // Get Tag Click Elements
+                    var tagElements = document.querySelectorAll('[data-tag="true"]');
+
+                    // Remove Click Events for all Tags
+                    for (var i = 0; i < tagElements.length; i++) {
+                        tagElements[i].removeEventListener('click', tagClickEvent);
+                    };
             }
 
             window.addEventListener('widgetLoaded', function(event) {
@@ -117,8 +124,6 @@
                         
                     };
 
-
-
                     // Add Change Handler
                     var triggerElements = document.getElementsByClassName('group-select');
 
@@ -142,9 +147,24 @@
                             executeSearch();   
                         }
                     });
+
+                    // Get Tag Click Elements
+                    var tagElements = document.querySelectorAll('[data-tag="true"]');
+
+                    // Add Click Events for all Tags
+                    for (var i = 0; i < tagElements.length; i++) {
+                        tagElements[i].addEventListener('click', tagClickEvent);
+                    };
                 }
 
             });
+
+            function tagClickEvent() {
+                var keywordSearch = document.getElementById('txtKeyword');
+                keywordSearch.value = this.getAttribute('data-id');
+
+                executeSearch();
+            }
         </script>
         
         <script type="text/javascript" src="../../dist/customWidget.js"></script>    
