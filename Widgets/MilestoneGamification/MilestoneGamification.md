@@ -8,3 +8,7 @@ This is an exmple of a custom Widget that mimicks the stock Group Finder, but ca
 - Template uses Font Awesome Icons for each Milestone
 - Template allows URL click events for each Milestone
 - Teplaate applies a color to achieved milestones and color others as silver
+
+## Screenshot
+
+![ScreenShot](./Assets/ScreenShot.png)

@@ -14,3 +14,7 @@ This widget differs from most of the static widgets and utilizes filtering and o
 - SQL Stuffing (Tags) / Liquid Array Splitting
 - Clickable Tags / Auto-Search
 - Javascript Session Variables (Allows temporary storage during searching)
+
+## Screenshot
+
+![ScreenShot](./Assets/ScreenShot.png)
