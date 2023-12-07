@@ -20,6 +20,12 @@ If you have a widget to submit to the sample collection, please fork this collec
 - [Publication Widgets](./Widgets/PublicationWidgets/PublicationWidgets.md)
 - [View Message In Browser](./Widgets/ViewMessageInBrowser/ViewMessageInBrowser.md)
 
+# Custom Widget Release Information
+
+Custom Widget core code is updated periodically. If you would like to see a history of changes, please visit the releases page:
+
+[Custom Widget Release History](./RELEASES.md)
+
 # Custom Widget Features
 
 Custom Widgets has a growing list of features available to Citizen Developers seeking to build lightweight read-only widgets capable of accessing any data in [MinistryPlatform](https://www.ministryplatform.com).
