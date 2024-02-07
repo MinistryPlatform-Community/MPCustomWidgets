@@ -60,6 +60,7 @@ The Widget Tag is used to embed the widget into a webpage. Each custom widget wi
 - **_required_** attribute
 - Standard DOM ID for the element
 - The ID must be a unique name across all elements on the page
+- The ID of the Custom Widget is used when raising events and also if you need to request that the widget reload
 
 ### data-component="CustomWidget"
 
@@ -79,16 +80,59 @@ The Widget Tag is used to embed the widget into a webpage. Each custom widget wi
 
 - Allows Parameters to be used for the innvocation of the Stored Procedure. SQL Parameter are prefixed the **@** symbol and are passed to the Custome Widget in key value pairs.
 - Using Params allows a single Custom Widget to be used for various Minsitries, Campuses, etc by easily allowing parameters to be passed to set the context for the specific rendering of the widget.
+- To chain multiple parameters together separate them via the **&** symbol.
 - **Query String Support** - If you wrap the value component of an individual parameter key value pair in square brackets **[** **]**. The value will be retrieved from the correlating named QueryString parameter found in the current URL.
   - _Example_ - @Param=[id] - This would retrieve the value of ?id=something from the querystring of the URL and place that dynamically in the parameters sent to the stored procedure or call to the Event API.
   - By using the querystring support, you can quickly build dynamic widgets that can take dynamic data from other pages / widgets / links and create custom widgets on the fly.
 
 ### data-template="/Path/To/Template/TemplateName.html"
 
-- **_required_** attribute
 - This defines the path to the widget template. Custom Widgets use the [LiquidJS](https://liquidjs.com/) templating engine to render standard HTML / CSS with data retrieved from MinistryPlatform. There is ample documentation available on the Liquid website and on other help systems easily found by searching the web.
 - For more information on common Liquid Usage, [Jump to Liquid Intro]()./liquid.md)
 - **Note** - data-template does **NOT** support relative paths. If you just use the template name (mytemplatename.html) or even (./mytemplatename.html) you will see a 404 error when custom widgets tries to load the template. You **need** to either use the full _URL_ (https://www.whatever.com/templates/mytemplate.html) or a full relative path (/templates/mytemplate.html)
+- You **_must_** specify a data-template or data-templateId for each custom widget
+
+### data-templateId="SomeElementID"
+
+- This defines the DOM Element ID to the widget template.
+- Using this option allows for the widget liquid template to be embedded in the HTML page.
+- It is highly recommend that you embed this using a **_script_** tag with a type of **text/template**. This will prevent the webpage from rendering the content, but will also keep your template markup valid in most IDEs.
+- The script element **requires** and ID to be used correctly.
+- You **_must_** specify a data-template or data-templateId for each custom widget
+
+```html
+<script id="pledgeTemplate" type="text/template">
+
+  <div class="row">
+
+    {% for element in DataSet1 %}
+    <div class="col-6">
+      <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Capital Campaign Progress</h5>
+            <p class="card-text">
+              <div class="progress">
+                  <div class="progress-bar progress-bar-warning" role="progressbar" style="width: {{element.Percentage}}%" aria-valuenow="{{element.Percentage}}" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+              <div>
+                  <span style="float:right;">100%</span>
+                  <span style="float:left;">0%</span>
+              </div>
+
+              <div class="text-center">
+                  ${{element.Progress | number_to_currency}} of ${{element.Total | number_to_currency}} Goal
+              </div>
+
+            </p>
+            <a href="#" class="btn btn-primary">Pledge Now</a>
+          </div>
+        </div>
+  </div>
+  {% endfor %}
+
+  </div>
+</script>
+```
 
 ### data-requireUser="false"
 
