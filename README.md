@@ -70,6 +70,21 @@ The Widget Tag is used to embed the widget into a webpage. Each custom widget wi
 ### data-sp="api_Custom_StoredProcedure"
 
 - This defines the stored procedure to use for data retrieval when this custom widget is rendered. **_Note_** - All Stored Procedures **MUST** be prefixed by api_Custom in order to be used. Additionally, any Stored Procedure **MUST** also be registered in the MinistryPlatform meta data to be accessible by Custom Widgets or the REST api at all.
+- In addition to the stored procedure being properly registered with MP, it also has a couple of additional requirements:
+  - Like all MP Stored Procedures, custom widget stored procedures **MUST** have a @DomainID int parameter
+  - In addition the base requirements, you should **ALWAYS** inlcude the @Username nvarchar(75) parameter. You can default this to null and ignore it, but if a user logs in with standard MP widgets, you will not be able to use this widget. If your widget requires authentication, you should remove the null default.
+  - You may add any other parameters necessary to make your widget work.
+
+```sql
+CREATE PROCEDURE [dbo].[api_custom_StoredProcedure]
+	@DomainID int,
+	@Username nvarchar(75) = null,
+	@JourneyID INT = 2
+AS
+BEGIN
+
+END
+```
 
 ### data-useCalendar="true"
 
