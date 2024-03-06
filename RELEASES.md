@@ -4,6 +4,8 @@ Below you can find the release history of MP Custom Widgets Core code. Please
 
 ## Release History
 
+- 2024.3.5
+  - Added My Mission Trip Widget Sample Widget
 - 2024.2.7
   - Added the ability to use inline templates via script tag
     - This is NOT in the CLOUD Hosted Instance Yet. Please pull a local copy of customWidget.js to use this functionality
