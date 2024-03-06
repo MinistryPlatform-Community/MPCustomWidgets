@@ -1,0 +1,136 @@
+{% for element in DataSet1 %}
+<div class="row mb-4 mt-3">
+  <div class="col-2">
+    <img class="img-fluid" src="{{element.ImageUrl}}" />
+  </div>
+  <div class="col-10">        
+    <h3>{{element.Event_Title}}
+
+    {% if element.MyTrip == 0 %}
+    -{{element.Nickname}} 
+    {% endif %}
+  </h3>
+
+  <p>
+    {{element.Description}}<br>
+  </p>
+
+    {% assign percentRaised = element.Total_Donations | divided_by: element.Total_Pledge | times: 100 %}
+
+    {% if percentRaised > 100 %}
+    {% assign percentRaised = 100 %}
+    {% endif %}
+
+    {% if percentRaised < 1 %}
+    {% assign percentRaised = 0 %}
+    {% endif %}
+
+    {% assign tripLeader = DataSet3 | where: 'Pledge_Campaign_ID', element.Pledge_Campaign_ID | first %}
+
+    <div class="row mt-3">
+      <div class="col-8 col-md-5">
+        <div class="progress">
+          <div class="progress-bar progress-bar-striped {% if percentRaised < 50 %} bg-warning {% elsif percentRaised > 75 %} bg-success {% endif %}" role="progressbar" style="width: {{percentRaised}}%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        Trip Funds Raised: <strong>{{element.Total_Donations | decimals: 2, "en-US" | prepend: "$" }}</strong> of {{element.Total_Pledge | decimals: 2, "en-US" | prepend: "$" }}
+
+      </div>
+
+      <div class="col-4">
+          <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="collapse" data-bs-target="#donors{{element.Pledge_ID}}" aria-expanded="false" aria-controls="">Show Donors</button>
+          {% if tripLeader.Pledge_Campaign_ID == element.Pledge_Campaign_ID %}
+          {% if element.MyTrip == 1 %}
+            <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="collapse" data-bs-target="#leader{{element.Pledge_ID}}" aria-expanded="false" aria-controls="">Trip Leader</button>
+          {% endif %}          
+          {% endif %}          
+      </div>
+    </div>
+
+
+    {% assign donors = DataSet2 | where: 'Pledge_ID', element.Pledge_ID %}
+
+    <div class="collapse mt-3" id="donors{{element.Pledge_ID}}">
+      <div class="card card-body">
+        <h4>My Donors</h4>
+        <table class="table">
+        {% for donor in donors %}
+        <tr>
+          <td>{{donor.Donation_Date | date: "%m/%d/%Y"}}</td>
+          <td>{{donor.Nickname}} {{donor.Last_Name}} </td>
+          <td>{{donor.Address_Line_1}}<br>{{donor.City}}, {{donor.State}} {{donor.Postal_Code}}</td>
+        </tr>
+        
+
+            
+
+        {% endfor %}
+      </table>
+      </div>
+    </div>
+
+
+    {% assign leaderParticipants = DataSet4 | where: 'Pledge_Campaign_ID', element.Pledge_Campaign_ID %}
+
+
+    {% assign tripPercent = tripLeader.Total_Donations | divided_by: tripLeader.Total_Goal | times: 100 %}
+
+    {% if tripPercent > 100 %}
+    {% assign tripPercent = 100 %}
+    {% endif %}
+
+    {% if tripPercent < 1 %}
+    {% assign tripPercent = 0 %}
+    {% endif %}
+
+    <div class="collapse mt-3" id="leader{{element.Pledge_ID}}">
+      <div class="card card-body">
+        <h4>Mission Trip Leader</h4>
+
+        <div>
+        <div class="progress">
+          <div class="progress-bar progress-bar-striped {% if tripPercent < 50 %} bg-warning {% elsif tripPercent > 75 %} bg-success {% endif %}" role="progressbar" style="width: {{tripPercent}}%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        Trip Funds Raised: <strong>{{tripLeader.Total_Donations | decimals: 2, "en-US" | prepend: "$" }}</strong> of {{tripLeader.Total_Goal | decimals: 2, "en-US" | prepend: "$" }}
+      </div>
+        <table class="table">
+          <tr>
+            <th>Participant</th>
+            <th>Fund Raising</th>
+          </tr>
+
+        {% for mt in leaderParticipants %}
+
+        {% assign percentRaised = mt.Total_Donations | divided_by: mt.Total_Pledge | times: 100 %}
+
+        {% if percentRaised > 100 %}
+        {% assign percentRaised = 100 %}
+        {% endif %}
+    
+        {% if percentRaised < 1 %}
+        {% assign percentRaised = 0 %}
+        {% endif %}
+
+        <tr>
+          <td>{{mt.Nickname}} {{mt.Last_Name}} </td>
+          <td>        <div class="progress">
+            <div class="progress-bar progress-bar-striped {% if percentRaised < 50 %} bg-warning {% elsif percentRaised > 75 %} bg-success {% endif %}" role="progressbar" style="width: {{percentRaised}}%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+          Trip Funds Raised: <strong>{{mt.Total_Donations | decimals: 2, "en-US" | prepend: "$" }}</strong> of {{mt.Total_Pledge | decimals: 2, "en-US" | prepend: "$" }}</td>
+        </tr>
+        
+
+            
+
+        {% endfor %}
+      </table>
+      </div>
+    </div>
+
+
+
+  </div>
+</div>
+{% endfor %}
+
+
+

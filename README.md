@@ -19,6 +19,7 @@ If you have a widget to submit to the sample collection, please fork this collec
 - [Milestone Gamification](./Widgets/MilestoneGamification/MilestoneGamification.md)
 - [Publication Widgets](./Widgets/PublicationWidgets/PublicationWidgets.md)
 - [View Message In Browser](./Widgets/ViewMessageInBrowser/ViewMessageInBrowser.md)
+- [My Mission Trips](./Widgets/MyMissionTrips/MyMissionTrips.md)
 
 # Custom Widget Release Information
 
