@@ -27,12 +27,6 @@ Custom Widget core code is updated periodically. If you would like to see a hist
 
 [Custom Widget Release History](./RELEASES.md)
 
-# Custom Widgets MP Community
-
-There is a special section on the MP Community for Custom Widgets. You can follow this link, but if you don't have access, you might need to request it. Right now this forum is NOT open to everyone as this is still very much an early release / innovation project.
-
-[Community Forum](https://mpcommunity.ministrysmart.com/custom-widgets)
-
 # Custom Widget Features
 
 Custom Widgets has a growing list of features available to Citizen Developers seeking to build lightweight read-only widgets capable of accessing any data in [MinistryPlatform](https://www.ministryplatform.com).
