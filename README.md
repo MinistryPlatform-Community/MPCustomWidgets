@@ -8,6 +8,7 @@ Here you can see what other churches have created for inspiration or to get an i
 
 - [Lutheran Church of Hope Classes Widget](https://wdm.lutheranchurchofhope.org/get-involved/classes/)
 - [Granger Church Core Classes Dates and Times](https://grangerchurch.com/core/)
+- [Perimeter Church Mission Trip Listing](https://www.perimeter.org/pages/outreach-volunteer/outreach-volunteer/global-outreach-1/pages/go-journeys-2/)
 
 ## Contribute
 
