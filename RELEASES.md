@@ -4,6 +4,9 @@ Below you can find the release history of MP Custom Widgets Core code. Please
 
 ## Release History
 
+- 2024.3.18
+  - Updgraded Sky Middleware to .Net 8
+  - Added Demo from Perimeter
 - 2024.3.5
   - Added My Mission Trip Widget Sample Widget
   - Updated README Docs for Each Widget
