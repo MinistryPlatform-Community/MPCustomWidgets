@@ -396,3 +396,31 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Ignore macOS System Files
+# General (macOS)
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r (macOS)
+Icon
+
+# Thumbnails (macOS)
+._*
+
+# Files that might appear in the root of a volume (macOS)
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share (macOS)
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
