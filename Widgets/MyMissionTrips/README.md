@@ -1,4 +1,4 @@
-# Group Finder Custom Widget
+# My Mission Trips Custom Widget
 
 This is an exmple of a custom Widget that mimicks the My Mission Trips functionality from the original MP Portal. This example is based on [Bootstrap 5](https://getbootstrap.com/).
 
