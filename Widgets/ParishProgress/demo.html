@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Custom Widget Demo</title>
+        
+    </head>
+    
+    <body>
+        <div class="container">
+            
+            <h2>Parish Progress</h2>
+
+            <div id="MyCustomWidget" 
+                data-component="CustomWidget" 
+                data-sp="api_custom_CampaignProgress" 
+                data-params="@PledgeCampaignID=13" 
+                data-template="/Widgets/ParishProgress/Template/ParishProgress.html" 
+                data-requireUser="false" 
+                data-cache="false" 
+                data-debug="true" 
+                data-host="catholictraining1"></div>
+
+        </div>          
+          
+        <script type="text/javascript" src="https://mpweb.azureedge.net/cdn/customWidget.js"></script>
+          
+    </body>
+</html>

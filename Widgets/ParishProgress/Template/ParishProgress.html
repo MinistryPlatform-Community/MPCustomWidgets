@@ -1,0 +1,29 @@
+<div class="table-wrapper ">
+    <table class="table" width="100%">
+        <tbody> 
+            <tr class="row"> 
+                <th class="header-cell">Parish</th> 
+                <th class="header-cell">Goal</th> 
+                <th class="header-cell">Pledged</th> 
+                <th class="header-cell">Pledged to Goal</th> 
+                <th class="header-cell">Donors</th> 
+                <th class="header-cell">Participation</th> 
+            </tr> 
+
+            {% for element in DataSet1 %}
+
+            {% assign PledgeToGoal = element.Original_Pledge | divided_by: element.Goal_Amount | times: 100 | round: 1 %}
+
+            <tr class="row">
+                <td class="cell">{{element.Organization_Name}},{{element.City}}</td> 
+                <td class="cell">{{element.Goal_Amount}}</td> 
+                <td class="cell">{{element.Original_Pledge}}</td> 
+                <td class="cell">{{PledgeToGoal}}%</td> 
+                <td class="cell">{{element.Pledge_Count}}</td> 
+                <td class="cell">{{element.Participation | round: 1}}%</td> 
+            </tr> 
+            {% endfor %}
+    
+        </tbody> 
+   </table> 
+</div>
