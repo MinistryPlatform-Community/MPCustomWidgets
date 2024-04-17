@@ -4,6 +4,9 @@ Below you can find the release history of MP Custom Widgets Core code. Please
 
 ## Release History
 
+- 2024.4.17
+  - Updated BUILD of CustomWidget.js
+  - Added Parish Progress Example Widget
 - 2024.3.18
   - Updgraded Sky Middleware to .Net 8
   - Added Demo from Perimeter
