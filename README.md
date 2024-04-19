@@ -185,3 +185,19 @@ Example of including the javascript file in your webpage:
   src="https://mpweb.azureedge.net/cdn/customWidget.js"
 ></script>
 ```
+
+## Custom Liquid Filters / Extensions
+
+Starting in 2024.04.19, custom widgets will have some custom filters that are available for the community. Each filter with usage examples will be documented here.
+
+### mp_currency | US Currency Format
+
+This filter quickly converts numbers to US based currency. Decimal places beyond 2 will be rounded accordinly. Numbers will be prepended with the $ dollar sign and digits will be comma separated.
+
+Usage (in your template):
+
+```
+<div>
+  {{ NumberVariableOrObject | mp_currency }}
+</div>
+```
