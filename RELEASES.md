@@ -4,6 +4,10 @@ Below you can find the release history of MP Custom Widgets Core code. Please
 
 ## Release History
 
+- 2024.04.22.1
+  - Restored Console Messages in CustomWidgets
+  - Added Version Number Output on Start
+  - Updated CDN Versions of CustomWidgets
 - 2024.04.19.1
   - Updated LiquidJS to 10.11.0
     - This adds new exciting features. Read more in the [liquidJS release notes](https://github.com/harttle/liquidjs/blob/master/CHANGELOG.md)
