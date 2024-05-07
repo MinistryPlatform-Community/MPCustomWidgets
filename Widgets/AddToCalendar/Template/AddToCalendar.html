@@ -1,0 +1,18 @@
+{% for event in Events %}
+
+<add-to-calendar-button name="{{event.Event_Title}}"
+    description="{{event.Description | escape}}"
+    startDate="{{event.Event_Start_Date | date: '%Y-%m-%d'}}"
+    startTime="{{event.Event_Start_Date | date: '%H:%M'}}"
+    endDate="{{event.Event_End_Date | date: '%Y-%m-%d'}}"
+    endTime="{{event.Event_End_Date | date: '%H:%M'}}"
+    timeZone="America/New_York"
+    location="{{event.Location_Name}}"
+    options="'Apple','Google','iCal','Outlook.com','Microsoft365'"
+    buttonStyle="round"
+    trigger="click"
+    pastDateHandling="disable"
+    hideBranding="true">
+</add-to-calendar-button>
+
+{% endfor %}
