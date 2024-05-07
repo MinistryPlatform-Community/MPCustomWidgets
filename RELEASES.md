@@ -4,6 +4,9 @@ Below you can find the release history of MP Custom Widgets Core code. Please
 
 ## Release History
 
+- 2024.05.07.1
+  - Added AddToCalendar Demo / Example
+  - Added Staff Widget Demo / Example
 - 2024.04.22.1
   - Restored Console Messages in CustomWidgets
   - Added Version Number Output on Start
