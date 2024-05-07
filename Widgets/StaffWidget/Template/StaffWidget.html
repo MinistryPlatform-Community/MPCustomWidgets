@@ -1,0 +1,34 @@
+<div class="row mt-3">
+    {% for element in DataSet1 %}
+    
+    
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 mb-3">
+
+      <div class="card h-100 shadow">
+
+      {% if element.Image_GUID %}
+        <img src="{{element.File_URL}}{{element.Image_GUID}}" class="card-img-top" alt="...">
+      {% else %}
+        <img src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?q=80&w=1931&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="...">
+      {% endif %}
+
+        
+        <div class="card-body">
+          <h5 class="card-title">{{element.Nickname}} {{element.Last_Name}}</h5>
+          <h6>{{element.Title}}</h6>
+          <p class="card-text">
+
+          </p>
+          <div class="text-center">
+            <a href="mailto:{{element.Email_Address}}" class="btn btn-primary">Send Email</a>
+          </div>
+          
+        </div>
+      </div>
+
+    
+    </div>
+    
+    
+    {% endfor %}
+</div>
