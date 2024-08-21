@@ -4,6 +4,9 @@ Below you can find the release history of MP Custom Widgets Core code. Please
 
 ## Release History
 
+- 2024.08.21.1
+  - Added forceLogin.js script
+  - Updated MyMissionTrips Demo to make use of the forceLogin.js script
 - 2024.05.07.1
   - Added AddToCalendar Demo / Example
   - Added Staff Widget Demo / Example

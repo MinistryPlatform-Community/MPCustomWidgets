@@ -201,3 +201,21 @@ Usage (in your template):
   {{ NumberVariableOrObject | mp_currency }}
 </div>
 ```
+
+## Force Login (Optional)
+
+There is an additional / optional Javascript file called forceLogin.js in the dist folder.  This optional javascript can be used to not only require authentication to certain widgets, but to automatically redirect to the MinistryPlatform Single Sign On (SSO) interface when the page encounters a widget requiring authentication.  This javascript file requires a very minor configuration.  At the top of the javascript is the following configuration variable:
+
+```javascript
+// Force Login Script
+// Update the mpHost to match your MinistryPlatform configuration
+// Simply include this script on any page with a user secured widget and it will automatically redirect to the SSO page and force the user to login
+
+// -------------------------------------------------------
+// CHANGE this to your MP HOST!!!
+const mpHost = 'mpi.ministryplatform.com';
+// -------------------------------------------------------
+...
+```
+
+You must change this to be your MP host.  After that simple include this javascript on any page you want to force login.
