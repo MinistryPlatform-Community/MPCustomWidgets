@@ -1,0 +1,27 @@
+
+
+{% if userAuthenticated == false %}
+
+<!-- User is NOT Authenticated -->
+<div class="alert alert-warning">
+  This is an alternate dialog warning that NO ONE is logged in.
+</div>
+
+{% else %}
+
+<!-- User is Authenticated -->
+
+<div class="alert alert-success">
+  User is Logged In!
+</div>
+
+
+<!-- Now we can show other DataSets and Render them into Liquid -->
+
+<div class="mt-3">
+  <h3>{{DataSet1.length}} Groups Found</h3>
+</div>
+
+
+
+{% endif %}
