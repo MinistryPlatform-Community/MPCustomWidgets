@@ -34,7 +34,7 @@ const params = new URLSearchParams(url.search);
 // Check if the key exists and has a non-empty value
 if (authToken !== null && authToken !== '' && authToken !== 'null') {
     // User is Authenticated
-    console.log("The 'mpp-widgets_AuthToken' key is present and has a value:", authToken);
+    console.log("The 'mpp-widgets_AuthToken' key is present and has a value");
 } 
 else if (params.has('mpCustomWidgetAuth'))
 {
