@@ -47,6 +47,7 @@ The Widget Tag is used to embed the widget into a webpage. Each custom widget wi
   data-requireUser="false"
   data-cache="true"
   data-debug="true"
+  data-authOverride="true"
   data-host="mpi"
 ></div>
 ```
@@ -164,6 +165,11 @@ END
 - _Defaults to: false_
 - When set to _true_, the javascript engine with output extra debugging information in the javascript console. In addition to various debugging messages about Widget Initialization and Rendering, **all** data retrieved from the Stored Procedure or Events API will be output to the console.
 - **_Best Practice_** - Set this to false or just remove the data-debug element entirely when publishing to production.
+
+### data-authOverride="true"
+
+- _Defaults to: false_
+- When set to _true_, customWidgets.js will **NOT** output the red bootstrap 5 alert informing the user they are not logged in.  This would then require you to create your own unathenticated notification to web users.  You can make use of the userAuthenticated boolean value provided inside the widget data model.
 
 ### data-host="mpi"
 

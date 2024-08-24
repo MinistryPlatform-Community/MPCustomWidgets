@@ -4,6 +4,11 @@ Below you can find the release history of MP Custom Widgets Core code. Please
 
 ## Release History
 
+- 2024.08.24.1
+  - Added authenticated:true|false to widget data based on login status
+  - Added new optional parameter 'data-authOverride' which disables the automatic red alert when no user is authenticated.  If this is used with authenticated parameter in the widget data object, custom unauthenticated ui can be created in the template.  *NOTE - this requires additional work to properly check for DataSet existence before using datasets.  Please review new example called 'customAuth' for demo and details.
+  - Updated Widget Template for easier cloning
+  - Updated Cloud Version of customWidget.js  
 - 2024.08.21.1
   - Added forceLogin.js script
   - Updated MyMissionTrips Demo to make use of the forceLogin.js script
