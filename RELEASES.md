@@ -3,6 +3,11 @@
 Below you can find the release history of MP Custom Widgets Core code. Please
 
 ## Release History
+- 2024.10.10.1
+  - Added Custom Widget JS Source Code in /src
+  - Updated API Service to return proper error messages
+  - Updated LiquidJS to 10.17.0
+    - This adds new exciting features. Read more in the [liquidJS release notes](https://github.com/harttle/liquidjs/blob/master/CHANGELOG.md)  
 - 2024.08.25.1
   - Updated all packages and dependencies
   - Restructed dist output folder to separate js from css in preparation for customCSS
