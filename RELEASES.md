@@ -3,6 +3,16 @@
 Below you can find the release history of MP Custom Widgets Core code. Please
 
 ## Release History
+- 2024.10.11.1
+  - Updated Core Javascript to pass elementId into template data for new re-use possibilities
+  - BREAKING CHANGE
+    - This build of Custom Widget JS changes the data structure returned to the widgetLoaded event.  Details is now an object
+    and not just the ID of the widget element.  This was unavoidalbe to pass the data element through the event.  Please 
+    consider this before changing to this version of the file.
+  - Updated Core Javascript to pass data into widgetLoaded event
+  - Added ChartJS Examples
+    - Makes use of elementId in template data to create dynamic templates
+    - Makes use of data passed to widgetLoaded event to dynaimcally create charts within the template
 - 2024.10.10.1
   - Added Custom Widget JS Source Code in /src
   - Updated API Service to return proper error messages
