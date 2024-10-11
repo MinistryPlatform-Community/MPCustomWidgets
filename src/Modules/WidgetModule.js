@@ -65,30 +65,30 @@ export class WidgetModule {
     static async InitWidget(element){
         var storedprocedure = element.getAttribute('data-sp');
         var template = element.getAttribute('data-template');
-        var templateId = element.getAttribute('data-templateId');
-        var requireUser = false;
+        var templateId = element.getAttribute('data-templateId');        
         var cache = element.getAttribute('data-cache');
         var host = element.getAttribute('data-host');
         var params = element.getAttribute('data-params');
-        var useCalendar = false;
-        var debugMode = false;
-        var authOverride = false;
 
+        var requireUser = false;
         if (element.getAttribute('data-requireUser') && element.getAttribute('data-requireUser').toLowerCase() === 'true')
         {
             requireUser = true;
         }
 
+        var debugMode = false;
         if (element.getAttribute('data-debug'))
         {
             debugMode = true;
         }
 
+        var useCalendar = false;
         if (element.getAttribute('data-useCalendar'))
         {
             useCalendar = true;
         }
 
+        var authOverride = false;
         if (element.getAttribute('data-authOverride') && element.getAttribute('data-authOverride').toLowerCase() === 'true')
         {
             authOverride = true;
@@ -173,8 +173,7 @@ export class WidgetModule {
         }
     }
 
-    static async LoadWidget(elementId, storedprocedure, params, template, templateId, requireUser, cache, host, useCalendar, debugMode, authOverride)
-    {
+    static async LoadWidget(elementId, storedprocedure, params, template, templateId, requireUser, cache, host, useCalendar, debugMode, authOverride)    {
         var element = document.getElementById(elementId);
 
         var data = {};
@@ -219,11 +218,15 @@ export class WidgetModule {
             data = await this.LoadWidgetData(this.getUserData(), requireUser, storedprocedure, params, cache, host);
         }
 
+        // Append Widget ID data
+        // Allows for more complicated re-use of templates in a single DOM
+        data.widgetId = elementId;
+
+        // Boolean for debugMode
         if (debugMode)
         {
             console.log('|||===> Data')
             console.log(data);        
-
         }
 
         // Append Authenticated Status to Widget Data
@@ -243,8 +246,12 @@ export class WidgetModule {
         await this.RenderTemplateWithData(templateId, template, data, element);
 
         // Trigger the widgetLoadedEvent
+        // Pass the data object as data parameter
         var widgetLoadedEvent = new CustomEvent('widgetLoaded', {
-            detail: `${element.id}`
+            detail: { 
+                widgetId: `${element.id}`,
+                data: data
+            }
         });
 
         window.dispatchEvent(widgetLoadedEvent);
