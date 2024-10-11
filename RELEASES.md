@@ -3,8 +3,10 @@
 Below you can find the release history of MP Custom Widgets Core code. Please
 
 ## Release History
-- 2024.10.11.1
+- 2024.10.11.1 (v1.1)
   - Updated Core Javascript to pass elementId into template data for new re-use possibilities
+    - New CDN Version will be: https://mpweb.azureedge.net/cdn/customWidgetV1.js
+    - Version change in CDN is prevent any production breaks for existing widgets
   - BREAKING CHANGE
     - This build of Custom Widget JS changes the data structure returned to the widgetLoaded event.  Details is now an object
     and not just the ID of the widget element.  This was unavoidalbe to pass the data element through the event.  Please 
