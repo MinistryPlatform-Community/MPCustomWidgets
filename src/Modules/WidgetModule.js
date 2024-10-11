@@ -15,7 +15,7 @@ export class WidgetModule {
 
     static async ReinitWidget(elementId){
         var element = document.getElementById(elementId);
-        this.InitWidget(element);
+        WidgetModule.InitWidget(element);
     }
 
     static async ReinitAllWidgets(){
