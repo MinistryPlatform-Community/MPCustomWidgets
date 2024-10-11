@@ -54,6 +54,27 @@ BEGIN
 	AND Event_Start_Date < GETDATE()
 	GROUP BY ET.Event_Type
 
+	-- DS 2 - Event List (Most Recent 10)
+	SELECT TOP 10 
+		E.Event_Start_Date
+		,E.Event_Title
+		,ET.Event_Type
+		FROM Events E
+	INNER JOIN Event_Types ET ON ET.Event_Type_ID = E.Event_Type_ID
+	WHERE Event_Start_Date >= DATEADD(MONTH, -12, GETDATE())
+	AND Event_Start_Date < GETDATE()
+	ORDER BY Event_Start_Date DESC
+
+	-- DS 3 - Upcoming Events
+	SELECT TOP 10 
+		E.Event_Start_Date
+		,E.Event_Title
+		,ET.Event_Type
+		FROM Events E
+	INNER JOIN Event_Types ET ON ET.Event_Type_ID = E.Event_Type_ID
+	WHERE Event_Start_Date >= GETDATE()
+	ORDER BY Event_Start_Date 
+
 END
 GO
 
