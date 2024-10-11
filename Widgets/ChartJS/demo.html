@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Custom Widget Demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">         
+    
+    <!-- ChartJS CDN Hosted -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    </head>
+    
+    <body>
+        <div class="container">
+
+            <h1>Chart JS Dashboard Example</h1>
+
+            <div class="row">
+                <div class="col-12">
+                    <h2>Events by Month</h2>
+                    <div class="chart-container">                                            
+                        <div id="MonthlyEvents" 
+                            data-component="CustomWidget" 
+                            data-sp="api_custom_Dashboard" 
+                            data-template="/Widgets/ChartJS/Template/Chart.html" 
+                            data-requireUser="false" 
+                            data-cache="false" 
+                            data-debug="true" 
+                            data-addJSData="true"
+                            data-host="mpi"></div>    
+                    </div>
+                </div>
+            </div>
+        
+            <div class="row">
+                <div class="col-4">
+                    <h2>Events Types</h2>
+                    <div class="chart-container">                                            
+                        <div id="MonthlyEventTypes" 
+                            data-component="CustomWidget" 
+                            data-sp="api_custom_Dashboard" 
+                            data-template="/Widgets/ChartJS/Template/Chart.html" 
+                            data-requireUser="false" 
+                            data-cache="false" 
+                            data-debug="true" 
+                            data-host="mpi"></div> 
+                    </div>
+                </div>
+                <div class="col-4">
+
+                </div>
+                <div class="col-4">
+
+                </div>                
+            </div>
+
+        </div>   
+               
+        <script type="text/javascript" src="/dist/js/customWidget.js"></script>
+
+        <script type="text/javascript">
+            window.addEventListener('widgetLoaded', function(event) {
+
+                console.log('|||===> widgetLoaded Event Fired for: ' + event.detail);       
+                
+                if (event.detail.widgetId == 'MonthlyEvents')
+                {
+                    console.log('|||======> MonthlyEvents Data');
+                    console.log(event.detail.data.DataSet1);
+                    loadEventData(event.detail.data.DataSet1);
+                }
+
+                if (event.detail.widgetId == 'MonthlyEventTypes')
+                {
+                    console.log('|||======> MonthlyEventTypess Data');
+                    console.log(event.detail.data.DataSet2);
+                    loadEventTypeData(event.detail.data.DataSet2);
+                }                
+            });      
+            
+            function loadEventData(data)
+            {
+                const ctx = document.getElementById('chart-MonthlyEvents');
+
+                const monthNames = data.map(event => event.MonthName);
+                const eventCounts = data.map(event => event.EventCount);
+
+                console.log(monthNames);  
+                console.log(eventCounts);               
+
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                    labels: monthNames,
+                    datasets: [{
+                        label: '# of Events',
+                        data: eventCounts,
+                        borderWidth: 1
+                    }]
+                    },
+                    options: {
+                    scales: {
+                        y: {
+                        beginAtZero: true
+                        }
+                    }
+                    }
+                });                 
+            }
+
+            function loadEventTypeData(data)
+            {
+                const ctx = document.getElementById('chart-MonthlyEventTypes');
+
+                const labels = data.map(x => x.Event_Type);
+                const values = data.map(x => x.TypeCount);
+
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Event Type',
+                        data: values,
+                        borderWidth: 1
+                    }],
+                    hoverOffset: 4
+                    }
+                });                 
+            }            
+        </script>
+
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>            
+    </body>
+</html>
