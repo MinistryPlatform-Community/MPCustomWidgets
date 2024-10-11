@@ -80,12 +80,6 @@
                         });
                     };
 
-                    // Remove Keyword Search Handlers
-                    var btnElement = document.getElementById("btnKeyword");
-                    btnElement.removeEventListener('click', function() {
-                        executeSearch();                        
-                    });
-
                     // Remove Enter / Return Listener
                     document.removeEventListener('keyup', function (e) {
                         if (e.key === 'Enter' || e.keyCode === 13) {
@@ -103,9 +97,9 @@
             }
 
             window.addEventListener('widgetLoaded', function(event) {
-                console.log('|||===> widgetLoaded Event Fired for: ' + event.detail);       
+                console.log('|||===> widgetLoaded Event Fired for: ' + event.detail.widgetId);       
                 
-                if (event.detail == 'CustomGroupsWidget')
+                if (event.detail.widgetId == 'CustomGroupsWidget')
                 {
                     //Process Post Widget Loaded Events
                     // Use Session Values Post Re-Render
@@ -167,7 +161,7 @@
             }
         </script>
         
-        <script type="text/javascript" src="/dist/js/customWidget.js"></script>
+        <script type="text/javascript" src="/dist/js/customWidgetV1.js"></script>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>            
     </body>
