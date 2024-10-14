@@ -24,12 +24,6 @@
 
             <div class="row">
                 <div class="col-12">
-                    Calendar goes here!
-                </div>
-            </div>
-        
-            <div class="row">
-                <div class="col-6">
                     <h2>Events by Month</h2>
                     <div class="chart-container">                                            
                         <div id="MonthlyEvents" 
@@ -40,11 +34,16 @@
                             data-cache="false" 
                             data-debug="true" 
                             data-addJSData="true"
-                            data-host="mpi"
-                            style="height:200px;"></div>    
+                            data-host="mpi" style="text-align: center;"></div>    
                     </div>
+                </div>
+            </div>
+        
+            <div class="row">
+                <div class="col-4">
+
                 </div>                
-                <div class="col-6">
+                <div class="col-4">
                     <h2>Events Types</h2>
                     <div class="chart-container">                                            
                         <div id="MonthlyEventTypes" 
@@ -55,10 +54,26 @@
                             data-cache="false" 
                             data-debug="true" 
                             data-host="mpi" 
-                            style="height:200px;"></div> 
+                            style="height:200px; text-align: center;"></div> 
                     </div>
-                </div>            
+                </div>    
+                <div class="col-4">
+                    
+                </div>
             </div>
+
+            <div class="mt-4">
+                &nbsp;
+            </div>
+
+            <div id="EventGrids" 
+                data-component="CustomWidget" 
+                data-sp="api_custom_Dashboard" 
+                data-template="/Widgets/ChartJS/Template/SimpleDataTable.html" 
+                data-requireUser="false" 
+                data-cache="false" 
+                data-debug="true" 
+                data-host="mpi"></div>         
 
         </div>   
                
@@ -78,7 +93,13 @@
                 if (event.detail.widgetId == 'MonthlyEventTypes')
                 {
                     createDonutChart(event.detail.data.DataSet2, 'chart-MonthlyEventTypes', 'Event_Type', 'TypeCount', 'Event Type');
-                }                
+                }       
+                
+                if (event.detail.widgetId == 'EventGrids')
+                {
+                    const pastEvents = new simpleDatatables.DataTable(document.querySelector("#dt-pastEvents"));
+                    const upcomingEvents = new simpleDatatables.DataTable(document.querySelector("#dt-upcomingEvents"));
+                }                        
             });                         
         </script>
 
