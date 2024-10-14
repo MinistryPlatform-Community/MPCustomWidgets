@@ -1,6 +1,6 @@
 {
   "name": "customwidgetjs",
-  "version": "2024.10.11.1",
+  "version": "2024.10.14.1",
   "description": "MinistryPlatform Custom Widgets - used for church custom widgets within the MP ecosystem.",
   "main": "index.js",
   "scripts": {
