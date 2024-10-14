@@ -1,0 +1,20 @@
+<table id="dataTable-{{widgetId}}">
+    <thead>
+        <tr>
+            {% for key in DataSet1 %}
+                <th>{{ key }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in DataSet1 %}
+        <tr>
+          {% for key in row %}
+            <td>{{ row[key] }}</td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </tbody>
+</table>
+
+
