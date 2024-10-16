@@ -1,0 +1,40 @@
+<div class="row">
+  <div class="col-6">
+      <h2>Past Events</h2>
+      <table id="dt-pastEvents">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Event</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in DataSet3 %}
+            <tr>
+              <td>{{item.Event_Start_Date | date: "%m/%d/%Y" }}</td>
+              <td>{{item.Event_Title}}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+  </div>                
+  <div class="col-6">
+      <h2>Upcoming Events</h2>
+      <table id="dt-upcomingEvents">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Event</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in DataSet4 %}
+            <tr>
+              <td>{{item.Event_Start_Date | date: "%m/%d/%Y" }}</td>
+              <td>{{item.Event_Title}}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+  </div>            
+</div> 

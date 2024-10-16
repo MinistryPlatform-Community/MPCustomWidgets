@@ -1,8 +1,10 @@
-# MP Custom Widget Samples
+# MP Custom Widgets
 
-This is a collection of custom widgets built against the Custom Widget Toolkit. You will find samples from Group Finders to calendars to KPI widgets.
+MP Custom Widgets provides a Javascript library and infrastrucutre for creating custom widgets for [MinistryPlatform](https://www.acstechnologies.com/ministryplatform/).  These custom widgets can be built in any front end framework or 3rd party libraries, but are designed to interact with MinistryPlatform data and authenticaiton.
 
-# Customer Examples
+In addition to the core code, you will also find a  collection of custom widgets built against the Custom Widget Toolkit. All of these widgets contain all required elements to begin using on your website.
+
+## Customer Examples
 
 Here you can see what other churches have created for inspiration or to get an idea of just how flexible a Custom Widget can be:
 
@@ -30,7 +32,7 @@ Custom Widget core code is updated periodically. If you would like to see a hist
 
 # Custom Widget Features
 
-Custom Widgets has a growing list of features available to Citizen Developers seeking to build lightweight read-only widgets capable of accessing any data in [MinistryPlatform](https://www.ministryplatform.com).
+Custom Widgets has a growing list of features available to Citizen Developers seeking to build lightweight read-only widgets capable of accessing any data in [MinistryPlatform](https://www.acstechnologies.com/ministryplatform/).
 
 ## Custom Widget Tag Features
 
@@ -57,7 +59,8 @@ The Widget Tag is used to embed the widget into a webpage. Each custom widget wi
 - **_required_** attribute
 - Standard DOM ID for the element
 - The ID must be a unique name across all elements on the page
-- The ID of the Custom Widget is used when raising events and also if you need to request that the widget reload
+- The ID of the Custom Widget is used when raising events and also if you need to request that the widget be reloaded
+- The ID is also now available as a data element when rendering the widget
 
 ### data-component="CustomWidget"
 
@@ -84,7 +87,7 @@ END
 ```
 
 ### data-useCalendar="true"
-
+- **DEPRECATED** - This attribute is no longer used. It will be removed in a future release.
 - _Defaults to: false_
 - When this is set to true, the params are sent to the Event API instead of a Stored Procedure. If this is set to true it will override the data-sp parameter and events will be used instead of a Stored Procedure.
 

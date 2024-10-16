@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Custom Widget Demo</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">         
+
+        <!-- Full Calendar Custom Styles -->
+        <link href="/Widgets/FullCalendar/Assets/calendar.css" rel="stylesheet" type="text/css">
+    </head>
+    
+    <body>
+        <div class="container">
+
+            <h1>FullCalendar Example</h1>
+
+            <div id="calendarContainer">
+                <div id="FullCalendar" 
+                    data-component="CustomWidget" 
+                    data-template="/Widgets/FullCalendar/Template/FullCalendar.html" 
+                    data-requireUser="false" 
+                    data-cache="false" 
+                    data-debug="true" 
+                    data-useCalendar="true" 
+                    data-params="?GetFeaturedEventsOnly=false&GetRegistrationEventsOnly=false&OnlyApprovedEvents=true&ShowExtendedData=true&DataFormat=json&convertToUTC=true&cacheData=true"                     
+                    data-host="mpi"></div> 
+            </div>
+        
+        </div>   
+              
+        <script type="text/javascript" src="/dist/js/customWidgetV1.js"></script>
+
+        <!-- Full Calendar Script -->
+        <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
+
+        <script>
+            // Set this to your event details page
+            // Ensure you include everything before the event ID
+            const eventDetailsPage = 'https://mpi.ministryplatform.com/widgets/event_details.aspx/?id=';
+
+            window.addEventListener('widgetLoaded', function(event) {
+
+                console.log('|||===> widgetLoaded Event Fired for: ' + event.detail.widgetId);       
+
+                if (event.detail.widgetId == 'FullCalendar')
+                {
+                    // Get the host from the widget
+                    const cloudHost = document.getElementById(event.detail.widgetId).getAttribute('data-host');
+                    
+                    // Get the calendar element defined in the widget
+                    const calendarEl = document.getElementById('calendar');
+
+                    // Initialize the calendar and add necessary event listeners, options, etc.
+                    var calendar = new FullCalendar.Calendar(calendarEl, {
+                        initialView: 'dayGridMonth',
+                        headerToolbar: {
+                            left: 'prev,next today',
+                            center: 'title',
+                            right: 'dayGridMonth,dayGridWeek,dayGridDay,listWeek'
+                        },
+                        views: {
+                            dayGridMonth: { buttonText: 'Month' },
+                            dayGridWeek: { buttonText: 'Week' },
+                            dayGridDay: { buttonText: 'Day' },
+                            listWeek: { buttonText: 'List Week' }
+                        },                        
+                        events: [],
+                        datesSet: function(info) {
+                            getMonthData(info.start, info.end, calendar, cloudHost);
+                        },
+                        eventClick: showEventModal
+                    });
+
+                    // Render the calendar
+                    calendar.render();                    
+                }
+                       
+                /// Function to show the event modal
+                function showEventModal(obj)
+                {
+                    // Set modal content for clicked event
+                    document.getElementById('eventModalLabel').textContent = obj.event.title;
+                    document.getElementById('eventStart').textContent = 'Start: ' + obj.event.start.toLocaleString();
+                    document.getElementById('eventEnd').textContent = 'End: ' + obj.event.end.toLocaleDateString();
+                    document.getElementById('eventDescription').textContent = obj.event.extendedProps.mpEvent.Description;
+                    document.getElementById('eventUrlButton').href = `${eventDetailsPage}${obj.event.id}`;
+
+                    // Show the modal
+                    var eventModal = new bootstrap.Modal(document.getElementById('eventModal'));
+                    eventModal.show();
+                }
+            });      
+            
+            /// Function to get the data for the month and set it on the calendar control
+            function getMonthData(start, end, calendar, cloudHost, cache = true) {
+                
+                // Convert Start and End Date Objects
+                const startdate = new Date(start);
+                const enddate = new Date(end);
+                
+                // Set Host for API call to retreive events
+                var host = `https://${cloudHost}.cloudapps.ministryplatform.cloud/sky/api/Events/GetEvents?`;
+                
+                // Add Start and End Dates to API call
+                host += 'startDate=' + start.toLocaleDateString('en-US') + '&endDate=' + end.toLocaleDateString('en-US');
+
+                // Add additional parameters and format for json and UTC
+                host += '&ShowExtendedData=true&DataFormat=json&convertToUTC=true';
+
+                // Add cache parameter if needed
+                if (cache) {
+                    host += '&cacheData=true';
+                }
+
+                // Fetch the data from the API
+                fetch(host)
+                    .then(response => response.json())
+                    .then(data => {                        
+                        // Transform the data to FullCalendar format
+                        // Include the full event model in extendedProps for use with modal
+                        const newEvents = data.map(event => {
+                            return {
+                                title: event.Event_Title,
+                                start: event.Event_Start_Date,
+                                end: event.Event_End_Date,
+                                id: event.Event_ID,
+                                classNames: [`EventType-${event.Event_Type_ID}`,`Congregation-${event.Congregation_ID}`],
+                                extendedProps: {
+                                    mpEvent: event
+                                }
+                            };
+                        });
+
+                        // Clear the calendar and add the new events
+                        calendar.removeAllEvents();
+                        calendar.addEventSource(newEvents);                        
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            }
+        </script>
+        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>            
+    </body>
+</html>
+
+
+

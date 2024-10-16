@@ -1,0 +1,27 @@
+.EventType-7 .fc-daygrid-event-dot, .EventType-7 .fc-list-event-dot {
+    border: calc(var(--fc-daygrid-event-dot-width) / 2) solid #bb0acf;
+}
+
+.EventType-1 .fc-daygrid-event-dot, .EventType-1 .fc-list-event-dot {
+    border: calc(var(--fc-daygrid-event-dot-width) / 2) solid #318b22;
+}
+
+.EventType-1 .fc-event-title, .EventType-1 .fc-event-time {
+    color: #318b22;
+}
+
+.fc-day-other {
+    background-color: rgb(240, 240, 240);
+}
+
+.fc .fc-daygrid-day-number {
+    padding: 4px;
+    position: relative;
+    z-index: 4;
+    text-decoration: none;
+    border: 1px solid silver;
+    text-align: center;
+    width: 35px;
+    height: 35px;
+    vertical-align: middle;
+}

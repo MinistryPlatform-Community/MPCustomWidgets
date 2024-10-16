@@ -19,7 +19,7 @@ module.exports = {
     devtool: 'source-map',
     output: {
         path: path.resolve( __dirname, 'dist' ),
-        filename: 'js/customWidget.js',
+        filename: 'js/customWidgetV1.js',
         clean: true
     },
     optimization: {
