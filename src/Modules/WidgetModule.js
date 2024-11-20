@@ -254,6 +254,10 @@ export class WidgetModule {
             }
         });
 
+        // Custom Event Dispatch for Element
+        //element.dispatchEvent(widgetLoadedEvent);
+
+        // Custom Event Dispatch for Window
         window.dispatchEvent(widgetLoadedEvent);
     }       
     
