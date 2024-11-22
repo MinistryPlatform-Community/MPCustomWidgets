@@ -1,6 +1,8 @@
 import { ApiService as api } from "../Services/APIService";
 import { TemplateService } from "../Services/TemplateService";
 
+const skyApplication = `sky`;
+
 export class WidgetModule {
     
     static async Init() {
@@ -255,7 +257,7 @@ export class WidgetModule {
         });
 
         // Custom Event Dispatch for Element
-        //element.dispatchEvent(widgetLoadedEvent);
+        element.dispatchEvent(widgetLoadedEvent);
 
         // Custom Event Dispatch for Window
         window.dispatchEvent(widgetLoadedEvent);
@@ -294,7 +296,7 @@ export class WidgetModule {
 
     static async LoadWidgetData(userData, requireUser, storedprocedure, params, cache, host)
     {
-        var url = `https://${host}.cloudapps.ministryplatform.cloud/sky/api/CustomWidget?storedProcedure=${storedprocedure}`;
+        var url = `https://${host}.cloudapps.ministryplatform.cloud/${skyApplication}/api/CustomWidget?storedProcedure=${storedprocedure}`;
 
         if (params)
         {
@@ -332,7 +334,7 @@ export class WidgetModule {
 
     static async LoadCalendarData(params, cache, host)
     {
-        var url = `https://${host}.cloudapps.ministryplatform.cloud/sky/api/Events/GetEvents`;
+        var url = `https://${host}.cloudapps.ministryplatform.cloud/${skyApplication}/api/Events/GetEvents`;
 
         if (params.indexOf("?") > -1)
         {                  
