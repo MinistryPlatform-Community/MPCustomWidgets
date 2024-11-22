@@ -3,6 +3,10 @@
 Below you can find the release history of MP Custom Widgets Core code. Please
 
 ## Release History
+- 20204.11.22
+  - Updated LiquidJS to 10.17.0
+  - Added Element Level Event Dispatcher
+  - Updated CDN (v1.1) to new build
 - 2024.10.11.1 (v1.1)
   - Updated Core Javascript to pass elementId into template data for new re-use possibilities
     - New CDN Version will be: https://mpweb.azureedge.net/cdn/customWidgetV1.js
