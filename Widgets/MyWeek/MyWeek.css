@@ -1,0 +1,62 @@
+#MyWeekWidget {
+    font-family: 'Open Sans',sans-serif;
+    width: 100%;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+#MyWeekWidget-App {
+    font-family: 'Open Sans',sans-serif;
+    width: 100%;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.DayCard {
+    width: 90%;
+    padding: 0% 5%;
+    border-radius: inherit;
+    margin-bottom: 2rem;
+}
+h2.DayHeading {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    padding: 0;
+    margin: 0;
+    border-bottom: 1px solid black;
+}
+.DayEvent {
+    margin-top: 0.5rem;
+    background-color: #efefef;
+    border-radius: 1rem;
+    padding: 0.5rem 1rem;
+}
+.EventHeader {
+    font-weight: bold;
+}
+.EventParticipants {
+    padding-left: 1rem;  
+    font-style: italic;
+}
+.NoEvents {
+    font-style: italic;
+    color: #888;
+}
+
+/* Uncomment below for Dark Mode */
+/*
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #111;
+        color: #efefef;
+    }
+    h2.DayHeading {
+        border-color: #444;
+    }
+    .DayEvent {
+        background-color: #333;
+    }
+}
+    
+*/

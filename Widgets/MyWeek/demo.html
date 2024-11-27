@@ -1,0 +1,59 @@
+<html>
+<head>
+    <title>My Week</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, user-scalable=yes, minimal-ui">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" />
+    <link rel="stylesheet" type="text/css" href="MyWeek.css">
+    <script
+        type="text/javascript"
+        src="https://mpweb.azureedge.net/cdn/customWidgetV1.js"
+    ></script>
+</head>
+<body>
+    <!-- Use this version when you're using in conjunction with other Widgets -->
+    <div
+    id="MyWeekWidget"
+    data-component="CustomWidget"
+    data-sp="api_custom_MyWeekWidget"
+    data-templateId="MyWeekWidget-Template"
+    data-requireUser="true"
+    data-cache="true"
+    data-debug="false"
+    data-host="dreamcitychurch"
+    ></div>
+
+    <!-- Use this version if you're passing the UserGUID via PocketPlatform
+    <div
+    id="MyWeekWidget-App"
+    data-component="CustomWidget"
+    data-sp="api_custom_MyWeekWidget"
+    data-params="@UserGUID=[UG]"
+    data-templateId="MyWeekWidget-Template"
+    data-requireUser="false"
+    data-cache="true"
+    data-debug="false"
+    data-host="dreamcitychurch"
+    ></div>
+    -->
+
+    <script id="MyWeekWidget-Template" type="text/template">
+        <div>
+            {% for days in DataSet1 %}
+                <div class='DayCard'>
+                    <h2 class='DayHeading'>{{days.FormattedDate}}</h2>
+                    {% assign day_events = DataSet2 | where: "DayNumber", days.DayNumber %}
+                    {% if day_events.size == 0 %}
+                        <div class='NoEvents'>Nothing scheduled for this day.</div>
+                    {% endif %}
+                    {% for event in day_events %}
+                        <div class='DayEvent'>
+                            <div class='EventHeader'>{{event.Event_Start_Date}} {{event.Event_Title}}</div>
+                            <div class='EventParticipants'>{{event.Participants}}</div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+    </script>
+</body>
+</html>
