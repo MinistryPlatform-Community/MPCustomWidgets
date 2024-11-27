@@ -8,7 +8,13 @@ This is an exmple of a custom Widget that will return the next week's events for
 - Shows upcoming events for the user and members of their household.
 - Optional CSS styling for "Dark Mode" browsers included.
 
-## Screenshot
+## Screenshots
+Web Widget:
 
-![ScreenShot](./Assets/Screenshot-MyWeekSample.png)
-![ScreenShot](./Assets/Screenshot-PocketPlatform.png)
+<img src="./Assets/Screenshot-MyWeekSample.png" width="300" />
+
+
+
+Pocket Platform Dark Mode:
+
+<img src="./Assets/Screenshot-PocketPlatform.jpg" width="300" />
