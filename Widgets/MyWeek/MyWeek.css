@@ -1,11 +1,4 @@
-#MyWeekWidget {
-    font-family: 'Open Sans',sans-serif;
-    width: 100%;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-}
-#MyWeekWidget-App {
+#MyWeekWidgetm,#MyWeekWidget-App {
     font-family: 'Open Sans',sans-serif;
     width: 100%;
     max-width: 600px;
