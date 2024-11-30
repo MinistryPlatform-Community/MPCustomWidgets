@@ -1,6 +1,6 @@
 # Stored Procedure Definition
 
-Use this folder to include any sql scripts designed to install Stored Procedures required for the Csutom Widget to work. Please follow the pattern of including a fully installable script including required MinistryPlatform metadata. Examplesa are included to aid in quickly developing installable Stored Procedure scripts
+Use this folder to include any sql scripts designed to install Stored Procedures required for the Custom Widget to work. Please follow the pattern of including a fully installable script including required MinistryPlatform metadata. Examples are included to aid in quickly developing installable Stored Procedure scripts
 
 ## Installation Notes
 
