@@ -36,7 +36,7 @@ h2.DayHeading {
     color: #888;
 }
 
-/* Uncomment below for Dark Mode */
+/* Uncomment section below to enable Dark Mode */
 /*
 
 @media (prefers-color-scheme: dark) {
