@@ -1,55 +1,73 @@
-#MyWeekWidgetm,#MyWeekWidget-App {
+#MyWeekWidget {
     font-family: 'Open Sans',sans-serif;
     width: 100%;
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
 }
-.DayCard {
+.day-card {
     width: 90%;
     padding: 0% 5%;
     border-radius: inherit;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
+    margin-left: auto;
+    margin-right: auto;
 }
-h2.DayHeading {
+h2.day-heading {
     font-size: 1.5rem;
     line-height: 2rem;
     padding: 0;
     margin: 0;
+    margin-bottom: 0.5rem;
     border-bottom: 1px solid black;
 }
-.DayEvent {
-    margin-top: 0.5rem;
+.featured-event {
+    text-align: center;
+    font-size: 1.25rem;
+    line-height: 1.25rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    text-wrap-style: balance;
+}
+.participant-event, .group-event, .volunteer-event {
     background-color: #efefef;
     border-radius: 1rem;
     padding: 0.5rem 1rem;
+    margin-bottom: 0.5rem;
 }
-.EventHeader {
+.event-header {
     font-weight: bold;
 }
-.EventParticipants {
+.featured-event .event-header {
+    font-weight: normal;
+}
+.event-participants {
     padding-left: 1rem;  
     font-style: italic;
 }
-.NoEvents {
+.no-event {
     font-style: italic;
-    color: #888;
+    color: #ccc;
+    line-height: 2rem;
+    margin-top: -0.5rem;
+    text-align: center;
 }
-
-/* Uncomment section below to enable Dark Mode */
-/*
-
-@media (prefers-color-scheme: dark) {
-    body {
-        background-color: #111;
-        color: #efefef;
-    }
-    h2.DayHeading {
-        border-color: #444;
-    }
-    .DayEvent {
-        background-color: #333;
-    }
+.participant-event::after, .group-event::after, .volunteer-event::after {
+    font-family: 'Font Awesome 5 Free';
+    font-style: normal;
+    font-weight: 900;
+    position: relative;
+    float: right;
+    top: -40px;
+    font-size: 2rem;
+    color: rgba(0, 0, 0, 0.05);
 }
-    
-*/
+.participant-event::after {
+    content: '\f073';
+}
+.group-event::after {
+    content: '\f0c0';
+}
+.volunteer-event::after {
+    content: '\f4c4';
+}

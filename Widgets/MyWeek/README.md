@@ -4,17 +4,19 @@ This is an exmple of a custom Widget that will return the next week's events for
 
 ## Features
 
-- Can be configured to require authentication or accept a parameter for UserGUID. Useful for linking to this widget from PocketPlatform!
-- Pass the @DaysAhead parameter to change from the default of 7 days to however many days you want to display.
+- Can be configured to require authentication or accept a parameter for User_GUID. Useful for linking to this widget from PocketPlatform!
 - Shows upcoming events for the user and members of their household.
-- Optional CSS styling for "Dark Mode" browsers included.
+- Optional CSS styling for "Dark Mode" included.
+- Pass the @DaysAhead parameter to change from the default of 7 days to however many days you want to display.
+- Pass the @EventTypeID for your worship services, which will condense multiple services to one heading.
+- Pass @FeaturedEvents=1 to also highlight your featured events at the top of a day.
 
 ## Screenshots
-Web Widget:
+Light Mode:
 
 <img src="./Assets/Screenshot-MyWeekSample.png" width="300" />
 
 
-Pocket Platform Dark Mode:
+Dark Mode:
 
-<img src="./Assets/Screenshot-PocketPlatform.jpg" width="300" />
+<img src="./Assets/Screenshot-MyWeekSample.png" width="300" />
