@@ -1,0 +1,28 @@
+{% for days in DataSet1 %}
+
+    <div class='day-card'>
+
+        <h2 class='day-heading'>{{days.FormattedDate}}</h2>
+        {% assign featured_events = DataSet3 | where: "DayNumber", days.DayNumber %}
+        {% assign participant_events = DataSet2 | where: "DayNumber", days.DayNumber %}
+
+        {% if featured_events.size == 0 and participant_events.size == 0 %}
+            <div class='no-event'>Nothing scheduled for this day.</div>
+        {% endif %}
+
+        {% for event in featured_events %}
+            <div class='{{event.Event_Type}}'>
+                <div class='event-header'>{{event.Event_Title}}</div>
+            </div>
+        {% endfor %}
+
+        {% for event in participant_events %}
+            <div class='{{event.Event_Type}}'>
+                <div class='event-header'>{{event.Event_Start_Date | date: "%l:%M %P"}} {{event.Event_Title}}</div>
+                <div class='event-participants'>{{event.Participants}}</div>
+            </div>
+        {% endfor %}
+        
+    </div>
+
+{% endfor %}

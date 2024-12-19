@@ -1,0 +1,21 @@
+@import url("MyWeek.css");
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #101010;
+        color: #efefef;
+    }
+    h2.day-heading {
+        border-color: #444;
+    }
+    .no-event {
+        color: #444;
+    }
+    .participant-event, .group-event, .volunteer-event {
+        background-color: #333;
+    }
+    .participant-event::after, .group-event::after, .volunteer-event::after {
+        color: rgba(255, 255, 255, 0.05);
+    }
+}
