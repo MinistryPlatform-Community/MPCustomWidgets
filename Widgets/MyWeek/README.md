@@ -19,4 +19,4 @@ Light Mode:
 
 Dark Mode:
 
-<img src="./Assets/Screenshot-MyWeekSample.png" width="300" />
+<img src="./Assets/Screenshot-MyWeekSample-DarkMode.png" width="300" />
