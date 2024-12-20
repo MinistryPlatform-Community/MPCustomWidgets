@@ -1,0 +1,42 @@
+<html>
+<head>
+    <title>My Week</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, user-scalable=yes, minimal-ui">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" />
+    <link rel="stylesheet" type="text/css" href="MyWeek-Dark.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+    <script
+        type="text/javascript"
+        src="https://mpweb.azureedge.net/cdn/customWidgetV1.js"
+    ></script>
+</head>
+<body>
+
+    <!-- Use this version to require user authentication -->
+    <div
+        id="MyWeekWidget"
+        data-component="CustomWidget"
+        data-sp="api_custom_MyWeekWidget"
+        data-template="MyWeek-template.html"
+        data-requireUser="true"
+        data-cache="true"
+        data-debug="false"
+        data-host="[Your_Host_Name]"
+    ></div>
+
+    <!-- Use this version if you're passing the User GUID. Include ?UG=[User_GUID] in your URL
+    <div
+        id="MyWeekWidget"
+        data-component="CustomWidget"
+        data-sp="api_custom_MyWeekWidget"
+        data-params="@UserGUID=[UG]"
+        data-template="MyWeek-template.html"
+        data-requireUser="false"
+        data-cache="true"
+        data-debug="false"
+        data-host="[Your_Host_Name]"
+    ></div>
+    -->
+
+</body>
+</html>
