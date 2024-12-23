@@ -236,5 +236,5 @@ A JavaScript Event of "widgetLoaded" will be fired when your widget has been loa
 ```javascript
 window.addEventListener('widgetLoaded', function(event) {
   console.log('|||===> widgetLoaded Event Fired for: ' + event.detail.widgetId);
-}
+});
 ```
