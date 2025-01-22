@@ -1,7 +1,7 @@
 import { ApiService as api } from "../Services/APIService";
 import { TemplateService } from "../Services/TemplateService";
 
-const skyApplication = `skybeta`;
+const skyApplication = `sky`;
 
 export class WidgetModule {
     
@@ -257,7 +257,7 @@ export class WidgetModule {
         });
 
         // Custom Event Dispatch for Element
-        //element.dispatchEvent(widgetLoadedEvent);
+        element.dispatchEvent(widgetLoadedEvent);
 
         // Custom Event Dispatch for Window
         window.dispatchEvent(widgetLoadedEvent);

@@ -228,3 +228,13 @@ const mpHost = 'mpi.ministryplatform.com';
 ```
 
 You must change this to be your MP host.  After that simple include this javascript on any page you want to force login.
+
+## JavaScript Events
+
+A JavaScript Event of "widgetLoaded" will be fired when your widget has been loaded.
+
+```javascript
+window.addEventListener('widgetLoaded', function(event) {
+  console.log('|||===> widgetLoaded Event Fired for: ' + event.detail.widgetId);
+});
+```

@@ -1,6 +1,8 @@
 {
   "name": "customwidgetjs",
-  "version": "2024.11.22.1",
+
+  "version": "2025.01.07.1",
+
   "description": "MinistryPlatform Custom Widgets - used for church custom widgets within the MP ecosystem.",
   "main": "index.js",
   "scripts": {
@@ -33,6 +35,8 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
-    "liquidjs": "^10.19.0"
+
+    "liquidjs": "^10.20.1"
+
   }
 }
