@@ -1,0 +1,14 @@
+<h3>My Events</h3>
+<table class="table table-striped">
+{% for element in DataSet1 %}
+
+  <tr>
+    <td>{{element.Event_Title}}</td>
+    <td>{{element.Event_Start_Date | date: "%-m/%d/%Y %l:%M %p" }}</td>
+    <td><button type="button" class="btn btn-danger cancelButton" data-id="{{element.Event_Participant_ID}}">Cancel</button></td>
+  </tr>
+
+{% endfor %}
+</table>
+
+
