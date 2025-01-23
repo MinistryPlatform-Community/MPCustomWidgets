@@ -27,11 +27,8 @@
 
         </div>            
         <script type="text/javascript" src="/dist/js/customWidgetV1.js"></script>
-        
-        <!-- Add Recaptcha Library -->
-        <script src="https://www.google.com/recaptcha/api.js?render=6LdVBcAqAAAAABRfhSqA39mVNxmkbVVwUVUklKOk"></script>
 
-            <script id="MPWidgets" src="https://mpi.ministryplatform.com/widgets/dist/MPWidgets.js"></script>
+        <script id="MPWidgets" src="https://mpi.ministryplatform.com/widgets/dist/MPWidgets.js"></script>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>            
 
@@ -39,7 +36,7 @@
 
         <script type="text/javascript">
             // Listen for Widget to finish loading
-            window.addEventListener('widgetLoaded', function(event) {
+            window.addEventListener('widgetLoaded', async function (event) {
                 console.log('|||===> widgetLoaded Event Fired for: ' + event.detail.widgetId);       
                 
                 if (event.detail.widgetId == 'MyCustomWidget')
@@ -48,59 +45,53 @@
                     // Bind a Click Event to all cancelButton elements
                     const cancelButtons = document.querySelectorAll('.cancelButton');
                     for (let i = 0; i < cancelButtons.length; i++) {
-                        cancelButtons[i].addEventListener('click', function(event) {
+                        cancelButtons[i].addEventListener('click', async function (event) {
+                            window.Widgets.UI.disableElement(event.target);
                             const eventParticipantId = event.target.getAttribute('data-id');
-
-                            grecaptcha.ready(function() {
-                                grecaptcha.execute('6LdVBcAqAAAAABRfhSqA39mVNxmkbVVwUVUklKOk', {action: 'submit'}).then(function(token) {
-                                    cancelEvent(eventParticipantId, token);
-                                });
-                            });                            
-                            
+                            try {
+                                // Wait for the token to be fetched
+                                const token = await window.Widgets.Helpers.getGoogleRecaptchaToken('6LdVBcAqAAAAABRfhSqA39mVNxmkbVVwUVUklKOk');
+                                // Call the cancelEvent function with the fetched token
+                                cancelEvent(eventParticipantId, token);
+                            } catch (error) {
+                                console.error('Failed to fetch reCAPTCHA token:', error);
+                            }
                         });
                     }
                 }
             });
             
-            function cancelEvent(eventParticipantId, token) {
+            async function cancelEvent(eventParticipantId, token) {
                 console.log('Cancelling Event:', eventParticipantId);
                 console.log(token);
 
                 const paUrl = 'https://prod-18.westus.logic.azure.com:443/workflows/277e7b22322b48bb9299ad1cf29f6e1c/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=aQvgLT9F7pY8laA4OS-06pWoRNhP3i5z0UiYqNhI4xI';
 
-                fetch(paUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ eventParticipantId: parseInt(eventParticipantId, 10), token: token, userToken: getUserToken() })
-                })
-                .then(response => {
+                try {
+                    const response = await fetch(paUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            eventParticipantId: parseInt(eventParticipantId, 10),
+                            token: token,
+                            userToken: window.Widgets.Auth.getUserAuthToken()
+                        })
+                    });
+
                     if (!response.ok) {
-                        throw new Error('Network response was not ok');
+                        throw new Error(`Network response was not ok: ${response.statusText}`);
                     }
-                    return response;
-                })
-                .then(data => {
+
+                    const data = await response.json();
                     console.log('Event cancellation successful:', data);
                     // Optionally update UI or show success message
-                })
-                .catch(error => {
+                } catch (error) {
                     console.error('Error cancelling event:', error);
                     // Optionally show error message to user
-                });
-            }
-
-
-            function getUserToken() {
-                if (localStorage.getItem('mpp-widgets_AuthToken'))
-                {
-                    return localStorage.getItem('mpp-widgets_AuthToken');
                 }
-
-                return null;
             }
-
 
         </script>
     </body>
