@@ -11,7 +11,7 @@ export class WidgetModule {
         var elements = document.querySelectorAll('[data-component="CustomWidget"]');
 
         elements.forEach(element => {
-            this.InitWidget(element);
+            WidgetModule.InitWidget(element);
         });
     }
 
@@ -21,12 +21,12 @@ export class WidgetModule {
     }
 
     static async ReinitAllWidgets(){
-        this.Init();
+        WidgetModule.Init();
     }
 
     static checkForUser(){
         // Get Data
-        var userData = this.getUserData();
+        var userData = WidgetModule.getUserData();
 
         // Check Data
         if (userData == "null" || !userData || userData.length < 10)
@@ -34,7 +34,7 @@ export class WidgetModule {
             return false;
         }        
 
-        var expireDt = this.getAuthExpiration();
+        var expireDt = WidgetModule.getAuthExpiration();
         var now = new Date();
 
         if (expireDt < now)
@@ -138,40 +138,39 @@ export class WidgetModule {
         console.info(`Auth Override:    ${authOverride}`);
         console.info('**************************************************');
         
-        this.LoadWidget(element.id, storedprocedure, params, template, templateId, requireUser, cache, host, useCalendar, debugMode, authOverride);
+        WidgetModule.LoadWidget(element.id, storedprocedure, params, template, templateId, requireUser, cache, host, useCalendar, debugMode, authOverride);
 
     }
 
     static async setupAuthRecheck()
     {
-        if (this.authCheckCount == null)
+        if (WidgetModule.authCheckCount == null)
         {
-            this.authCheckCount = 0;
+            WidgetModule.authCheckCount = 0;
         }
 
-        if (this.authCheckTimer == null && this.authCheckCount < 4)
+        if (WidgetModule.authCheckTimer == null && WidgetModule.authCheckCount < 4)
         {
             console.info('|||===> Auth Check Scheduled');
-            let wid = this;
 
-            wid.authCheckTimer = window.setTimeout(function() {
-                wid.authCheckTimer = null;
-                wid.recheckAuth();
+            WidgetModule.authCheckTimer = window.setTimeout(function() {
+                WidgetModule.authCheckTimer = null;
+                WidgetModule.recheckAuth();
             }, 500);
-            wid.authCheckCount++;
+            WidgetModule.authCheckCount++;
         }        
     }
 
     static async recheckAuth()
     {
         console.info('|||===> Checking Auth');
-        if (this.checkForUser())
+        if (WidgetModule.checkForUser())
         {
-            this.ReinitAllWidgets();
+            WidgetModule.ReinitAllWidgets();
         }
         else
         {
-            this.setupAuthRecheck();
+            WidgetModule.setupAuthRecheck();
         }
     }
 
@@ -184,7 +183,7 @@ export class WidgetModule {
         // NOTE: Widgets doesn't remove the localStorage, but sets it to "null" on logout
         if (requireUser)
         {
-            if (!this.checkForUser())
+            if (!WidgetModule.checkForUser())
             {
                 data.userAuthenticated = false;
                 console.info('|||===> No user is logged in.');
@@ -203,21 +202,21 @@ export class WidgetModule {
                     }
 
                     // Attempt to render Widget Template with only userAuthenticated data elements
-                    await this.RenderTemplateWithData(templateId, template, data, element);
+                    await WidgetModule.RenderTemplateWithData(templateId, template, data, element);
                 }
                 
-                this.setupAuthRecheck();
+                WidgetModule.setupAuthRecheck();
                 return;
             }
         }
 
         if (useCalendar)
         {
-            data = await this.LoadCalendarData(params, cache, host);
+            data = await WidgetModule.LoadCalendarData(params, cache, host);
         }
         else
         {
-            data = await this.LoadWidgetData(this.getUserData(), requireUser, storedprocedure, params, cache, host);
+            data = await WidgetModule.LoadWidgetData(WidgetModule.getUserData(), requireUser, storedprocedure, params, cache, host);
         }
 
         // Append Widget ID data
@@ -233,7 +232,7 @@ export class WidgetModule {
 
         // Append Authenticated Status to Widget Data
         console.info('***====> Checking for Authentication <====***');
-        if (this.checkForUser())
+        if (WidgetModule.checkForUser())
         {
             console.info('===> User Authenticated');
             data.userAuthenticated = true;
@@ -245,7 +244,7 @@ export class WidgetModule {
         }
 
         // Attempt to render Widget Template
-        await this.RenderTemplateWithData(templateId, template, data, element);
+        await WidgetModule.RenderTemplateWithData(templateId, template, data, element);
 
         // Trigger the widgetLoadedEvent
         // Pass the data object as data parameter
@@ -300,7 +299,7 @@ export class WidgetModule {
 
         if (params)
         {
-            url += `&spParams=${encodeURIComponent(this.replaceParameters(params))}`;
+            url += `&spParams=${encodeURIComponent(WidgetModule.replaceParameters(params))}`;
         }
 
         // Add userData to Request Parameters
@@ -369,7 +368,7 @@ export class WidgetModule {
         var re = /\[.*?]/ig
         var match;
         while ((match = re.exec(params)) != null){
-            tParams = tParams.replace(match[0], this.getParameterByName(match[0]));
+            tParams = tParams.replace(match[0], WidgetModule.getParameterByName(match[0]));
         }
 
         return tParams;
