@@ -3,6 +3,17 @@
 Below you can find the release history of MP Custom Widgets Core code. Please
 
 ## Release History
+- 2025.1.23
+  - Updated LiquidJS to 10.22.2
+  - Incremented CustomWidgetV1.js Cloud Instance to latest
+  - Added New Helper Functions and Namespaces
+    - window.Widgets.Auth.getUserAuthToken()
+    - window.Widgets.Helpers.getGRecaptchaToken()
+    - window.UI.hideElement()
+    - window.UI.showElement()
+    - window.UI.disableElement()
+    - window.UI.updateButtonText()
+  - Upgraded Documentation
 - 20204.11.22
   - Updated LiquidJS to 10.17.0
   - Added Element Level Event Dispatcher

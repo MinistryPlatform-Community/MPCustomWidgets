@@ -238,3 +238,40 @@ window.addEventListener('widgetLoaded', function(event) {
   console.log('|||===> widgetLoaded Event Fired for: ' + event.detail.widgetId);
 });
 ```
+
+## JavaScript Helpers
+
+Custom Widgets contains several functions that can be invoked for additional functionality.
+
+All Custom Widgets helpers and methods are invoked from the **_window.Widgets_** namespace.  This allows for future expansion without creating unknown conflicts in the gloabal JS namespace.
+
+Here is a list of helpers by sub namespace:
+
+### window.Widgets
+- reinitWidget('[id of the custom widget div]')
+  - used to reload a widget by name
+- reinitAllWidgets()
+  - used to reload all custom widgets on the given page
+
+### window.Auth
+- getUserAuthToken()
+  - this method retrieves the MPP_Widgets auth token from localstorage and returns the raw token
+
+### window.Helpers
+- getGoogleRecaptchaToken('[Google Recaptcha secret key]')
+  - this method loads all necessary libraries and returns the recaptcha token to be used in protecting data entry forms and api endpoints
+  - **Note** - this is an async endpoint and will need to be executed from an async invocation
+
+### window.UI
+- General Notes
+  - All Endpoints in this collection will work with either an element object or eleent id as the first and primary parameter
+- hideElement([Object or id])
+  - Hides the element passed by setting the display style to none
+- showElement([Object or id])
+  - Shows the element passed by setting the display style to block
+- disableElement([Object or id])
+  - Disables the element
+- enableElement([Object or id])
+  - Enables the element
+- updateButtonText([Object or id], '[text]')
+  - Updates the innertext of a button or anchor tag.  This helper will **_ONLY_** update the text for button or anchor tags.
