@@ -3,6 +3,8 @@
 Below you can find the release history of MP Custom Widgets Core code. Please
 
 ## Release History
+- 2025.04.24
+  - Added Platform Sermon Player Widget
 - 20204.11.22
   - Updated LiquidJS to 10.17.0
   - Added Element Level Event Dispatcher
