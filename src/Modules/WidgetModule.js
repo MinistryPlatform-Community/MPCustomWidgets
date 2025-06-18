@@ -373,9 +373,6 @@ export class WidgetModule {
                     }
                 }
             }
-
-            // Attempt to return the data as JSON (original behavior)
-            return data;
         }
         
         return data;
