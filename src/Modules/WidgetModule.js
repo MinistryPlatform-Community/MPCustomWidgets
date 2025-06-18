@@ -328,8 +328,57 @@ export class WidgetModule {
                 return;
             }
         }
+
+        const data = await api.getData(url);
+
+        if (!data)
+        {
+            return null;
+        }   
+
+        // Check for JSON
+        if (storedprocedure.toLowerCase().endsWith('_json'))
+        {            
+            console.info('|||===> JSON Stored Proc detected');
+
+            // Check if data has the specific structure: single array, single row, single column named JsonResult
+            if (data && typeof data === 'object' && Object.keys(data).length >= 1) {
+                const datasetKey = Object.keys(data)[0];
+                const dataset = data[datasetKey];
+                
+                if (Array.isArray(dataset) && dataset.length === 1 && 
+                    dataset[0].hasOwnProperty('JsonResult') && 
+                    typeof dataset[0].JsonResult === 'string') {
+                    
+                    try {
+                        // Parse the JsonResult string as JSON
+                        const parsedJson = JSON.parse(dataset[0].JsonResult);
+                        
+                        // Append widgetId and userAuthenticated from the original data object
+                        if (data.widgetId) {
+                            parsedJson.widgetId = data.widgetId;
+                        }
+                        if (typeof data.userAuthenticated !== 'undefined') {
+                            parsedJson.userAuthenticated = data.userAuthenticated;
+                        }
+                        
+                        console.info('|||===> JSON Parsed -> JSON Object Returned');
+                        // console.info(parsedJson);
+
+                        return parsedJson;
+                    } catch (parseError) {
+                        console.error('Failed to parse JsonResult as JSON:', parseError);
+                        // Fall back to returning the original data structure
+                        return data;
+                    }
+                }
+            }
+
+            // Attempt to return the data as JSON (original behavior)
+            return data;
+        }
         
-        return await api.getData(url);
+        return data;
     }
 
     static async LoadCalendarData(params, cache, host)
