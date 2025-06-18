@@ -3,6 +3,11 @@
 Below you can find the release history of MP Custom Widgets Core code. Please
 
 ## Release History
+- 2025.06.18
+  - Added JSON Stored Procedure Support
+  - Added Group Management Demo Widget using JSON
+  - Updated LiquidJS to 10.21.1
+  - Updated all support packages to latest versions
 - 2025.04.24
   - Added Platform Sermon Player Widget
 - 20204.11.22
