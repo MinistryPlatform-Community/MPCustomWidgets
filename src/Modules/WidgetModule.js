@@ -367,7 +367,7 @@ export class WidgetModule {
 
                         return parsedJson;
                     } catch (parseError) {
-                        console.error('Failed to parse JsonResult as JSON:', parseError);
+                        console.info('Failed to parse JsonResult as JSON:', parseError);
                         // Fall back to returning the original data structure
                         return data;
                     }
