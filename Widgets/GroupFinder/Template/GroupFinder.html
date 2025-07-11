@@ -1,10 +1,10 @@
-<div class="row">
-  <div class="offset-md-3 col-md-6">
+<div class="mp-row">
+  <div class="mp-offset-md-3 mp-col-md-6">
     <div>
       <div>
         <label>Campus</label>
       </div>
-      <select id="ddlCongregation" class="form-select group-select">
+      <select id="ddlCongregation" class="mp-form-select group-select">
         <option value="">-- All Campuses --</option>
         {% for element in DataSet4 %}
           <option value="{{element.Congregation_ID}}">{{element.Congregation_Name}}</option>
@@ -16,12 +16,12 @@
       <div>
         <label>Keyword Search</label>
       </div>
-      <div class="row">
-        <div class="col-10">
-          <input type="search" id="txtKeyword" class="form-control" placeholder="Keyword Search">      
+      <div class="mp-row">
+        <div class="mp-col-10">
+          <input type="search" id="txtKeyword" class="mp-form-control" placeholder="Keyword Search">      
         </div>
-        <div class="col-2">
-          <button type="button" id="btnKeyword" class="btn btn-outline-success">Search</button>
+        <div class="mp-col-2">
+          <button type="button" id="btnKeyword" class="mp-btn mp-btn-outline-success">Search</button>
         </div>
       </div>
       
@@ -32,18 +32,18 @@
 
 
 
-<div class="mt-3">
+<div class="mp-mt-3">
   <h3>{{DataSet1.length}} Groups Found</h3>
 </div>
 
 
-<div class="row mt-3">
+<div class="mp-row mp-mt-3">
 {% for element in DataSet1 %}
 
 
-<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 mb-3">
+<div class="mp-col-xs-12 mp-col-sm-6 mp-col-md-6 mp-col-lg-4 mp-mb-3">
   <!-- Card -->
-  <div class="card h-100 shadow">
+  <div class="mp-card mp-h-100 mp-shadow">
 
     <!--Card image-->
     <div class="view overlay custom--groupCard--img--container">
@@ -59,13 +59,13 @@
       </a>
     </div>
 
-    <div class="card-body d-flex flex-column">
+    <div class="mp-card-body mp-d-flex mp-flex-column">
 
       {% if element.Future_Start %}
         <div class="ribbon ribbon-top-right"><span>New</span></div>
       {% endif %}      
 
-      <h4 class="card-title">{{element.Group_Name}}</h4>
+      <h4 class="mp-card-title">{{element.Group_Name}}</h4>
 
       {% if element.Location %}
         <h6>{{element.Location}}</h6>
@@ -86,41 +86,41 @@
       {% endif %}
 
 
-      <div class="card-text custom--groupCard--description mb-2">{{element.Description}}</div>
+      <div class="mp-card-text custom--groupCard--description mp-mb-2">{{element.Description}}</div>
       
      
       {% if element.Future_Start %}
-        <div class="mt-1 mb-2 text-center"><strong>Starts: {{element.Start_Date | date: '%B %d, %Y', 0}}</strong></div>
+        <div class="mp-mt-1 mp-mb-2 mp-text-center"><strong>Starts: {{element.Start_Date | date: '%B %d, %Y', 0}}</strong></div>
       {% endif %}
 
-      <div class="text-center mt-auto">
+      <div class="mp-text-center mp-mt-auto">
 
         {% if element.Group_Focus %}
-          <span class="badge bg-secondary" data-id="{{element.Group_Focus}}" data-tag="true">
+          <span class="mp-badge mp-bg-secondary" data-id="{{element.Group_Focus}}" data-tag="true">
             {{element.Group_Focus}}
           </span>
         {% endif %}
 
         {% if element.Meeting_Day %}
-          <span class="badge bg-secondary" data-id="{{element.Meeting_Day}}" data-tag="true">
+          <span class="mp-badge mp-bg-secondary" data-id="{{element.Meeting_Day}}" data-tag="true">
             {{element.Meeting_Day}}
           </span>
         {% endif %}
 
         {% if element.Life_Stage %}
-          <span class="badge bg-secondary" data-id="{{element.Life_Stage}}" data-tag="true">
+          <span class="mp-badge mp-bg-secondary" data-id="{{element.Life_Stage}}" data-tag="true">
             {{element.Life_Stage}}
           </span>
         {% endif %}
 
         {% if element.Ministry_Name %}
-        <span class="badge bg-secondary" data-id="{{element.Ministry_Name}}" data-tag="true">
+        <span class="mp-badge mp-bg-secondary" data-id="{{element.Ministry_Name}}" data-tag="true">
           {{element.Ministry_Name}}
         </span>
         {% endif %}
 
         {% if element.Meeting_Duration_ID %}
-        <span class="badge bg-secondary" data-id="{{element.Meeting_Duration}}" data-tag="true">
+        <span class="mp-badge mp-bg-secondary" data-id="{{element.Meeting_Duration}}" data-tag="true">
           {{element.Meeting_Duration}}
         </span>
         {% endif %}
@@ -129,12 +129,12 @@
         {% assign tagElements = element.Tags | split: ", " %}
 
         {% for t in tagElements %}
-          <span class="badge bg-secondary" data-id="{{t}}" data-tag="true">{{t}}</span>
+          <span class="mp-badge mp-bg-secondary" data-id="{{t}}" data-tag="true">{{t}}</span>
         {% endfor %}
 
 
-        <div class="text-center mt-4 mb-2">
-          <a href="#?groupId={{element.Group_ID}}" class="btn btn-outline-primary">See Details</a>
+        <div class="mp-text-center mp-mt-4 mp-mb-2">
+          <a href="#?groupId={{element.Group_ID}}" class="mp-btn mp-btn-outline-primary">See Details</a>
         </div>        
       </div>
   
