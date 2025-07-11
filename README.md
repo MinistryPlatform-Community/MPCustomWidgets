@@ -402,11 +402,11 @@ ${{element.Progress | number_to_currency}} of ${{element.Total | number_to_curre
 
   
 
-You can find the [customWidget.js](./dist/) files in the "DIST" folder if you want to download them or you can reference the latest version from the MinistryPlatform CDN:
+You can find the [customWidgetV1.js](./dist/) files in the "DIST" folder if you want to download them or you can reference the latest version from the MinistryPlatform CDN:
 
   
 
-[https://mpweb.azureedge.net/cdn/customWidget.js](https://mpweb.azureedge.net/cdn/customWidget.js)
+[https://cdn.jsdelivr.net/gh/MinistryPlatform-Community/MPCustomWidgets@main/dist/js/customWidgetV1.js](https://cdn.jsdelivr.net/gh/MinistryPlatform-Community/MPCustomWidgets@main/dist/js/customWidgetV1.js)
 
   
 
@@ -416,13 +416,7 @@ Example of including the javascript file in your webpage:
 
 ```javascript
 
-<script
-
-type="text/javascript"
-
-src="https://mpweb.azureedge.net/cdn/customWidget.js"
-
-></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/MinistryPlatform-Community/MPCustomWidgets@main/dist/js/customWidgetV1.js"></script>
 
 ```
 

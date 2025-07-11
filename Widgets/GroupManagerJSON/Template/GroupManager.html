@@ -1,29 +1,29 @@
-<div class="container my-4">
-  <h2 class="mb-3">{{ Group_Name }}</h2>
-  <div class="row">
-    <div class="col-md-6 mb-3">
+<div class="mp-container mp-my-4">
+  <h2 class="mp-mb-3">{{ Group_Name }}</h2>
+  <div class="mp-row">
+    <div class="mp-col-md-6 mp-mb-3">
       <strong>Start Date:</strong> {{ Start_Date | date: "long" }}
     </div>
-    <div class="col-md-6 mb-3">
+    <div class="mp-col-md-6 mp-mb-3">
       <strong>Meeting Day:</strong> {% assign days = "Sunday,Monday,Tuesday,Wednesday,Thursday,Friday,Saturday" | split: "," %}
       {{ days[Meeting_Day_ID] }}
     </div>
-    <div class="col-md-6 mb-3">
+    <div class="mp-col-md-6 mp-mb-3">
       <strong>Meeting Time:</strong> {{ Meeting_Time | slice: 0, 5 }}
     </div>
-    <div class="col-md-6 mb-3">
+    <div class="mp-col-md-6 mp-mb-3">
       <strong>Meeting Frequency ID:</strong> {{ Meeting_Frequency_ID }}
     </div>
-    <div class="col-md-6 mb-3">
+    <div class="mp-col-md-6 mp-mb-3">
       <strong>Target Size:</strong> {{ Target_Size }}
     </div>
-    <div class="col-md-6 mb-3">
+    <div class="mp-col-md-6 mp-mb-3">
       <strong>Group Is Full:</strong> {% if Group_Is_Full %}Yes{% else %}No{% endif %}
     </div>
-    <div class="col-md-6 mb-3">
+    <div class="mp-col-md-6 mp-mb-3">
       <strong>Available Online:</strong> {% if Available_Online %}Yes{% else %}No{% endif %}
     </div>
-    <div class="col-md-6 mb-3">
+    <div class="mp-col-md-6 mp-mb-3">
       <strong>Meets Online:</strong> {% if Meets_Online %}Yes{% else %}No{% endif %}
     </div>
   </div>
@@ -32,10 +32,10 @@
 
   <h4>Leader</h4>
   {% for leader in Leaders %}
-  <div class="card mb-3">
-    <div class="card-body">
-      <h5 class="card-title">{{ leader.First_Name }} {{ leader.Last_Name }}</h5>
-      <p class="card-text">
+  <div class="mp-card mp-mb-3">
+    <div class="mp-card-body">
+      <h5 class="mp-card-title">{{ leader.First_Name }} {{ leader.Last_Name }}</h5>
+      <p class="mp-card-text">
         <strong>Email:</strong> <a href="mailto:{{ leader.Email_Address }}">{{ leader.Email_Address }}</a><br>
         <strong>Phone:</strong> {{ leader.Mobile_Phone }}
       </p>

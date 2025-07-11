@@ -1,69 +1,6 @@
-<style>
-  .avatar {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 1.25rem;
-    text-transform: uppercase;
-  }
 
-  .avatar-initial {
-    background-color: #6c757d;
-    color: white;
-  }
 
-  .avatar-img {
-    object-fit: cover;
-  }
-
-  /* 🎨 Custom Sacrament Badge Colors */
-  .badge-baptism {
-    background-color: #5bc0de; /* soft blue */
-    color: white;
-  }
-
-  .badge-confirmation {
-    background-color: #28a745; /* emerald green */
-    color: white;
-  }
-
-  .badge-first-communion {
-    background-color: #17a2b8; /* deep teal */
-    color: white;
-  }
-
-  .badge-reconcilliation {
-    background-color: #6c757d; /* gray-blue */
-    color: white;
-  }
-
-  .badge-marriage {
-    background-color: #6f42c1; /* royal purple */
-    color: white;
-  }
-
-  .badge-holy-orders {
-    background-color: #ffc107; /* golden amber */
-    color: #212529;
-  }
-
-  .badge-anointing {
-    background-color: #d63384; /* deep rose */
-    color: white;
-  }
-
-  .badge-death {
-    background-color: #343a40; /* charcoal gray */
-    color: white;
-  }
-
-</style>
-
-<table class="table table-bordered align-middle">
+<table class="mp-table mp-table-bordered mp-align-middle">
   <tbody>
     {% assign sorted_contacts = contacts | sort: "Nickname" %}
     {% assign sorted_contacts = sorted_contacts | sort: "Household_Position_ID" %}
@@ -72,11 +9,11 @@
       <!-- Contact Row -->
       <tr>
         <td style="background-color: #e5e5e5;">
-          <div class="d-flex align-items-center">
+          <div class="mp-d-flex mp-align-items-center">
             {% if contact.Unique_Name %}
-              <img src="{{domain}}{{ contact.Unique_Name }}?$thumbnail=true" class="avatar avatar-img me-3" alt="Avatar">
+              <img src="{{domain}}{{ contact.Unique_Name }}?$thumbnail=true" class="mp-avatar mp-avatar-img mp-me-3" alt="Avatar">
             {% else %}
-              <div class="avatar avatar-initial me-3">
+              <div class="mp-avatar mp-avatar-initial mp-me-3">
                 {{ contact.Nickname | slice: 0, 1 }}
               </div>
             {% endif %}
@@ -92,15 +29,15 @@
           {% assign badge_class = "" %}
 
           {% case type %}
-            {% when "Baptism" %}              {% assign badge_class = "badge-baptism" %}
-            {% when "Confirmation" %}         {% assign badge_class = "badge-confirmation" %}
-            {% when "First Communion" %}      {% assign badge_class = "badge-first-communion" %}
-            {% when "Reconcilliation Prep" %} {% assign badge_class = "badge-reconcilliation" %}
-            {% when "Marriage" %}             {% assign badge_class = "badge-marriage" %}
-            {% when "Holy Orders" %}          {% assign badge_class = "badge-holy-orders" %}
-            {% when "Anointing of the Sick" %}{% assign badge_class = "badge-anointing" %}
-            {% when "Death" %}                {% assign badge_class = "badge-death" %}
-            {% else %}                        {% assign badge_class = "badge-secondary" %}
+            {% when "Baptism" %}              {% assign badge_class = "mp-badge-baptism" %}
+            {% when "Confirmation" %}         {% assign badge_class = "mp-badge-confirmation" %}
+            {% when "First Communion" %}      {% assign badge_class = "mp-badge-first-communion" %}
+            {% when "Reconcilliation Prep" %} {% assign badge_class = "mp-badge-reconcilliation" %}
+            {% when "Marriage" %}             {% assign badge_class = "mp-badge-marriage" %}
+            {% when "Holy Orders" %}          {% assign badge_class = "mp-badge-holy-orders" %}
+            {% when "Anointing of the Sick" %}{% assign badge_class = "mp-badge-anointing" %}
+            {% when "Death" %}                {% assign badge_class = "mp-badge-death" %}
+            {% else %}                        {% assign badge_class = "mp-badge-secondary" %}
           {% endcase %}
 
           {% assign date_parts = sacrament.Date_Received | split: "-" %}
@@ -111,20 +48,20 @@
 
           <tr>
             <td>
-              <div class="ps-5">
-                <span class="badge {{ badge_class }}">{{ sacrament.Sacrament_Type }}</span>
-                <span class="text-muted ms-2">
+              <div class="mp-ps-5">
+                <span class="mp-badge {{ badge_class }}">{{ sacrament.Sacrament_Type }}</span>
+                <span class="mp-text-muted mp-ms-2">
                   {{ formatted_date }} at {{ sacrament.Place }}
                 </span>
 
                 {% if sacrament.Sacrament_Type == "Marriage" and sacrament.Spouse_Name %}
-                  <div class="mt-1 text-dark">
+                  <div class="mp-mt-1 mp-text-dark">
                     💍 <strong>{{ contact.First_Name }}</strong> married <strong>{{ sacrament.Spouse_Name }}</strong>
                   </div>
                 {% endif %}
 
                 {% if sacrament.Performed_By %}
-                  <div class="text-muted small mt-1">
+                  <div class="mp-text-muted mp-small mp-mt-1">
                     <em>Performed by {{ sacrament.Performed_By }}</em>
                   </div>
                 {% endif %}
