@@ -66,6 +66,8 @@ module.exports = {
             patterns: [
                 /*{ from: './src/css', to: 'css' },*/
                 { from: './src/forceLogin.js', to: 'js/forceLogin.js'},
+                { from: './src/css/mp-custom.css', to: 'css/mp-custom.css'},
+                { from: './src/js/mp-modal.js', to: 'js/mp-modal.js'},
             ]
         }),
         new webpack.DefinePlugin({

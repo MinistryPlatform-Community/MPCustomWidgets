@@ -507,3 +507,17 @@ console.log('|||===> widgetLoaded Event Fired for: ' + event.detail.widgetId);
 });
 
 ```
+
+## Custom Widgets CSS
+
+There is a custom widgets CSS file that can be used in lieu of BootStrap or other framework and can be customized.  The source is found in src/css/mp-custom.css.  If you want to the file as is, you can
+reference the CDN version:
+
+```
+https://cdn.jsdelivr.net/gh/MinistryPlatform-Community/MPCustomWidgets@main/src/css/mp-custom.css
+```
+
+Example CDN CSS Inclusion:
+```
+<link href="https://cdn.jsdelivr.net/gh/MinistryPlatform-Community/MPCustomWidgets@main/src/css/mp-custom.css" rel="stylesheet">
+```
