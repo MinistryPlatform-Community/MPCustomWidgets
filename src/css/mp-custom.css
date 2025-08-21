@@ -939,6 +939,20 @@ h6 { font-size: 1rem; }
   background-color: var(--mp-danger) !important;
 }
 
+
+/* Force tags that represent a day of the week to cobalt blue */
+.mp-badge[data-id="Sunday"],
+.mp-badge[data-id="Monday"],
+.mp-badge[data-id="Tuesday"],
+.mp-badge[data-id="Wednesday"],
+.mp-badge[data-id="Thursday"],
+.mp-badge[data-id="Friday"],
+.mp-badge[data-id="Saturday"] {
+  background-color: #0047AB !important; /* cobalt blue */
+  color: #fff !important;               /* white text for contrast */
+}
+
+
 /* ==========================================================================
    Flex Utilities
    ========================================================================== */
@@ -957,6 +971,326 @@ h6 { font-size: 1rem; }
 
 .mp-flex-nowrap {
   flex-wrap: nowrap !important;
+}
+
+/* ==========================================================================
+   Sacrament List Styles - Modern Card-Based Design
+   ========================================================================== */
+
+.mp-sacrament-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 0;
+}
+
+.mp-person-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07), 0 1px 3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(222, 226, 230, 0.6);
+}
+
+.mp-person-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15), 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.mp-person-card.mp-person-striped {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.mp-person-row {
+  display: flex;
+  padding: 1.25rem 1.5rem;
+  background: transparent;
+  border-bottom: 2px solid rgba(0, 123, 255, 0.1);
+  font-weight: 600;
+  position: relative;
+}
+
+.mp-person-row::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, var(--mp-primary) 0%, var(--mp-info) 100%);
+}
+
+.mp-person-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.mp-person-name {
+  flex: 1;
+  font-size: 1.125rem;
+  color: #2c3e50;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.mp-person-name::before {
+  content: "👤";
+  font-size: 1.25rem;
+  filter: grayscale(0.3);
+}
+
+.mp-household-role {
+  color: #6c757d;
+  font-weight: 500;
+  font-size: 0.875rem;
+  background: rgba(108, 117, 125, 0.1);
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.mp-sacraments-container {
+  background: #fbfcfd;
+  padding: 0.5rem 0;
+}
+
+.mp-sacrament-row {
+  display: flex;
+  padding: 1rem 1.5rem;
+  background: transparent;
+  border-bottom: 1px solid rgba(222, 226, 230, 0.5);
+  margin: 0;
+  transition: background-color 0.2s ease;
+  position: relative;
+  margin-left: 1rem;
+}
+
+.mp-sacrament-row:hover {
+  background: rgba(0, 123, 255, 0.02);
+}
+
+.mp-sacrament-row:last-child {
+  border-bottom: none;
+}
+
+.mp-sacrament-row::before {
+  content: '';
+  position: absolute;
+  left: -1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 60%;
+  background: linear-gradient(180deg, #28a745 0%, #20c997 100%);
+  border-radius: 2px;
+}
+
+.mp-sacrament-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.mp-sacrament-type {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.25rem;
+}
+
+.mp-sacrament-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr;
+  gap: 1.5rem;
+  font-size: 0.875rem;
+  color: #495057;
+}
+
+.mp-sacrament-date,
+.mp-sacrament-place,
+.mp-sacrament-notes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.mp-sacrament-date strong,
+.mp-sacrament-place strong,
+.mp-sacrament-notes strong {
+  font-weight: 600;
+  color: #343a40;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.25rem;
+}
+
+.mp-sacrament-date::before { content: "📅 "; }
+.mp-sacrament-place::before { content: "📍 "; }
+.mp-sacrament-notes::before { content: "📝 "; }
+
+/* Enhanced Sacrament Icons with Better Styling */
+.mp-icon-baptism::before { 
+  content: "💧"; 
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  background: rgba(91, 192, 222, 0.1);
+  border-radius: 50%;
+  display: inline-block;
+  width: 2.5rem;
+  height: 2.5rem;
+  text-align: center;
+  line-height: 1.5rem;
+}
+
+.mp-icon-confirmation::before { 
+  content: "🕊️"; 
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  background: rgba(40, 167, 69, 0.1);
+  border-radius: 50%;
+  display: inline-block;
+  width: 2.5rem;
+  height: 2.5rem;
+  text-align: center;
+  line-height: 1.5rem;
+}
+
+.mp-icon-communion::before { 
+  content: "🍞"; 
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  background: rgba(23, 162, 184, 0.1);
+  border-radius: 50%;
+  display: inline-block;
+  width: 2.5rem;
+  height: 2.5rem;
+  text-align: center;
+  line-height: 1.5rem;
+}
+
+.mp-icon-reconciliation::before { 
+  content: "✝️"; 
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  background: rgba(108, 117, 125, 0.1);
+  border-radius: 50%;
+  display: inline-block;
+  width: 2.5rem;
+  height: 2.5rem;
+  text-align: center;
+  line-height: 1.5rem;
+}
+
+.mp-icon-marriage::before { 
+  content: "💍"; 
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  background: rgba(111, 66, 193, 0.1);
+  border-radius: 50%;
+  display: inline-block;
+  width: 2.5rem;
+  height: 2.5rem;
+  text-align: center;
+  line-height: 1.5rem;
+}
+
+.mp-icon-orders::before { 
+  content: "⛪"; 
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  background: rgba(255, 193, 7, 0.1);
+  border-radius: 50%;
+  display: inline-block;
+  width: 2.5rem;
+  height: 2.5rem;
+  text-align: center;
+  line-height: 1.5rem;
+}
+
+.mp-icon-anointing::before { 
+  content: "🛐"; 
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  background: rgba(214, 51, 132, 0.1);
+  border-radius: 50%;
+  display: inline-block;
+  width: 2.5rem;
+  height: 2.5rem;
+  text-align: center;
+  line-height: 1.5rem;
+}
+
+.mp-icon-death::before { 
+  content: "🕯️"; 
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  background: rgba(52, 58, 64, 0.1);
+  border-radius: 50%;
+  display: inline-block;
+  width: 2.5rem;
+  height: 2.5rem;
+  text-align: center;
+  line-height: 1.5rem;
+}
+
+.mp-icon-sacrament::before { 
+  content: "🙏"; 
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  background: rgba(0, 123, 255, 0.1);
+  border-radius: 50%;
+  display: inline-block;
+  width: 2.5rem;
+  height: 2.5rem;
+  text-align: center;
+  line-height: 1.5rem;
+}
+
+/* Enhanced Badge Styling */
+.mp-sacrament-type .mp-badge {
+  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+  border-radius: 25px;
+  font-weight: 600;
+  letter-spacing: 0.25px;
+  text-transform: uppercase;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .mp-person-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+  
+  .mp-sacrament-details {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .mp-sacrament-row {
+    margin-left: 0.5rem;
+    padding-left: 1rem;
+  }
+  
+  .mp-person-card {
+    margin: 0 -0.5rem;
+  }
+  
+  .mp-sacrament-date::before,
+  .mp-sacrament-place::before,
+  .mp-sacrament-notes::before {
+    display: inline;
+  }
 }
 
 /* ==========================================================================
