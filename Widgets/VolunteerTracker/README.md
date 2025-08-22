@@ -17,4 +17,4 @@ The Volunteer Tracker is a Domino’s Pizza Tracker–inspired widget that helps
 
 ## Screenshots
 
-<img src="./Assets/screenshot-volunteertracker.png" width="300" />
+<img src="./Assets/screenshot-volunteertracker.png" width="800" />
