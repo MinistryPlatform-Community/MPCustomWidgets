@@ -18,10 +18,10 @@ GO
 CREATE PROCEDURE [dbo].[api_custom_VolunteerTrackerWidget_JSON]
     @DomainID      INT,
     @Username      NVARCHAR(75) = NULL,
-    @BGCWebUrl     NVARCHAR(255) = 'https://my.church.org/portal/backgroundcheck.aspx?background=',
-    @FormWebUrl    NVARCHAR(255) = 'https://www.mychurch.org/form-widget?id=',
     @ContactGUID   NVARCHAR(75),
     @ResponseID    INT,
+    @BGCWebUrl     NVARCHAR(255) = 'https://my.church.org/portal/backgroundcheck.aspx?background=', --Update with your church's BGC URL
+    @FormWebUrl    NVARCHAR(255) = 'https://www.mychurch.org/form-widget?id=', --Update with your church's Custom Form widget URL
     @EnforceVolunteerGroup INT = 0 --Enforce whether associated opportunity group must be a 'volunteer group' or not
 AS
 BEGIN
