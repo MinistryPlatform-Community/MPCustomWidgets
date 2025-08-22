@@ -29,7 +29,7 @@ Stages (left → right):
 {% if is_volunteer == false %}
   <div class="vt-shell">
     <section class="vt-empty">
-      <p><strong>{{ vi["Opportunity_Title"] default: "This opportunity" }}</strong> is not configured as a volunteer team. Tracker not available.</p>
+      <p><strong>{{ vi["Opportunity_Title"] | default: "This opportunity" }}</strong> is not configured as a volunteer team. Tracker not available.</p>
     </section>
   </div>
   <style>
