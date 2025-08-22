@@ -21,7 +21,8 @@ CREATE PROCEDURE [dbo].[api_custom_VolunteerTrackerWidget_JSON]
     @BGCWebUrl     NVARCHAR(255) = 'https://my.dreamcitychurch.us/portal/backgroundcheck.aspx?background=',
     @FormWebUrl    NVARCHAR(255) = 'https://www.dreamcitychurch.us/form?id=',
     @ContactGUID   NVARCHAR(75),
-    @ResponseID    INT
+    @ResponseID    INT,
+    @EnforceVolunteerGroup INT = 0 --Enforce whether associated opportunity group is a 'volunteer group' or not
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -44,14 +45,14 @@ BEGIN
                             R.Response_Date,
                             CASE WHEN R.Closed = 1 AND ISNULL(RR.Response_Result_ID, 2) = 2 THEN 1 ELSE 0 END AS Closed,
                             RR.Response_Result AS [Leader_Review],
-                            GT.Volunteer_Group AS [Is_Volunteer_Group]
+                            CASE WHEN @EnforceVolunteerGroup = 0 THEN 1 ELSE GT.Volunteer_Group END AS [Is_Volunteer_Group]
                         FROM Contacts C
-                        JOIN Responses     R  ON R.Participant_ID = C.Participant_Record
-                        JOIN Opportunities O  ON O.Opportunity_ID = R.Opportunity_ID
-                        JOIN Contacts      C2 ON C2.Contact_ID = O.Contact_Person
-                        JOIN Groups         G ON G.Group_ID = O.Add_to_Group
-                        JOIN Group_Types   GT ON GT.Group_Type_ID = G.Group_Type_ID
-                        LEFT JOIN Response_Results RR ON RR.Response_Result_ID = R.Response_Result_ID
+                            JOIN Responses      R ON R.Response_ID = @ResponseID
+                            JOIN Opportunities  O ON O.Opportunity_ID = R.Opportunity_ID
+                            JOIN Contacts      C2 ON C2.Contact_ID = O.Contact_Person
+                            LEFT JOIN Groups    G ON G.Group_ID = O.Add_to_Group
+                            LEFT JOIN Group_Types   GT ON GT.Group_Type_ID = G.Group_Type_ID
+                            LEFT JOIN Response_Results RR ON RR.Response_Result_ID = R.Response_Result_ID
                         WHERE R.Response_ID = @ResponseID
                           AND C.Contact_GUID = @ContactGUID
                         ORDER BY C.Contact_ID DESC

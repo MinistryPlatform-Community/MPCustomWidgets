@@ -140,6 +140,12 @@ Stages (left → right):
   {% assign addl_done = true %}
 {% endif %}
 
+{%- comment -%} --- Determine if any background check requirements exist --- {%- endcomment -%}
+{% assign any_bc = false %}
+{% if background_checks and background_checks.size > 0 %}
+  {% assign any_bc = true %}
+{% endif %}
+
 {%- comment -%} --- Determine if any additional requirements exist --- {%- endcomment -%}
 {% assign any_addl = false %}
 {% if milestones and milestones.size > 0 %}{% assign any_addl = true %}{% endif %}
@@ -193,8 +199,10 @@ Stages (left → right):
   <section class="dom-tracker" aria-label="Volunteer onboarding progress">
   <div class="rail" role="list">
     {% assign stages = "Received
-Leader Review
-Background Check" | split:"\n" %}
+Leader Review" | split:"\n" %}
+{% if any_bc %}
+  {% assign stages = stages | push: "Background Check" %}
+{% endif %}
 {% if any_addl %}
   {% assign stages = stages | push: "Additional Requirements" %}
 {% endif %}
@@ -254,9 +262,11 @@ Background Check" | split:"\n" %}
 </section>
 
   <!-- Requirements detail list -->
+  {% if any_bc or any_addl %}
   <section class="vt-reqs">
     <h2 class="vt-h2">Requirements</h2>
 
+    {% if any_bc %}
     <div class="req-group">
       <div class="req-title">Background Check</div>
       {% if background_checks and background_checks.size > 0 %}
@@ -292,9 +302,10 @@ Background Check" | split:"\n" %}
         <p class="req-empty">No background check required.</p>
       {% endif %}
     </div>
+    {% endif %}
 
+    {% if any_addl %}
     <div class="req-group">
-      {% if any_addl %}
       <div class="req-title">Additional Requirements</div>
       {% assign any_addl = false %}
       {% if milestones and milestones.size > 0 %}{% assign any_addl = true %}{% endif %}
@@ -370,9 +381,10 @@ Background Check" | split:"\n" %}
           {% endfor %}
 
         </ul>
-      {% endif %}
     </div>
+    {% endif %}
   </section>
+  {% endif %}
 
   <!-- Help / Contact (below segments, above requirements) -->
   {% assign contact_first = vi["Opportunity_Contact_Nickname"] | default: "" %}
@@ -395,7 +407,7 @@ Background Check" | split:"\n" %}
   --muted:#64748b;
   --line:#e5e7eb;
   --ok:#16a34a;
-  --warn:#ef4444;
+  --warn:#f59e0b;
   --bg:#ffffff;
   /* seam overlap & skew angle */
   --seg-overlap: 6px; /* how much segments overlap to avoid gaps at skewed seams */
@@ -484,7 +496,7 @@ Background Check" | split:"\n" %}
 .req-item{display:flex;align-items:center;gap:.6rem;padding:.6rem .75rem;border:1px solid var(--line);
  border-radius:.6rem;margin-bottom:.45rem;background:#fff;}
 .req-item.is-done{border-color:#bbf7d0;background:#f0fdf4;}
-.req-item.is-needed{border-color:#fecaca;background:#fff1f2;}
+.req-item.is-needed{border-color: #facc15;background:#fff4e5;}
 /* Future (not-yet) requirements: neutral gray */
 .req-item.is-future{border-color:#e5e7eb;background:#f8fafc;}
 .req-status{width:18px;height:18px;border-radius:50%;display:inline-block;flex:0 0 18px;}
