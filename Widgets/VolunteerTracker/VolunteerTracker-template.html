@@ -527,5 +527,111 @@ Leader Review" | split:"\n" %}
  .seg-label{ font-size:.95rem; }
  .seg-sub{ font-size:.85rem; }
 }
+/* --- Mobile: vertical stack with reversed skew direction --- */
+@media (max-width: 640px){
+  :root{
+    /* A touch more overlap to keep vertical seams tight */
+    --seg-overlap: 6px;
+
+    /* Reverse the tilt direction for vertical skew on mobile only */
+    --seg-skew: 3deg;        /* was negative; now positive to flip */
+    --counter-skew: -3deg;   /* keep content upright */
+  }
+
+  /* Adjust badge for mobile */
+  .vt-badge-open {
+    display: block;
+    width: fit-content;
+    margin-left: 0;
+    margin-top: 0.75rem;
+  }
+
+  /* Stack segments vertically */
+  .dom-tracker .rail{
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Flip to vertical skew; adjust spacing & borders for stacked layout */
+  .dom-tracker .seg{
+    min-height: auto;                 /* let content determine height */
+    padding: .85rem .9rem;            /* a bit more horizontal breathing room */
+    transform: skewY(var(--seg-skew));
+    text-align: left;
+
+    /* vertical seams vs. horizontal */
+    margin-right: 0;
+    margin-bottom: calc(2 * var(--seg-overlap));
+
+    /* restore right border that desktop removed */
+    border-right: 1px solid var(--line);
+  }
+
+  /* Keep the “current” lift, mirrored for reversed tilt */
+  .dom-tracker .seg.is-current{
+    transform: skewY(var(--seg-skew)) translateX(-1px);
+  }
+
+  /* Counter-tilt text & glow vertically with reversed sign */
+  .dom-tracker .seg-label,
+  .dom-tracker .seg-sub,
+  .dom-tracker .seg-glow{
+    transform: skewY(var(--counter-skew));
+  }
+
+  /* Rounded corners: only the top (first) and bottom (last) segment */
+  .dom-tracker .seg:first-child{
+    border-radius: 12px 12px 0 0;
+  }
+  .dom-tracker .seg:last-child{
+    border-radius: 0 0 12px 12px;
+    margin-bottom: 0; /* no seam after the last one */
+  }
+
+  /* Seam logic for vertical stack */
+  .dom-tracker .seg:not(:last-child){
+    border-bottom: none;              /* avoid double seam between segments */
+    border-right: 1px solid var(--line); /* ensure card-like right edge */
+  }
+
+  /* Mirror the glow bias so it matches the reversed tilt */
+  .dom-tracker .seg.is-done .seg-glow{
+    pointer-events: none; position: absolute; inset: -1px; border-radius: inherit;
+    background: radial-gradient(
+      70px 140px at -20% 50%,        /* mirror from right to left */
+      rgba(255,255,255,.28),
+      rgba(210,16,52,.20) 60%,
+      transparent 80%
+    );
+    opacity: .45;
+  }
+  .dom-tracker .seg.is-current .seg-glow{
+    pointer-events: none; position: absolute; inset: -1px; border-radius: inherit;
+    background: radial-gradient(
+      70px 140px at -20% 50%,        /* mirror from right to left */
+      rgba(255,255,255,.35),
+      rgba(11,102,195,.18) 60%,
+      transparent 80%
+    );
+    opacity: .5;
+  }
+
+  /* Mobile type & wrapping */
+  .vt-title{ font-size: 2rem; }
+  .vt-subtitle{ font-size: 1rem; }
+  .dom-tracker .seg-label{ font-size: .98rem; line-height: 1.25; }
+  .dom-tracker .seg-sub{ font-size: .9rem; }
+  .dom-tracker .seg-label,
+  .dom-tracker .seg-sub{
+    overflow-wrap: anywhere;  /* prevent overflow on long words */
+    text-wrap: balance;       /* nicer multi-line wrapping (where supported) */
+  }
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce){
+  .seg.is-current{ animation: none; }
+}
+
 </style>
 {% endif %}

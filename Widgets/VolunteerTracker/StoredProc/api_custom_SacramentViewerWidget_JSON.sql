@@ -76,8 +76,8 @@ BEGIN
                           AND BC.Background_Check_Expires > GETDATE()
                     )
                     THEN 'Completed' ELSE 'Needed' END AS Background_Check_Status,
-                    (
-                        SELECT TOP 1
+                    CASE WHEN @BGCWebUrl IS NOT NULL THEN
+                        (SELECT TOP 1
                             CONCAT(@BGCWebUrl, BC.Background_Check_GUID)
                         FROM Background_Checks BC
                         WHERE BC.Background_Check_Type_ID = BCT.Background_Check_Type_ID
@@ -85,7 +85,7 @@ BEGIN
                           AND BC.Background_Check_Started >= GetDate()-30
                           AND BC.Background_Check_Submitted IS NULL
                         ORDER BY BC.Background_Check_Started DESC
-                    ) AS Background_Check_URL
+                    ) ELSE NULL END AS Background_Check_URL
                 FROM Participation_Requirements PR
                 INNER JOIN Group_Roles GR               ON GR.Group_Role_ID = PR.Group_Role_ID
                 INNER JOIN Opportunities O              ON O.Group_Role_ID = GR.Group_Role_ID
@@ -153,7 +153,6 @@ BEGIN
             (
                 SELECT DISTINCT
                     F.Form_Title,
-                    CONCAT(@FormWebUrl, F.Form_GUID) AS Form_URL,
                     CASE WHEN EXISTS
                     (
                         SELECT 1
@@ -162,7 +161,8 @@ BEGIN
                           AND FR.Contact_ID = P.Contact_ID
                           AND DATEADD(MONTH, ISNULL(F.Months_Till_Expires, 1), FR.Response_Date) > GETDATE()
                     )
-                    THEN 'Completed' ELSE 'Needed' END AS Form_Status
+                    THEN 'Completed' ELSE 'Needed' END AS Form_Status,
+                    CASE WHEN @FormWebUrl IS NOT NULL THEN CONCAT(@FormWebUrl, F.Form_GUID) ELSE NULL END AS Form_URL
                 FROM Participation_Requirements PR
                 INNER JOIN Group_Roles GR  ON GR.Group_Role_ID = PR.Group_Role_ID
                 INNER JOIN Opportunities O ON O.Group_Role_ID = GR.Group_Role_ID
