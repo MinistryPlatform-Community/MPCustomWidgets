@@ -14,6 +14,7 @@ The Volunteer Tracker is a Domino’s Pizza Tracker–inspired widget that helps
 - **Uses Group Type Requirements**: Checks for any Requirements based on the Group Role associated with the Opportunity.
 - **Helpful Links**: Direct links to complete background checks or forms if they’re still pending.
 - **Contact Info**: Displays the opportunity leader’s name and email for quick help.
+- **No Auth Required**: Just add ?response=[Response_ID]&cid=[Contact_GUID] to the URL this widget is on to load the tracker.
 
 ## Screenshots
 
