@@ -18,11 +18,11 @@ GO
 CREATE PROCEDURE [dbo].[api_custom_VolunteerTrackerWidget_JSON]
     @DomainID      INT,
     @Username      NVARCHAR(75) = NULL,
-    @BGCWebUrl     NVARCHAR(255) = 'https://my.dreamcitychurch.us/portal/backgroundcheck.aspx?background=',
-    @FormWebUrl    NVARCHAR(255) = 'https://www.dreamcitychurch.us/form?id=',
+    @BGCWebUrl     NVARCHAR(255) = 'https://my.church.org/portal/backgroundcheck.aspx?background=',
+    @FormWebUrl    NVARCHAR(255) = 'https://www.mychurch.org/form-widget?id=',
     @ContactGUID   NVARCHAR(75),
     @ResponseID    INT,
-    @EnforceVolunteerGroup INT = 0 --Enforce whether associated opportunity group is a 'volunteer group' or not
+    @EnforceVolunteerGroup INT = 0 --Enforce whether associated opportunity group must be a 'volunteer group' or not
 AS
 BEGIN
     SET NOCOUNT ON;
