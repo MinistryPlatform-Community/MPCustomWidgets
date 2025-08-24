@@ -1,42 +1,25 @@
 # MP Custom Widgets
 
-  
-
 MP Custom Widgets provides a Javascript library and infrastrucutre for creating custom widgets for [MinistryPlatform](https://www.acstechnologies.com/ministryplatform/). These custom widgets can be built in any front end framework or 3rd party libraries, but are designed to interact with MinistryPlatform data and authenticaiton.
-
-  
 
 In addition to the core code, you will also find a collection of custom widgets built against the Custom Widget Toolkit. All of these widgets contain all required elements to begin using on your website.
 
-  
-
 ## Customer Examples
-
-  
 
 Here you can see what other churches have created for inspiration or to get an idea of just how flexible a Custom Widget can be:
 
-  
-
 - [Lutheran Church of Hope Classes Widget](https://wdm.lutheranchurchofhope.org/get-involved/classes/)
-
+  
 - [Granger Church Core Classes Dates and Times](https://grangerchurch.com/core/)
-
+  
 - [Perimeter Church Mission Trip Listing](https://www.perimeter.org/global-outreach/go-journeys/#upcoming-journeys)
 
-  
 
 ## Contribute
 
-  
-
 If you have a widget to submit to the sample collection, please fork this collection, add your widget and all supporting resources / assets and submit a pull request. New widgets will be reviewed every 2 weeks and if deemed reusable and unique, will be added to the samples collection.
 
-  
-
 # Custom Widget Examples
-
-  
 
 - [Group Finder](./Widgets/GroupFinder/GroupFinder.md)
 
@@ -52,67 +35,35 @@ If you have a widget to submit to the sample collection, please fork this collec
 
 # Custom Widget Release Information
 
-  
-
 Custom Widget core code is updated periodically. If you would like to see a history of changes, please visit the releases page:
-
-  
 
 [Custom Widget Release History](./RELEASES.md)
 
-  
 
 # Custom Widget Features
 
-  
-
 Custom Widgets has a growing list of features available to Citizen Developers seeking to build lightweight read-only widgets capable of accessing any data in [MinistryPlatform](https://www.acstechnologies.com/ministryplatform/).
-
-  
 
 ## Custom Widget Tag Features
 
-  
-
 The Widget Tag is used to embed the widget into a webpage. Each custom widget will use this tag on one or multiple pages to render the widget directly into the website.
 
-  
-
 ```html
-
-<div
-
-id="MyCustomWidget"
-
-data-component="CustomWidget"
-
-data-sp="api_Custom_StoredProcedure"
-
-data-useCalendar="true"
-
-data-params="@ParamName=ParmValue"
-
-data-template="/Path/To/Template/TemplateName.html"
-
-data-requireUser="false"
-
-data-cache="true"
-
-data-debug="true"
-
-data-authOverride="true"
-
-data-host="mpi"
-
+<div id="MyCustomWidget"
+     data-component="CustomWidget"
+     data-sp="api_Custom_StoredProcedure"
+     data-useCalendar="true"
+     data-params="@ParamName=ParmValue"
+     data-template="/Path/To/Template/TemplateName.html"
+     data-requireUser="false"
+     data-cache="true"
+     data-debug="true"
+     data-authOverride="true"
+     data-host="mpi"
 ></div>
-
 ```
 
-  
-
 ### id="MyCustomWidgetName"
-
-  
 
 -  **_required_** attribute
 
@@ -124,21 +75,13 @@ data-host="mpi"
 
 - The ID is also now available as a data element when rendering the widget
 
-  
-
 ### data-component="CustomWidget"
-
-  
 
 -  **_required_** attribute
 
 - This defines the element as a custom widget and automatically renders it as a custom widget when the DOM is loaded
 
-  
-
 ### data-sp="api_Custom_StoredProcedure"
-
-  
 
 - This defines the stored procedure to use for data retrieval when this custom widget is rendered. **_Note_** - All Stored Procedures **MUST** be prefixed by api_Custom in order to be used. Additionally, any Stored Procedure **MUST** also be registered in the MinistryPlatform meta data to be accessible by Custom Widgets or the REST api at all.
 
@@ -150,27 +93,21 @@ data-host="mpi"
 
 - You may add any other parameters necessary to make your widget work.
 
-  
-
 ```sql
-
-CREATE  PROCEDURE [dbo].[api_custom_StoredProcedure]
+CREATE PROCEDURE [dbo].[api_custom_StoredProcedure]
 
 @DomainID int,
-
 @Username nvarchar(75) = null,
-
 @JourneyID INT = 2
 
 AS
 
 BEGIN
 
-  
 
 END
-
 ```
+
 #### JSON Stored Procedures
 You can build Stored Procedures in SQL Server that will return JSON data.  As of 2025.06.18 - Custom Widgets will honor this JSON and parse the object correctly passing on to your template for rendering.  This will super-cede the normal DataSet oriented data model.  There are some caveats to this working:
 
@@ -180,35 +117,33 @@ You can build Stored Procedures in SQL Server that will return JSON data.  As of
 
 ##### Example Stored Proc return data as a scalar subquery with sub-object of milestones
 ```sql
-    SELECT (
-        SELECT 
-            -- Contact
-            C.First_Name,
-            C.Nickname,
-            C.Last_Name,
-            C.Email_Address,
-            C.Mobile_Phone
+SELECT (
+    SELECT 
+        -- Contact
+        C.First_Name,
+        C.Nickname,
+        C.Last_Name,
+        C.Email_Address,
+        C.Mobile_Phone
 
-            -- Baptism / Salvation / Milestones
-            (
-                SELECT 
-                    PM.Milestone_ID, 
-                    PM.Date_Accomplished, 
-                    M.Milestone_Title
-                FROM Participant_Milestones PM
-                INNER JOIN Milestones M ON M.Milestone_ID = PM.Milestone_ID
-                WHERE PM.Participant_ID = @participantID
-                AND PM.Milestone_ID IN (7,3)
-                FOR JSON PATH
-            ) AS Milestones,
+        -- Baptism / Salvation / Milestones
+        (
+            SELECT 
+                PM.Milestone_ID, 
+                PM.Date_Accomplished, 
+                M.Milestone_Title
+            FROM Participant_Milestones PM
+            INNER JOIN Milestones M ON M.Milestone_ID = PM.Milestone_ID
+            WHERE PM.Participant_ID = @participantID
+            AND PM.Milestone_ID IN (7,3)
+            FOR JSON PATH
+        ) AS Milestones,
 
-        FROM Contacts C
-        WHERE C.Contact_GUID = @contactGUID
-        FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
-    ) AS JsonResult;
+    FROM Contacts C
+    WHERE C.Contact_GUID = @contactGUID
+    FOR JSON PATH, WITHOUT_ARRAY_WRAPPER
+) AS JsonResult;
 ```
-
-  
 
 ### data-useCalendar="true"
 
@@ -218,11 +153,7 @@ You can build Stored Procedures in SQL Server that will return JSON data.  As of
 
 - When this is set to true, the params are sent to the Event API instead of a Stored Procedure. If this is set to true it will override the data-sp parameter and events will be used instead of a Stored Procedure.
 
-  
-
 ### data-params="@ParamName=ParmValue"
-
-  
 
 - Allows Parameters to be used for the innvocation of the Stored Procedure. SQL Parameter are prefixed the **@** symbol and are passed to the Custome Widget in key value pairs.
 
@@ -236,11 +167,7 @@ You can build Stored Procedures in SQL Server that will return JSON data.  As of
 
 - By using the querystring support, you can quickly build dynamic widgets that can take dynamic data from other pages / widgets / links and create custom widgets on the fly.
 
-  
-
 ### data-template="/Path/To/Template/TemplateName.html"
-
-  
 
 - This defines the path to the widget template. Custom Widgets use the [LiquidJS](https://liquidjs.com/) templating engine to render standard HTML / CSS with data retrieved from MinistryPlatform. There is ample documentation available on the Liquid website and on other help systems easily found by searching the web.
 
@@ -250,11 +177,7 @@ You can build Stored Procedures in SQL Server that will return JSON data.  As of
 
 - You **_must_** specify a data-template or data-templateId for each custom widget
 
-  
-
 ### data-templateId="SomeElementID"
-
-  
 
 - This defines the DOM Element ID to the widget template.
 
@@ -266,79 +189,43 @@ You can build Stored Procedures in SQL Server that will return JSON data.  As of
 
 - You **_must_** specify a data-template or data-templateId for each custom widget
 
-  
-
 ```html
-
-<script  id="pledgeTemplate"  type="text/template">
-
-  
-
-<div  class="row">
-
-  
-
-{% for element in DataSet1 %}
-
-<div  class="col-6">
-
-<div  class="card">
-
-<div  class="card-body">
-
-<h5  class="card-title">Capital Campaign Progress</h5>
-
-<p  class="card-text">
-
-<div  class="progress">
-
-<div  class="progress-bar progress-bar-warning"  role="progressbar"  style="width: {{element.Percentage}}%"  aria-valuenow="{{element.Percentage}}"  aria-valuemin="0"  aria-valuemax="100"></div>
-
+<script id="pledgeTemplate" type="text/template">
+<div class="row">
+  {% for element in DataSet1 %}
+  <div class="col-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Capital Campaign Progress</h5>
+        <p class="card-text">
+          <div class="progress">
+            <div class="progress-bar 
+                 progress-bar-warning"
+                 role="progressbar"
+                 style="width: {{element.Percentage}}%"
+                 aria-valuenow="{{element.Percentage}}"
+                 aria-valuemin="0"
+                 aria-valuemax="100">
+            </div>
+          </div>
+          <div>
+            <span style="float:right;">100%</span>
+            <span style="float:left;">0%</span>
+          </div>
+          <div class="text-center">
+            ${{element.Progress | number_to_currency}} of ${{element.Total | number_to_currency}} Goal
+          </div>
+        </p>
+        <a href="#" class="btn btn-primary">Pledge Now</a>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
 </div>
-
-<div>
-
-<span  style="float:right;">100%</span>
-
-<span  style="float:left;">0%</span>
-
-</div>
-
-  
-
-<div  class="text-center">
-
-${{element.Progress | number_to_currency}} of ${{element.Total | number_to_currency}} Goal
-
-</div>
-
-  
-
-</p>
-
-<a  href="#"  class="btn btn-primary">Pledge Now</a>
-
-</div>
-
-</div>
-
-</div>
-
-{% endfor %}
-
-  
-
-</div>
-
 </script>
-
 ```
 
-  
-
 ### data-requireUser="false"
-
-  
 
 -  _Defaults to: false_
 
@@ -348,11 +235,7 @@ ${{element.Progress | number_to_currency}} of ${{element.Total | number_to_curre
 
 -  **Note** - You must include a @Username nvarchar(75) nonnullable parameter in your Stored Procedure. To compare against User_ID, don't forget to query for User_ID.
 
-  
-
 ### data-cache="true"
-
-  
 
 -  _Defaults to: true_
 
@@ -362,11 +245,7 @@ ${{element.Progress | number_to_currency}} of ${{element.Total | number_to_curre
 
 - Cache Timeout is 5 minutes and is absolute. This means data is cached upon the first request and is cached for the duration of 5 minutes.
 
-  
-
 ### data-debug="true"
-
-  
 
 -  _Defaults to: false_
 
@@ -374,21 +253,13 @@ ${{element.Progress | number_to_currency}} of ${{element.Total | number_to_curre
 
 -  **_Best Practice_** - Set this to false or just remove the data-debug element entirely when publishing to production.
 
-  
-
 ### data-authOverride="true"
-
-  
 
 -  _Defaults to: false_
 
 - When set to _true_, customWidgets.js will **NOT** output the red bootstrap 5 alert informing the user they are not logged in. This would then require you to create your own unathenticated notification to web users. You can make use of the userAuthenticated boolean value provided inside the widget data model.
 
-  
-
 ### data-host="mpi"
-
-  
 
 -  **_required_** attribute
 
@@ -396,87 +267,48 @@ ${{element.Progress | number_to_currency}} of ${{element.Total | number_to_curre
 
 - ![AEFT](./aeft.png)
 
-  
 
 ## Custom Widget Javascript
 
-  
-
 You can find the [customWidgetV1.js](./dist/) files in the "DIST" folder if you want to download them or you can reference the latest version from the MinistryPlatform CDN:
-
-  
 
 [https://cdn.jsdelivr.net/gh/MinistryPlatform-Community/MPCustomWidgets@main/dist/js/customWidgetV1.js](https://cdn.jsdelivr.net/gh/MinistryPlatform-Community/MPCustomWidgets@main/dist/js/customWidgetV1.js)
 
-  
-
-Example of including the javascript file in your webpage:
-
-  
+**Example of including the javascript file in your webpage:**
 
 ```javascript
-
 <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/MinistryPlatform-Community/MPCustomWidgets@main/dist/js/customWidgetV1.js"></script>
-
 ```
-
-  
 
 ## Custom Liquid Filters / Extensions
 
-  
-
 Starting in 2024.04.19, custom widgets will have some custom filters that are available for the community. Each filter with usage examples will be documented here.
-
-  
 
 ### mp_currency | US Currency Format
 
-  
-
 This filter quickly converts numbers to US based currency. Decimal places beyond 2 will be rounded accordinly. Numbers will be prepended with the $ dollar sign and digits will be comma separated.
 
-  
+**Usage (in your template):**
 
-Usage (in your template):
-
-  
-
-```
-
+```html
 <div>
-
-{{ NumberVariableOrObject | mp_currency }}
-
+  {{ NumberVariableOrObject | mp_currency }}
 </div>
-
 ```
-
-  
 
 ## Force Login (Optional)
 
-  
-
-There is an additional / optional Javascript file called forceLogin.js in the dist folder. This optional javascript can be used to not only require authentication to certain widgets, but to automatically redirect to the MinistryPlatform Single Sign On (SSO) interface when the page encounters a widget requiring authentication. This javascript file requires a very minor configuration. At the top of the javascript is the following configuration variable:
-
-  
+There is an additional / optional Javascript file called forceLogin.js in the dist folder. This optional javascript can be used to not only require authentication to certain widgets, but to automatically redirect to the MinistryPlatform Single Sign On (SSO) interface when the page encounters a widget requiring authentication. This javascript file requires a very minor configuration. At the top of the javascript is the following configuration variable:  
 
 ```javascript
 
 // Force Login Script
-
 // Update the mpHost to match your MinistryPlatform configuration
-
 // Simply include this script on any page with a user secured widget and it will automatically redirect to the SSO page and force the user to login
-
-  
-
 // -------------------------------------------------------
-
 // CHANGE this to your MP HOST!!!
 
-const  mpHost = 'mpi.ministryplatform.com';
+const mpHost = 'mpi.ministryplatform.com';
 
 // -------------------------------------------------------
 
@@ -484,28 +316,16 @@ const  mpHost = 'mpi.ministryplatform.com';
 
 ```
 
-  
-
-You must change this to be your MP host. After that simple include this javascript on any page you want to force login.
-
-  
+**You must change this to be your MP host**. After that simple include this javascript on any page you want to force login.
 
 ## JavaScript Events
 
-  
-
 A JavaScript Event of "widgetLoaded" will be fired when your widget has been loaded.
 
-  
-
 ```javascript
-
 window.addEventListener('widgetLoaded', function(event) {
-
-console.log('|||===> widgetLoaded Event Fired for: ' + event.detail.widgetId);
-
+  console.log('|||===> widgetLoaded Event Fired for: ' + event.detail.widgetId);
 });
-
 ```
 
 ## Custom Widgets CSS
@@ -517,7 +337,7 @@ reference the CDN version:
 https://cdn.jsdelivr.net/gh/MinistryPlatform-Community/MPCustomWidgets@main/src/css/mp-custom.css
 ```
 
-Example CDN CSS Inclusion:
+**Example CDN CSS Inclusion:**
 ```
 <link href="https://cdn.jsdelivr.net/gh/MinistryPlatform-Community/MPCustomWidgets@main/src/css/mp-custom.css" rel="stylesheet">
 ```
