@@ -3,6 +3,8 @@
 Below you can find the release history of MP Custom Widgets Core code. Please
 
 ## Release History
+- 2025.08.29
+  - Added the AnyForm Custom Widget to allow all custom forms on a single webpage
 - 2025.07.11
   - Updated Widgets to have Custom CSS and JS (No More Bootstrap Requirement)
 - 2025.07.10
