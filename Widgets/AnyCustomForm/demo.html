@@ -3,46 +3,32 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Custom Widget Demo</title>        
+    <title>Any Form Custom Widget Demo</title>        
     </head>
     
     <body>
-        <div class="container">
-            <div id="AnyFormCustomWidget" 
-                data-component="CustomWidget" 
-                data-template="/Widgets/AnyCustomForm/Template/template.html" 
-                data-requireUser="false" 
-                data-cache="true" 
-                data-useCalendar="true" 
-                data-params="?EventID=4&DataFormat=json" 
-                data-debug="true"                
-                data-host="mpi">
-            </div>
 
-        </div>            
-        <script type="text/javascript" src="/dist/js/customWidgetV1.js"></script>
+        <div id="customFormDropZone">
+        </div>  
+
         <script>
-            // Listen for your widget event
-            window.addEventListener('widgetLoaded', function (event) {
-                console.log('|||===> widgetLoaded Event Fired for: ' + (event.detail && event.detail.widgetId));
 
-                if (event?.detail?.widgetId === 'AnyFormCustomWidget') {
-                // 1) Read ?form=... from the current URL
-                const params = new URLSearchParams(window.location.search);
-                const formGuid = params.get('form');
+            // 1) Read ?form=... from the current URL
+            const params = new URLSearchParams(window.location.search);
+            const formGuid = params.get('form');
 
-                if (!formGuid) {
-                    console.warn('No "form" querystring parameter found.');
-                    return;
-                }
+            if (!formGuid) {
+                console.warn('No "form" querystring parameter found.');
+                formGuid = '1fa869c4-a248-4b80-a16b-3623fbd515e4'; // This is for DEMO purposes ONLY and should be removed in production.
+            }
 
-                // 2) Find the drop zone
-                const dropzone = document.getElementById('customFormDropZone');
-                if (!dropzone) {
-                    console.error('Element with id "customFormDropZone" not found.');
-                    return;
-                }
-
+            // 2) Find the drop zone
+            const dropzone = document.getElementById('customFormDropZone');
+            if (!dropzone) {
+                console.error('Element with id "customFormDropZone" not found.');
+            }
+            else
+            {
                 // 3) SAFELY create and inject the custom element
                 // (DOM APIs avoid XSS issues vs. string innerHTML)
                 const customForm = document.createElement('mpp-custom-form');
@@ -50,9 +36,8 @@
 
                 // Optionally clear any previous content, then inject
                 dropzone.innerHTML = '';
-                dropzone.appendChild(customForm);
-                }
-            });
+                dropzone.appendChild(customForm);  
+            }              
         </script>
         <script id="MPWidgets" src="https://mpi.ministryplatform.com/widgets/dist/MPWidgets.js"></script>
     </body>
