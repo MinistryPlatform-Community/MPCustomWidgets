@@ -1,0 +1,75 @@
+
+
+<table class="mp-table mp-table-bordered mp-align-middle">
+  <tbody>
+    {% assign sorted_contacts = contacts | sort: "Nickname" %}
+    {% assign sorted_contacts = sorted_contacts | sort: "Household_Position_ID" %}
+
+    {% for contact in sorted_contacts %}
+      <!-- Contact Row -->
+      <tr>
+        <td style="background-color: #e5e5e5;">
+          <div class="mp-d-flex mp-align-items-center">
+            {% if contact.Unique_Name %}
+              <img src="{{domain}}{{ contact.Unique_Name }}?$thumbnail=true" class="mp-avatar mp-avatar-img mp-me-3" alt="Avatar">
+            {% else %}
+              <div class="mp-avatar mp-avatar-initial mp-me-3">
+                {{ contact.Nickname | slice: 0, 1 }}
+              </div>
+            {% endif %}
+            <strong>{{ contact.Nickname }} {{ contact.Last_Name }}</strong>
+          </div>
+        </td>
+      </tr>
+
+      <!-- Sacrament Sub-Rows -->
+      {% if contact.Sacraments %}
+        {% for sacrament in contact.Sacraments %}
+          {% assign type = sacrament.Sacrament_Type %}
+          {% assign badge_class = "" %}
+
+          {% case type %}
+            {% when "Baptism" %}              {% assign badge_class = "mp-badge-baptism" %}
+            {% when "Confirmation" %}         {% assign badge_class = "mp-badge-confirmation" %}
+            {% when "First Communion" %}      {% assign badge_class = "mp-badge-first-communion" %}
+            {% when "Reconcilliation Prep" %} {% assign badge_class = "mp-badge-reconcilliation" %}
+            {% when "Marriage" %}             {% assign badge_class = "mp-badge-marriage" %}
+            {% when "Holy Orders" %}          {% assign badge_class = "mp-badge-holy-orders" %}
+            {% when "Anointing of the Sick" %}{% assign badge_class = "mp-badge-anointing" %}
+            {% when "Death" %}                {% assign badge_class = "mp-badge-death" %}
+            {% else %}                        {% assign badge_class = "mp-badge-secondary" %}
+          {% endcase %}
+
+          {% assign date_parts = sacrament.Date_Received | split: "-" %}
+          {% assign month = date_parts[1] | plus: 0 %}
+          {% assign day = date_parts[2] | plus: 0 %}
+          {% assign year = date_parts[0] %}
+          {% assign formatted_date = month | append: "/" | append: day | append: "/" | append: year %}
+
+          <tr>
+            <td>
+              <div class="mp-ps-5">
+                <span class="mp-badge {{ badge_class }}">{{ sacrament.Sacrament_Type }}</span>
+                <span class="mp-text-muted mp-ms-2">
+                  {{ formatted_date }} at {{ sacrament.Place }}
+                </span>
+
+                {% if sacrament.Sacrament_Type == "Marriage" and sacrament.Spouse_Name %}
+                  <div class="mp-mt-1 mp-text-dark">
+                    💍 <strong>{{ contact.First_Name }}</strong> married <strong>{{ sacrament.Spouse_Name }}</strong>
+                  </div>
+                {% endif %}
+
+                {% if sacrament.Performed_By %}
+                  <div class="mp-text-muted mp-small mp-mt-1">
+                    <em>Performed by {{ sacrament.Performed_By }}</em>
+                  </div>
+                {% endif %}
+              </div>
+            </td>
+          </tr>
+        {% endfor %}
+      {% endif %}
+    {% endfor %}
+  </tbody>
+</table>

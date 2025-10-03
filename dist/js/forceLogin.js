@@ -4,7 +4,7 @@
 
 // -------------------------------------------------------
 // CHANGE this to your MP HOST!!!
-const mpHost = 'mpi.ministryplatform.com';
+const mpHost = 'catholic-demo.ministryplatform.com';
 // -------------------------------------------------------
 
 
