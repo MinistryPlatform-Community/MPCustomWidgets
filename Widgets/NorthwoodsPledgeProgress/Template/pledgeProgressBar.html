@@ -1,0 +1,49 @@
+<section class="giving-widget">
+
+  <!-- DATA lives here. Set your numbers on the wrapper: dollars only (no commas). -->
+  <div class="giving-bar"
+       role="img"
+       aria-label="Giving progress"
+       data-given="{{Given}}"
+       data-committed="{{Committed}}"
+       data-goal="{{Campaign_Goal}}"
+       data-celebration="8000000">
+
+    <!-- Rounded pill track -->
+    <div class="track">
+      <div class="fill given"  aria-hidden="true"></div>
+      <div class="fill committed" aria-hidden="true"></div>
+    </div>
+
+    <!-- Goal markers -->
+    <div class="markers">
+      <div class="marker celebration">
+        <span class="value">$8 Million</span>
+        <span class="caption">Celebration Goal</span>
+      </div>
+      <div class="marker god">
+        <span class="value">$15 Million</span>
+        <span class="caption">Dream Goal</span>
+      </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="legend">
+      <div class="legend-item">
+        <div class="legend-color given"></div>
+        <div class="legend-text">
+          <div class="amount js-given-amount">$0</div>
+          <div class="sub">Total Given</div>
+        </div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color committed"></div>
+        <div class="legend-text">
+          <div class="amount js-committed-amount">$0</div>
+          <div class="sub">Committed</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
