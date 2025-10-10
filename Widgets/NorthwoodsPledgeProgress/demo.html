@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Custom Widget Demo</title>
+    <link href="/src/css/mp-custom.css" rel="stylesheet">
+    <style>
+        :root{
+  --navy:#0d2b4a;            /* Given */
+  --blue:#19a7ff;            /* Committed delta */
+  --gold:#e9b84b;            /* Goal remainder */
+  --ink:#0f1226;
+  --muted:#6b7280;
+  --radius:28px;             /* pill radius */
+  --shadow:0 6px 18px rgba(16, 24, 40, .10);
+  --gap:16px;
+}
+
+*{box-sizing:border-box}
+.giving-widget{
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+  color: var(--ink);
+  max-width: 940px;
+  margin: 24px auto;
+  padding: 8px 20px 28px;
+}
+
+.note{
+  margin: 8px 6px 14px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.giving-bar .track{
+  position: relative;
+  width: 100%;
+  height: 88px;
+  border-radius: calc(var(--radius) * 1.2);
+  background: var(--gold);
+  box-shadow: inset 0 0 0 4px #e5a319, var(--shadow);
+  overflow: hidden;
+}
+
+/* Fills */
+.fill{
+  position:absolute; top:0; left:0; height:100%;
+  transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1), left 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.fill.given{ background: var(--navy); width: 0%; transition-delay: 0.6s; z-index: 2; }
+.fill.committed{ background: var(--blue); left:auto; right:auto; width:0%; z-index: 1; }
+
+.pill-labels{
+  position:absolute; inset:0; display:flex; justify-content:space-between; align-items:center; padding:0 24px;
+  pointer-events:none; /* labels purely informational */
+}
+
+.label{
+  text-align:center; color:#fff; text-shadow: 0 1px 0 rgba(0,0,0,.15);
+  min-width: 220px;
+}
+.label .amount{ font-weight:800; font-size: clamp(18px, 3.6vw, 28px); line-height:1.1; transition: font-size 0.3s ease; }
+.label .sub{ font-weight:700; font-size: clamp(12px, 2.2vw, 18px); opacity:.95; transition: font-size 0.3s ease; }
+
+.given-label{ 
+  position: absolute;
+  text-align: right;
+  z-index: 3;
+  align-self: center;
+  right: auto;
+  transform: translateX(calc(-100% - 24px));
+  transition: left 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition-delay: 0.6s;
+  padding-left: 24px;
+}
+.committed-label{ 
+  position: absolute;
+  text-align: right;
+  z-index: 2;
+  align-self: center;
+  right: auto;
+  transform: translateX(calc(-100% - 24px));
+  transition: left 1.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, font-size 0.3s ease;
+  padding-left: 24px;
+}
+
+/* Goal markers below the pill */
+.markers{
+  position:relative; margin-top: 14px; height: 70px;
+}
+.marker{
+  position:absolute; transform: translateX(-50%);
+  text-align:center; white-space:nowrap;
+}
+.marker .value{ display:block; font-weight:800; font-size: clamp(16px, 2.6vw, 26px) }
+.marker .caption{ display:block; color: var(--muted); font-size: clamp(12px, 1.9vw, 16px) }
+
+.marker.god{ right: 0; transform: translateX(0); text-align: right; } /* snaps to right edge */
+
+/* CTA button */
+.cta{ display:flex; justify-content:center; margin-top: 26px; }
+.give-btn{
+  display:inline-block; padding: 16px 56px; border-radius: 16px;
+  background: var(--navy); color:#fff; text-decoration:none; font-weight:900; letter-spacing:.6px;
+  box-shadow: var(--shadow);
+  transition: transform .06s ease, box-shadow .2s ease, opacity .2s ease;
+  user-select:none;
+}
+.give-btn:hover{ transform: translateY(-1px); }
+.give-btn:active{ transform: translateY(0); box-shadow: 0 2px 10px rgba(16,24,40,.18); }
+.give-btn:focus-visible{ outline: 3px solid #9ad7ff; outline-offset: 3px; }
+
+/* Responsive niceties */
+@media (max-width: 640px){
+  .label{ min-width: 170px; }
+  .note{ text-align:center }
+}
+    </style>
+    </head>
+    
+    <body>
+        <div class="mp-container">
+            <div id="PledgeWidget" 
+                data-component="CustomWidget" 
+                data-sp="api_custom_SacramentViewerWidget_JSON" 
+                data-template="/Widgets/NorthwoodsPledgeProgress/Template/pledgeProgressBar.html" 
+                data-requireUser="false" 
+                data-cache="true" 
+                data-debug="false" 
+                data-host="mpi"></div>
+
+
+
+<section class="giving-widget">
+
+  <!-- DATA lives here. Set your numbers on the wrapper: dollars only (no commas). -->
+  <div class="giving-bar"
+       role="img"
+       aria-label="Giving progress"
+       data-given="5386453"
+       data-committed="7084443"
+       data-goal="10500000"
+       data-celebration="4000000"
+       data-dream="6000000">
+
+    <!-- Rounded pill track -->
+    <div class="track">
+      <div class="fill given"  aria-hidden="true"></div>
+      <div class="fill committed" aria-hidden="true"></div>
+
+      <!-- Labels inside the pill -->
+      <div class="pill-labels">
+        <div class="label given-label">
+          <div class="amount js-given-amount">$0</div>
+          <div class="sub">Total Given</div>
+        </div>
+        <div class="label committed-label">
+          <div class="amount js-committed-amount">$0</div>
+          <div class="sub">Committed</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Goal markers -->
+    <div class="markers">
+      <div class="marker celebration">
+        <span class="value">$4 Million</span>
+        <span class="caption">Celebration Goal</span>
+      </div>
+      <div class="marker dream">
+        <span class="value">$6 Million</span>
+        <span class="caption">Dream Goal</span>
+      </div>
+      <div class="marker god">
+        <span class="value">$10.5 Million</span>
+        <span class="caption">God Goal</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Primary Call to Action -->
+  <div class="cta">
+    <a class="give-btn" href="#give" aria-label="Give now">GIVE</a>
+  </div>
+</section>
+        </div>   
+
+        <script type="text/javascript" src="/dist/js/customWidgetV1.js"></script>
+<script>
+(function(){
+  const wrap = document.querySelector('.giving-bar');
+  if (!wrap) return;
+
+  const given     = +wrap.dataset.given || 0;
+  const committed = +wrap.dataset.committed || 0;
+  const goal      = +wrap.dataset.goal || 1;
+  const celebration = +wrap.dataset.celebration || 0;
+  const dream       = +wrap.dataset.dream || 0;
+
+  // Clamp helpers
+  const clamp = (v,min,max)=> Math.max(min, Math.min(max, v));
+
+  // Percentages
+  const pGiven      = clamp((given/goal)*100, 0, 100);
+  const pCommittedT = clamp((committed/goal)*100, 0, 100);
+  const pCommittedDelta = clamp(pCommittedT - pGiven, 0, 100 - pGiven);
+
+  // Apply widths with animation trigger
+  const givenEl = wrap.querySelector('.fill.given');
+  const committedEl = wrap.querySelector('.fill.committed');
+  const givenLabel = wrap.querySelector('.given-label');
+  const committedLabel = wrap.querySelector('.committed-label');
+  
+  // Set initial positions for labels
+  givenLabel.style.left = '0%';
+  committedLabel.style.left = '0%';
+  
+  // Detect overlap and adjust committed label
+  const detectOverlap = () => {
+    const committedLabelRect = committedLabel.getBoundingClientRect();
+    const givenLabelRect = givenLabel.getBoundingClientRect();
+    
+    // Check if dark blue bar overlaps with committed label
+    if (pGiven > 0 && givenLabelRect.right > committedLabelRect.left) {
+      // Calculate overlap percentage
+      const overlapWidth = givenLabelRect.right - committedLabelRect.left;
+      const labelWidth = committedLabelRect.width;
+      const overlapPercent = (overlapWidth / labelWidth) * 100;
+      
+      if (overlapPercent > 20) {
+        committedLabel.style.fontSize = 'clamp(10px, 2vw, 14px)';
+        committedLabel.querySelector('.amount').style.fontSize = 'clamp(14px, 2.8vw, 20px)';
+      }
+      if (overlapPercent > 60) {
+        committedLabel.style.opacity = '0';
+      }
+    }
+  };
+  
+  // Trigger animations after a brief delay
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      // Committed fills the full width first
+      committedEl.style.left = '0%';
+      committedEl.style.width = pCommittedT + '%';
+      // Given overlays on top after delay
+      givenEl.style.width = pGiven + '%';
+      // Position labels at the edges of their respective bars
+      givenLabel.style.left = pGiven + '%';
+      committedLabel.style.left = pCommittedT + '%';
+      
+      // Check overlap after animation completes
+      setTimeout(detectOverlap, 1800);
+    });
+  });
+
+  // Labels
+  const fmt = new Intl.NumberFormat('en-US', { style:'currency', currency:'USD', maximumFractionDigits:0 });
+  wrap.querySelector('.js-given-amount').textContent = fmt.format(given);
+  wrap.querySelector('.js-committed-amount').textContent = fmt.format(committed);
+
+  // Markers: Celebration & Dream placed proportionally; God snaps to 100%
+  const mkPos = v => clamp((v/goal)*100, 0, 100);
+  const celeb = wrap.querySelector('.marker.celebration');
+  const dreamM = wrap.querySelector('.marker.dream');
+  const god   = wrap.querySelector('.marker.god');
+
+  celeb.style.left = mkPos(celebration) + '%';
+  dreamM.style.left = mkPos(dream) + '%';
+  god.style.right = '0'; // already aligned to the end
+})();
+</script>
+    </body>
+</html>
