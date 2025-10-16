@@ -1,18 +1,20 @@
 {
   "name": "customwidgetjs",
-  "version": "2025.06.18.1",
+  "version": "2025.10.15.1",
   "description": "MinistryPlatform Custom Widgets - used for church custom widgets within the MP ecosystem.",
   "main": "index.js",
   "scripts": {
     "dev": "webpack --watch --mode=development",
     "prod": "webpack --mode=production",
-    "build": "webpack --mode=production"
+    "build": "webpack --mode=production",
+    "create-widget": "tsx cli/create-widget.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.26.0",
+    "@types/node": "^24.7.2",
     "babel-loader": "^9.2.1",
     "babel-plugin-transform-remove-console": "^6.9.4",
     "clean-webpack-plugin": "^4.0.0",
@@ -29,6 +31,7 @@
     "postcss-loader": "^8.1.1",
     "style-loader": "^4.0.0",
     "terser-webpack-plugin": "^5.3.10",
+    "tsx": "^4.20.6",
     "webpack": "^5.96.1",
     "webpack-cli": "^5.1.4"
   },

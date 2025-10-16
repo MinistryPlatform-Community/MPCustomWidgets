@@ -3,6 +3,9 @@
 Below you can find the release history of MP Custom Widgets Core code. Please
 
 ## Release History
+- 2025.10.15
+  - Added CLI and updated the widget template
+  - All packages brought up to date
 - 2025.08.29
   - Added the AnyForm Custom Widget to allow all custom forms on a single webpage
 - 2025.07.11
