@@ -34,6 +34,35 @@ If you have a widget to submit to the sample collection, please fork this collec
 
   
 
+## Creating New Widgets
+
+  
+
+The project includes a CLI tool to quickly scaffold new custom widgets from the WidgetTemplate:
+
+  
+
+```bash
+
+npm run create-widget
+
+```
+
+  
+
+The CLI will prompt you for a widget name and automatically:
+
+- Create a new widget folder in the Widgets directory
+- Copy the template files and structure
+- Rename and configure files with your widget name
+- Update demo.html with correct paths and configuration
+
+  
+
+For detailed CLI documentation, see [create-widget CLI Documentation](./cli/create-widget.md)
+
+  
+
 # Custom Widget Examples
 
   
