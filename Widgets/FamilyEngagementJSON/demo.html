@@ -5,24 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Custom Widget Demo</title>
     <link href="/src/css/mp-custom.css" rel="stylesheet">
-    
+    <link href="/Widgets/FamilyEngagementJSON/Assets/FamilyEngagement.css" rel="stylesheet">
+
     </head>
     
     <body>
         <div class="mp-container">
+            
             <div class="mp-text-end">
                 <mpp-user-login></mpp-user-login>
             </div>
+
             <h2>Family Engagement Review</h2>
 
-            <div id="SacramentWidget" 
+            <div id="FamilyEngagementWidget" 
                 data-component="CustomWidget" 
                 data-sp="api_custom_FamilyEngagementWidget_JSON" 
                 data-template="/Widgets/FamilyEngagementJSON/Template/FamilyEngagement.html" 
                 data-requireUser="true" 
                 data-cache="false" 
                 data-debug="true" 
-                data-host="catholic-demo"></div>
+                data-host="catholic-demo">
+            </div>
+
         </div>   
         
         <script type="text/javascript" src="/dist/js/customWidgetV1.js"></script>

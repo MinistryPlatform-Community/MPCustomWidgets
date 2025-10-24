@@ -1,75 +1,337 @@
+{%- comment -%}
+  Family Engagement Widget (Liquid)
+  -----------------------------------------------------------
+  Expects data shaped like the sample you provided, with a top-level
+  `contacts` array. If your platform nests it (e.g., `data.contacts`),
+  the fallback below will handle it.
 
+  Highlights:
+  - Person card w/ role
+  - Sacraments list with badges + icons
+  - Journeys section with progress bars
+  - Deduped milestones grouped by journey (by Journey_ID)
+  - Recent & upcoming event attendance
 
-<table class="mp-table mp-table-bordered mp-align-middle">
-  <tbody>
-    {% assign sorted_contacts = contacts | sort: "Nickname" %}
-    {% assign sorted_contacts = sorted_contacts | sort: "Household_Position_ID" %}
+  Notes:
+  - Dedupe milestones using a "seen" token string.
+  - Progress = unique completed milestones for that Journey_ID /
+               total milestones defined for that journey.
+{%- endcomment -%}
 
-    {% for contact in sorted_contacts %}
-      <!-- Contact Row -->
-      <tr>
-        <td style="background-color: #e5e5e5;">
-          <div class="mp-d-flex mp-align-items-center">
-            {% if contact.Unique_Name %}
-              <img src="{{domain}}{{ contact.Unique_Name }}?$thumbnail=true" class="mp-avatar mp-avatar-img mp-me-3" alt="Avatar">
-            {% else %}
-              <div class="mp-avatar mp-avatar-initial mp-me-3">
-                {{ contact.Nickname | slice: 0, 1 }}
-              </div>
-            {% endif %}
-            <strong>{{ contact.Nickname }} {{ contact.Last_Name }}</strong>
+{%- assign contacts_arr = contacts | default: data.contacts | default: Model.contacts -%}
+{%- if contacts_arr and contacts_arr.size > 0 -%}
+<div class="mp-container mp-sacrament-list">
+
+  {%- comment -%} A helper to map Sacrament -> badge & icon classes {%- endcomment -%}
+  {%- assign sacrament_map = '
+    Baptism:mp-badge-baptism|mp-icon-baptism,
+    Confirmation:mp-badge-confirmation|mp-icon-confirmation,
+    First Communion:mp-badge-first-communion|mp-icon-communion,
+    Reconciliation:mp-badge-reconcilliation|mp-icon-reconciliation,
+    Marriage:mp-badge-marriage|mp-icon-marriage,
+    Holy Orders:mp-badge-holy-orders|mp-icon-orders,
+    Anointing of the Sick:mp-badge-anointing|mp-icon-anointing,
+    Deceased:mp-badge-death|mp-icon-death
+  ' | strip -%}
+
+  {%- for person in contacts_arr -%}
+    <div class="mp-person-card mp-mb-4 {%- if forloop.index0 modulo 2 == 1 -%} mp-person-striped{%- endif -%}">
+      <!-- Person Header -->
+      <div class="mp-person-row">
+        <div class="mp-person-info">
+          <div class="mp-person-name">
+            {{ person.Nickname }} {{ person.Last_Name }}
           </div>
-        </td>
-      </tr>
+          <div class="mp-household-role">
+            {{ person.Household_Position }}
+          </div>
+        </div>
+      </div>
 
-      <!-- Sacrament Sub-Rows -->
-      {% if contact.Sacraments %}
-        {% for sacrament in contact.Sacraments %}
-          {% assign type = sacrament.Sacrament_Type %}
-          {% assign badge_class = "" %}
+      <!-- Body -->
+      <div class="mp-card-body">
 
-          {% case type %}
-            {% when "Baptism" %}              {% assign badge_class = "mp-badge-baptism" %}
-            {% when "Confirmation" %}         {% assign badge_class = "mp-badge-confirmation" %}
-            {% when "First Communion" %}      {% assign badge_class = "mp-badge-first-communion" %}
-            {% when "Reconcilliation Prep" %} {% assign badge_class = "mp-badge-reconcilliation" %}
-            {% when "Marriage" %}             {% assign badge_class = "mp-badge-marriage" %}
-            {% when "Holy Orders" %}          {% assign badge_class = "mp-badge-holy-orders" %}
-            {% when "Anointing of the Sick" %}{% assign badge_class = "mp-badge-anointing" %}
-            {% when "Death" %}                {% assign badge_class = "mp-badge-death" %}
-            {% else %}                        {% assign badge_class = "mp-badge-secondary" %}
-          {% endcase %}
+        <!-- Sacraments -->
+        {%- if person.Sacraments and person.Sacraments.size > 0 -%}
+        <div class="mp-sacraments-container mp-mb-4">
+          <h4 class="mp-mb-2">Sacraments</h4>
 
-          {% assign date_parts = sacrament.Date_Received | split: "-" %}
-          {% assign month = date_parts[1] | plus: 0 %}
-          {% assign day = date_parts[2] | plus: 0 %}
-          {% assign year = date_parts[0] %}
-          {% assign formatted_date = month | append: "/" | append: day | append: "/" | append: year %}
+          {%- for s in person.Sacraments -%}
+            {%- assign badge_class = 'mp-badge-primary' -%}
+            {%- assign icon_class = 'mp-icon-sacrament' -%}
+            {%- assign key = s.Sacrament_Type | strip -%}
+            {%- assign found = sacrament_map | split: ',' | map: 'strip' -%}
+            {%- for pair in found -%}
+              {%- assign parts = pair | split: ':' -%}
+              {%- assign name = parts[0] | strip -%}
+              {%- assign classes = parts[1] | strip -%}
+              {%- if name == key -%}
+                {%- assign badge_class = classes | split: '|' | first -%}
+                {%- assign icon_class = classes | split: '|' | last -%}
+              {%- endif -%}
+            {%- endfor -%}
 
-          <tr>
-            <td>
-              <div class="mp-ps-5">
-                <span class="mp-badge {{ badge_class }}">{{ sacrament.Sacrament_Type }}</span>
-                <span class="mp-text-muted mp-ms-2">
-                  {{ formatted_date }} at {{ sacrament.Place }}
-                </span>
-
-                {% if sacrament.Sacrament_Type == "Marriage" and sacrament.Spouse_Name %}
-                  <div class="mp-mt-1 mp-text-dark">
-                    💍 <strong>{{ contact.First_Name }}</strong> married <strong>{{ sacrament.Spouse_Name }}</strong>
+            <div class="mp-sacrament-row">
+              <div class="mp-sacrament-info">
+                <div class="mp-sacrament-type">
+                  <span class="{{ icon_class }}"></span>
+                  <span class="mp-badge {{ badge_class }}">{{ s.Sacrament_Type }}</span>
+                </div>
+                <div class="mp-sacrament-details">
+                  <div class="mp-sacrament-date">
+                    <strong>Date</strong>
+                    {%- assign d = s.Date_Received | date: "%Y-%m-%d" -%}
+                    <span>{{ d | date: "%b %-d, %Y" }}</span>
                   </div>
-                {% endif %}
-
-                {% if sacrament.Performed_By %}
-                  <div class="mp-text-muted mp-small mp-mt-1">
-                    <em>Performed by {{ sacrament.Performed_By }}</em>
+                  <div class="mp-sacrament-place">
+                    <strong>Place</strong>
+                    <span>{{ s.Place | newline_to_br }}</span>
                   </div>
-                {% endif %}
+                  <div class="mp-sacrament-notes">
+                    <strong>Notes</strong>
+                    <span>
+                      {%- if s.Performed_By -%} Celebrant: {{ s.Performed_By }} {%- endif -%}
+                      {%- if s.Spouse_Name and s.Spouse_Name != ' ' -%}
+                        {%- if s.Performed_By -%} • {%- endif -%}
+                        Spouse: {{ s.Spouse_Name }}
+                      {%- endif -%}
+                    </span>
+                  </div>
+                </div>
               </div>
-            </td>
-          </tr>
-        {% endfor %}
-      {% endif %}
-    {% endfor %}
-  </tbody>
-</table>
+            </div>
+          {%- endfor -%}
+        </div>
+        {%- endif -%}
+
+        <!-- Journeys & Milestones (deduped) -->
+        {%- if person.Journeys and person.Journeys.size > 0 -%}
+          <h4 class="mp-mb-2">Journeys</h4>
+
+          {%- comment -%}
+            Build a quick lookup of completed milestone IDs per Journey_ID (deduped).
+          {%- endcomment -%}
+          {%- assign seen_tokens = '' -%}
+          {%- assign completed_by_journey = '' -%}
+          {%- if person.Milestones and person.Milestones.size > 0 -%}
+            {%- for m in person.Milestones -%}
+              {%- assign token = m.Journey_ID | append: ':' | append: m.Milestone_ID | append: '|' -%}
+              {%- unless seen_tokens contains token -%}
+                {%- assign seen_tokens = seen_tokens | append: token -%}
+                {%- assign key = m.Journey_ID | append: '=' -%}
+                {%- assign existing = completed_by_journey | split: ';' | where_exp: "x", "x contains key" | first -%}
+                {%- if existing -%}
+                  {%- assign updated = existing | append: m.Milestone_ID | append: ',' -%}
+                  {%- assign completed_by_journey = completed_by_journey | replace: existing, updated -%}
+                {%- else -%}
+                  {%- assign completed_by_journey = completed_by_journey | append: key | append: m.Milestone_ID | append: ',' | append: ';' -%}
+                {%- endif -%}
+              {%- endunless -%}
+            {%- endfor -%}
+          {%- endif -%}
+
+          {%- for j in person.Journeys -%}
+            {%- assign total_required = 0 -%}
+            {%- if j.Milestones -%}{%- assign total_required = j.Milestones.size -%}{%- endif -%}
+
+            {%- assign key = j.Journey_ID | append: '=' -%}
+            {%- assign record = completed_by_journey | split: ';' | where_exp: "x", "x contains key" | first -%}
+            {%- assign completed_ids = '' -%}
+            {%- if record -%}
+              {%- assign completed_ids = record | remove: key -%}
+            {%- endif -%}
+            {%- assign completed_arr = completed_ids | split: ',' | uniq -%}
+            {%- assign completed_count = 0 -%}
+            {%- for cid in completed_arr -%}
+              {%- if cid != '' -%}{%- assign completed_count = completed_count | plus: 1 -%}{%- endif -%}
+            {%- endfor -%}
+
+            {%- assign pct = 0 -%}
+            {%- if total_required > 0 -%}
+              {%- assign pct = completed_count | times: 100 | divided_by: total_required -%}
+            {%- endif -%}
+
+            <div class="mp-card mp-mb-3">
+              <div class="mp-card-body">
+                <div class="mp-journey-header">
+                  <div class="mp-journey-title">{{ j.Journey_Name }}</div>
+                  <div class="mp-kv">
+                    <span class="mp-pill">{{ completed_count }}/{{ total_required }} completed</span>
+                  </div>
+                </div>
+
+                <div class="mp-progress mp-mb-2" aria-label="Progress {{ pct }}%">
+                  <div class="mp-progress-bar" style="width: {{ pct }}%"></div>
+                </div>
+
+                <!-- Completed milestone chips -->
+                {%- if completed_count > 0 -%}
+                  <div class="mp-mb-2">
+                    {%- for cid in completed_arr -%}
+                      {%- if cid != '' -%}
+                        {%- assign mtitle = '' -%}
+                        {%- if j.Milestones -%}
+                          {%- for jm in j.Milestones -%}
+                            {%- assign cid_num = cid | plus: 0 -%}
+                            {%- if jm.Milestone_ID == cid_num -%}
+                              {%- assign mtitle = jm.Milestone_Title -%}
+                            {%- endif -%}
+                          {%- endfor -%}
+                        {%- endif -%}
+                        {%- assign fallback = 'Milestone #' | append: cid -%}
+                        <span class="mp-mstone-chip">{% if mtitle %}{{ mtitle }}{% else %}{{ fallback }}{% endif %}</span>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </div>
+                {%- endif -%}
+
+                <!-- Timeline of this journey's completions (by date desc) -->
+                {%- assign timeline = '' -%}
+                {%- if person.Milestones and person.Milestones.size > 0 -%}
+                  {%- assign unique_tokens = '' -%}
+                  {%- for m in person.Milestones -%}
+                    {%- if m.Journey_ID == j.Journey_ID -%}
+                      {%- assign tok = m.Milestone_ID | append: '|' | append: m.Date_Accomplished -%}
+                      {%- unless unique_tokens contains tok -%}
+                        {%- assign unique_tokens = unique_tokens | append: tok | append: ';' -%}
+                        {%- assign timeline = timeline | append: m.Date_Accomplished | append: '||' | append: m.Milestone_ID | append: ';' -%}
+                      {%- endunless -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+                {%- endif -%}
+
+                {%- assign entries = timeline | split: ';' -%}
+                {%- comment -%}
+                  Sort by date desc: Liquid can't sort complex pairs easily,
+                  but MinistryPlatform Liquid often includes `sort` on strings.
+                  We'll reshape into "YYYY-MM-DDTHH:MM:SS||ID" which sorts lexically.
+                {%- endcomment -%}
+                {%- assign entries = entries | sort | reverse -%}
+
+                <div class="mp-timeline">
+                  {%- for row in entries -%}
+                    {%- if row != '' -%}
+                      {%- assign parts = row | split: '||' -%}
+                      {%- assign dt = parts[0] -%}
+                      {%- assign mid = parts[1] | plus: 0 -%}
+                      {%- assign title = '' -%}
+                      {%- if j.Milestones -%}
+                        {%- for jm in j.Milestones -%}
+                          {%- if jm.Milestone_ID == mid -%}{%- assign title = jm.Milestone_Title -%}{%- endif -%}
+                        {%- endfor -%}
+                      {%- endif -%}
+                      {%- assign fallback_title = 'Milestone #' | append: mid -%}
+                      <div class="mp-timeline-item">
+                        <div><strong>{% if title %}{{ title }}{% else %}{{ fallback_title }}{% endif %}</strong></div>
+                        <div class="mp-small mp-text-muted">{{ dt | date: "%b %-d, %Y %l:%M%P" }}</div>
+                      </div>
+                    {%- endif -%}
+                  {%- endfor -%}
+                  {%- if entries.size == 0 -%}
+                    <div class="mp-text-muted mp-small">No completions recorded yet.</div>
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+          {%- endfor -%}
+        {%- endif -%}
+
+        <!-- Attendance -->
+        {%- if person.Event_Attendance and person.Event_Attendance.size > 0 -%}
+          <h4 class="mp-mb-2">Engagement (Attendance)</h4>
+
+          {%- assign now_iso = "now" | date: "%Y-%m-%dT%H:%M:%S" -%}
+          {%- assign upcoming = '' -%}
+          {%- assign past = '' -%}
+
+          {%- for e in person.Event_Attendance -%}
+            {%- if e.Event_Start_Date > now_iso -%}
+              {%- assign upcoming = upcoming | append: e.Event_Start_Date | append: "||" | append: forloop.index0 | append: ";" -%}
+            {%- else -%}
+              {%- assign past = past | append: e.Event_Start_Date | append: "||" | append: forloop.index0 | append: ";" -%}
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- assign up_rows = upcoming | split: ';' | sort -%}
+          {%- assign past_rows = past | split: ';' | sort | reverse -%}
+
+          <div class="mp-row">
+            <!-- Upcoming -->
+            <div class="mp-col mp-col-md-6">
+              <div class="mp-card mp-mb-3">
+                <div class="mp-card-header"><strong>Upcoming</strong></div>
+                <div class="mp-card-body">
+                  {%- if up_rows.size > 0 and up_rows.first != '' -%}
+                    <table class="mp-table mp-table-bordered mp-table-compact">
+                      <thead>
+                        <tr><th>Date</th><th>Event</th><th class="mp-text-end">Program</th></tr>
+                      </thead>
+                      <tbody>
+                        {%- for row in up_rows -%}
+                          {%- if row != '' -%}
+                            {%- assign p = row | split: '||' -%}
+                            {%- assign idx = p[1] | plus: 0 -%}
+                            {%- assign e = person.Event_Attendance[idx] -%}
+                            <tr>
+                              <td>{{ e.Event_Start_Date | date: "%b %-d, %Y %l:%M%P" }}</td>
+                              <td>{{ e.Event_Title }}</td>
+                              <td class="mp-text-end">
+                                <span class="mp-badge mp-badge-info" data-id="{{ e.Program_Name | split: ' ' | first }}">{{ e.Program_Name }}</span>
+                              </td>
+                            </tr>
+                          {%- endif -%}
+                        {%- endfor -%}
+                      </tbody>
+                    </table>
+                  {%- else -%}
+                    <div class="mp-text-muted mp-small">No upcoming events.</div>
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+
+            <!-- Recent -->
+            <div class="mp-col mp-col-md-6">
+              <div class="mp-card mp-mb-3">
+                <div class="mp-card-header"><strong>Recent</strong></div>
+                <div class="mp-card-body">
+                  {%- if past_rows.size > 0 and past_rows.first != '' -%}
+                    <table class="mp-table mp-table-bordered mp-table-compact">
+                      <thead>
+                        <tr><th>Date</th><th>Event</th><th class="mp-text-end">Program</th></tr>
+                      </thead>
+                      <tbody>
+                        {%- for row in past_rows limit: 8 -%}
+                          {%- if row != '' -%}
+                            {%- assign p = row | split: '||' -%}
+                            {%- assign idx = p[1] | plus: 0 -%}
+                            {%- assign e = person.Event_Attendance[idx] -%}
+                            <tr>
+                              <td>{{ e.Event_Start_Date | date: "%b %-d, %Y %l:%M%P" }}</td>
+                              <td>{{ e.Event_Title }}</td>
+                              <td class="mp-text-end">
+                                <span class="mp-badge mp-badge-secondary" data-id="{{ e.Program_Name | split: ' ' | first }}">{{ e.Program_Name }}</span>
+                              </td>
+                            </tr>
+                          {%- endif -%}
+                        {%- endfor -%}
+                      </tbody>
+                    </table>
+                  {%- else -%}
+                    <div class="mp-text-muted mp-small">No recent events found.</div>
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+
+      </div>
+    </div>
+  {%- endfor -%}
+</div>
+{%- else -%}
+  <div class="mp-container">
+    <div class="mp-alert mp-alert-info">No contacts found.</div>
+  </div>
+{%- endif -%}

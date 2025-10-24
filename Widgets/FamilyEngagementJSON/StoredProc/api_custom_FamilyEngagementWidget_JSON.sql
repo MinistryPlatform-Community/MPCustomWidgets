@@ -1,8 +1,6 @@
-/****** Object:  StoredProcedure [dbo].[api_custom_FamilyEngagementWidget_JSON]    Script Date: 9/23/2025 12:29:57 PM ******/
 DROP PROCEDURE IF EXISTS [dbo].[api_custom_FamilyEngagementWidget_JSON]
 GO
 
-/****** Object:  StoredProcedure [dbo].[api_custom_FamilyEngagementWidget_JSON]    Script Date: 9/23/2025 12:29:57 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -12,9 +10,19 @@ GO
 -- api_custom_FamilyEngagementWidget_JSON
 -- =============================================
 -- Description: Returns Contacts and nested engagement for a household if user is Head of Household
--- Last Modified: 6/25/2025
+-- Last Modified: 10/24/2025
 -- Chris Kehayias
 -- =============================================
+
+-- ===
+--Attendance history
+--Milestones (e.g., ""Completed First Reconciliation"", ""Registered for Retreat"")
+--Logged sacraments (linked to full record)
+--Class notes or general program progress (if enabled by staff)
+--Secure portal access, showing only authorized children
+--Option to download a summary report (e.g., for sacrament interviews or Catholic school applications)
+--Supports family engagement and reduces staff follow-up workload"
+-- ===
 CREATE PROCEDURE [dbo].[api_custom_FamilyEngagementWidget_JSON]
     @DomainID INT,
     @Username NVARCHAR(75)
