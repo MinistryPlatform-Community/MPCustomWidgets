@@ -3,8 +3,18 @@
 // Simply include this script on any page with a user secured widget and it will automatically redirect to the SSO page and force the user to login
 
 // -------------------------------------------------------
-// CHANGE this to your MP HOST!!!
-const mpHost = 'mpi.ministryplatform.com';
+// MP HOST
+// Reads from window.MPCustomWidgetsConfig.mpHost if provided, else falls back
+// to the demo default below. To override without forking this file, set:
+//
+//   <script>window.MPCustomWidgetsConfig = { mpHost: 'your-tenant.host.com' };</script>
+//
+// BEFORE loading this script. Useful for CDN-served deployments and for keeping
+// per-tenant config separate from the shared widget code.
+//
+// If you fork: just CHANGE the fallback string below to your MP HOST.
+// -------------------------------------------------------
+const mpHost = (window.MPCustomWidgetsConfig && window.MPCustomWidgetsConfig.mpHost) || 'mpi.ministryplatform.com';
 // -------------------------------------------------------
 
 
